@@ -569,57 +569,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </footer>
 
     <script>
-        const clientImages = [
-            '/images/client1.jpg',
-            '/images/client2.jpg',
-            '/images/client3.jpg',
-            '/images/client4.jpg',
-            '/images/client5.jpg',
-            '/images/client6.jpg',
-            '/images/client7.jpg',
-            '/images/client8.jpg',
-            '/images/client9.jpg',
-            '/images/client10.jpg',
-            '/images/client11.jpg',
-            '/images/client12.jpg',
-            '/images/client13.jpg',
-            '/images/client14.jpg',
-            '/images/client15.jpg',
-            '/images/client16.jpg',
-            '/images/client17.jpg',
-            '/images/client18.jpg',
-            '/images/client19.jpg',
-            '/images/client20.jpg',
-            '/images/client21.jpg',
-            '/images/client22.jpg'
-        ];
-
-        // Automatically generate carousel items
-        function buildCarousel() {
-            const track = document.getElementById('carouselTrack');
-            
-            // Duplicate the array twice for seamless infinite scroll
-            const allImages = [...clientImages, ...clientImages];
-            
-            allImages.forEach((imgSrc, index) => {
-                const item = document.createElement('div');
-                item.className = 'carousel-item';
-                item.innerHTML = `<img src="${imgSrc}" alt="Client delivery ${(index % clientImages.length) + 1}">`;
-                track.appendChild(item);
-            });
-        }
-
-        // Build carousel when page loads
-        buildCarousel();
-
-        function toggleMenu() {
+          function toggleMenu() {
             const mobileNav = document.getElementById('mobileNav');
             const ham = document.querySelector('.ham');
             mobileNav.classList.toggle('active');
             ham.classList.toggle('active');
         }
-
-        function showPopup() {
+/*
+      function showPopup() {
             const overlay = document.createElement('div');
             overlay.className = 'popup-overlay';
             
@@ -658,7 +615,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 }, 300);
             }
         }
-
+*/
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 50) {
@@ -668,5 +625,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         });
     </script>
+  <script src="/carousel.js"></script>
 </body>
 </html>
