@@ -295,7 +295,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .carousel-track {
             display: flex;
             gap: 20px;
-            animation: scroll 30s linear infinite;
+            animation: scroll 15s linear infinite;
         }
 
         .carousel-track:hover {
@@ -304,7 +304,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            100% { transform: translateX(calc(-320px * 22)); }
         }
 
         .carousel-item {
@@ -567,7 +567,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </footer>
 
     <script>
-        // 🎭 ADD YOUR CLIENT IMAGES HERE - Just list the filenames!
         const clientImages = [
             '/images/client1.jpg',
             '/images/client2.jpg',
@@ -597,8 +596,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         function buildCarousel() {
             const track = document.getElementById('carouselTrack');
             
-            // Duplicate the array 3 times for seamless infinite scroll
-            const allImages = [...clientImages, ...clientImages, ...clientImages];
+            // Duplicate the array twice for seamless infinite scroll
+            const allImages = [...clientImages, ...clientImages];
             
             allImages.forEach((imgSrc, index) => {
                 const item = document.createElement('div');
