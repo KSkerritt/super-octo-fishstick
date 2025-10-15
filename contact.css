@@ -1,0 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #75898f;
+  background: linear-gradient(225deg, #C6EA8D, #FE90AF);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+/* Navbar */
+.navbar {
+  color: white;
+  height: 60px;
+}
+
+.navbar .logo {
+  font-size: x-large;
+  font-weight: bold;
+  color: white;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: #d918a7;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.navbar ul {
+  display: flex;
+}
+
+.navbar ul li {
+  margin-left: 20px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.ham {
+  display: none;
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+}
+
+.mnav {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* FORM */
+
+.formc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerf {
+  /* margin: 0 auto;
+  padding: 0 30px; */
+  max-width: 700px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 25px 30px;
+  margin: 15px 15px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+/* .containerf form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  overflow: hidden;
+} */
+
+/* form .input-box {
+  display: flex;
+  width: calc(100% / 2 - 15px);
+  flex-direction: column;
+  margin: 4px 0;
+} */
+
+.input-box input {
+  padding: 0 15px;
+  margin: 8px 0;
+  height: 45px;
+  /* width: 400px; */
+  width: calc(100% - 10px);
+  border: none;
+  background: rgb(226, 225, 225);
+  border-radius: 50px;
+  box-shadow: inset -50px -50px 100px #b8b8b8, inset 50px 50px 100px #ffffff;
+  outline: none;
+  font: inherit;
+  font-weight: 400;
+}
+
+.input-box textarea {
+  padding: 15px 15px;
+  margin: 8px 0px;
+  /* width: 400px; */
+  width: calc(100% - 15px);
+  border: none;
+  background: rgb(226, 225, 225);
+  border-radius: 20px;
+  box-shadow: inset -50px -50px 100px #b8b8b8, inset 50px 50px 100px #ffffff;
+  outline: none;
+  font: inherit;
+  font-weight: 400;
+}
+
+.buttonus label {
+  cursor: pointer;
+  display: block;
+  padding: 10px 30px;
+  margin: 20px 0px;
+  border-radius: 8px;
+  color: white;
+  background-color: #75898f;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  width: calc(100% - 15px);
+  text-align: center;
+}
+
+.buttonus input {
+  padding: 15px 45px;
+  margin: 20px 30px;
+  border-radius: 8px;
+  color: white;
+  background-color: #75898f;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  font-size: x-large;
+  outline: none;
+  border: none;
+  color: transparent;
+  display: none;
+}
+
+span {
+  display: flex;
+  text-align: left;
+}
+
+.title {
+  margin: auto;
+}
+
+.tester {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .ham {
+    display: block;
+  }
+
+  .ham.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .ham.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .ham.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .nav {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    gap: 0;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    background-color: black;
+  }
+
+  .mnav {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s ease;
+  }
+
+  .mnav a {
+    text-decoration: none;
+    color: white;
+    line-height: 2em;
+
+    font-size: xx-large;
+  }
+
+  .mnav.active {
+    opacity: 1;
+    height: 40%;
+  }
+}
+
+footer {
+  color: white;
+  display: flex;
+  font-size: 10px;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+}
+
+/* footer .container {
+  height: 100%;
+} */

@@ -1,0 +1,520 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background: linear-gradient(225deg, #FE90AF, #C6EA8D);
+}
+
+.container1 {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.ham {
+  display: none;
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+}
+
+.mnav {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.navbar {
+  color: white;
+  height: 60px;
+}
+
+.navbar .logo {
+  font-size: x-large;
+  font-weight: bold;
+  color: white;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: #d918a7;
+}
+
+.navbar .container1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.navbar ul {
+  display: flex;
+}
+
+.navbar ul li {
+  margin-left: 20px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.formD {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: relative;
+  max-width: 700px;
+  width: 100%;
+  border-radius: 15px;
+  padding: 25px 30px;
+  margin: 15px 15px;
+  background-color: white;
+  color: #75898f;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+h1 {
+  text-align: center;
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 2px 2px;
+  margin: 2px 2px;
+}
+
+.container form {
+  position: relative;
+  margin-top: 16px;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.container form .title {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 6px 0;
+  color: #75898f;
+}
+
+.container form .fields {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+form .fields .input-field {
+  display: flex;
+  width: calc(100% / 2 - 15px);
+  flex-direction: column;
+  margin: 4px 0;
+}
+.input-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #2e2e2e;
+}
+
+
+.input-field input,
+select {
+  outline: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  padding: 0 15px;
+  height: 42px;
+  /* width: 200px;
+    height: 50px; */
+  margin: 8px 0;
+  background: rgb(226, 225, 225);
+}
+
+.input-field input {
+  background: rgb(226, 225, 225);
+}
+
+.input-field input :focus,
+.input-field select:focus {
+  background: rgb(226, 225, 225);
+}
+.input-field select,
+.input-field input[type="date"] {
+  color: #707070;
+}
+.input-field input[type="date"]:valid {
+  color: #333;
+}
+/* Style for the tooltip */
+.input-field {
+  position: relative;
+}
+
+.tooltip {
+  display: inline-block;
+  background-color: #46de2f;
+  color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.tooltip-box {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  width: 300px;
+  max-width: 90%; /* Responsive: Ensure tooltip doesn't exceed screen width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.tooltip:hover + .tooltip-box {
+  display: block;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .tooltip-box {
+    left: 50%; /* Center tooltip */
+    transform: translateX(-50%);
+  }
+}
+.buttonui,
+.buttonur {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonur input,
+.buttonui input,
+.buttonus input,
+button input {
+  display: none;
+}
+
+.buttonui label,
+.buttonur label {
+  cursor: pointer;
+  display: block;
+  padding: 10px 30px;
+  margin: 20px 0px;
+  border-radius: 8px;
+  width: 250px;
+  height: 50px;
+  text-align: center;
+  color: black;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+}
+
+.buttonui.active label {
+  cursor: pointer;
+  display: block;
+  padding: 10px 30px;
+  margin: 20px 0px;
+  border-radius: 8px;
+  width: 250px;
+  height: 50px;
+  text-align: center;
+  background-color: #3eadcf;
+  color: black;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+}
+
+.buttonus label {
+  cursor: pointer;
+  display: block;
+  padding: 10px 30px;
+  margin: 20px 0px;
+  border-radius: 8px;
+  width: 250px;
+  height: 50px;
+  text-align: center;
+  color: white;
+  background-color: #3eadcf;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  justify-content: center;
+}
+
+.tidy {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.buc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonus input {
+  padding: 15px 45px;
+  margin: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  font-size: x-large;
+  outline: none;
+  border: none;
+  color: transparent;
+}
+
+footer {
+  color: white;
+  display: flex;
+  font-size: 22px;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .ham {
+    display: block;
+  }
+
+  .ham.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .ham.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .ham.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .nav {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    gap: 0;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    background-color: black;
+  }
+
+  .mnav {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s ease;
+  }
+
+  .mnav a {
+    text-decoration: none;
+    color: white;
+    line-height: 2em;
+
+    font-size: xx-large;
+  }
+
+  .mnav.active {
+    opacity: 1;
+    height: 30%;
+  }
+
+  .container form {
+    overflow-y: scroll;
+  }
+  .container form::-webkit-scrollbar {
+    display: none;
+  }
+  form .fields .input-field {
+    width: calc(100% / 2 - 15px);
+  }
+  .tidy {
+    flex-direction: column;
+  }
+  .buttonui label,
+  .buttonur label {
+    cursor: pointer;
+    display: block;
+    padding: 10px 30px;
+    margin: 8px 0px;
+    border-radius: 8px;
+    color: black;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+  }
+
+  .buttonus label {
+    cursor: pointer;
+    display: block;
+    padding: 10px 30px;
+    margin: 20px 0px;
+    border-radius: 8px;
+    color: white;
+    background-color: #3eadcf;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .move select option {
+    text-align: center;
+    text-align-last: center;
+  }
+
+  .vali select option {
+    text-align: center;
+    text-align-last: center;
+  }
+}
+
+@media (max-width: 550px) {
+  form .fields .input-field {
+    width: 100%;
+  }
+
+  .move select option {
+    text-align: center;
+    text-align-last: center;
+  }
+
+  .vali select option {
+    text-align: center;
+    text-align-last: center;
+  }
+}
+
+.fields input {
+  border: none;
+  background: none;
+  border-radius: 50px;
+  /* background: #e0e0e0;
+box-shadow: inset 20px 20px 60px #bebebe,
+            inset -20px -20px 60px #ffffff; */
+  box-shadow: inset 35px 35px 35px #a8a8a8, inset -35px -35px 35px #ffffff;
+}
+
+
+select {
+  background-color: transparent;
+  border: none;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+  color: black;
+}
+
+.subbu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit {
+  cursor: pointer;
+  display: block;
+  padding: 10px 30px;
+  margin: 20px 0px;
+  border-radius: 8px;
+  color: black;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.h {
+  text-align: center;
+}
+
+.move select option {
+  text-align: center;
+  text-align-last: center;
+  width: 200px;
+  height: 50px;
+}
+
+.vali select option {
+  text-align: center;
+  text-align-last: center;
+  width: 200px;
+  height: 50px;
+}
+
+.vali select {
+  width: 250px;
+  height: 50px;
+}
+
+.move select {
+  width: 250px;
+  height: 50px;
+}
+
+.disclaimer {
+  color: black;
+}

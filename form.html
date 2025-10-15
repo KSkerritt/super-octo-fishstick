@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PD8QBV7');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <link rel="stylesheet" href="form.css" />
+    <!-- <script src="/script.js"></script> -->
+    <script src="/vali.js" defer ></script>
+    <script src="/ham.js" defer></script>
+    <script src="/pop.js"></script>
+    <title>Registration Form</title>
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/164b95d28e7c8cb51b9362489/3f6c84a79000aafd86915d896.js");</script>
+  </head>
+  
+  <body onload="pop()">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8QBV7"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+   
+
+    <nav class="navbar">
+      <div class="container1">
+        <a class="logo" href="/index.html">CYC</a>
+
+        <div class="ham">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+
+        <ul class="nav">
+          <li class="nav-item">
+            <a href="/index.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="/instructions.html" class="nav-link">Instructions</a>
+          </li>
+          <li class="nav-item">
+          <a href="/faq.html" class="nav-link">FAQ</a>
+        </li>
+          <li class="nav-item">
+            <a href="/contact.html" class="nav-link">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="mnav">
+      <ul>
+        <li class="nav-item">
+          <a href="/index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="/instructions.html" class="nav-link">Instructions</a>
+        </li>
+        <li class="nav-item">
+          <a href="/faq.html" class="nav-link">FAQ</a>
+        </li>
+        <li class="nav-item">
+          <a href="/contact.html" class="nav-link">Contact</a>
+        </li>
+      </ul>
+    </div>
+
+ 
+    <section class="formD">
+      <div class="container">
+        <h1>Registration</h1>
+
+        <form 
+        name="Registration" method="post" data-netlify="true"
+         onsubmit="submit"
+          action="/success.html"
+        >
+          <div class="user-d">
+            <span class="title">Personal Details</span>
+            <div class="fields">
+              <div class="input-field">
+                <span class="details">First Name</span>
+                <input type="text" id="fname" placeholder="Noel" name="First-Name"  required />
+              </div>
+              <div class="input-field">
+                <span class="details">Last Name</span>
+                <input type="text" id="lname" placeholder="Johnson" name="Last-Name" required />
+              </div>
+              <div class="input-field">
+                <span class="details">E-mail</span>
+                <input type="text" id="email" placeholder="noeljohnson@gmail.com" name="E-mail" required />
+              </div>
+              <div class="input-field">
+                <span class="details">Whatsapp Phone Number</span>
+                <input type="text" id="pnum" placeholder="(868)714-1532" name="Phone-Number"  required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="add">
+            <span class="title"> Home Address</span>
+            <div class="fields">
+              <div class="input-field">
+                <span class="details"></span>
+                <input type="text" id="street" placeholder="Street address or P.O. Box" name="Street" required />
+              </div>
+              <div class="input-field">
+                <span class="details"></span>
+                <input
+                  type="text" id="buliding"
+                  placeholder="Apt, suite, unit, buliding, floor, etc" name="Building" required
+                />
+              </div>
+              <div class="input-field">
+                <span class="details"></span>
+                <input type="text" id="city" placeholder="City" name="City" required/>
+              </div>
+              <div class="input-field">
+                <span class="details"></span>
+                <input type="text" id="state" placeholder="State, Province" name="State" />
+              </div>
+             <div class="input-field">
+                <span class="details">Arrival Date</span>
+               <span class="tooltip">?</span>
+            <div class="tooltip-box">
+                      This is the date you'll be arriving in Trinidad & Tobago, not your costume delivery date. If you're located in Trinidad, please select today's date.
+            </div>
+                <input
+                  type="date"
+                  id="event_date"
+                  name="event_date"
+                  required
+                  placeholder="MM-DD-YYYY"
+                  />              
+              </div>
+              </div>
+          <span class="title">Information</span>
+          <div class="vali">
+            <div class="tidy">
+              <select name="Section" id="Section" name="Section">
+                <option value=""disabled selected>Select Section</option>
+                <option value="Bae-Go">Bae-Go</option>               
+                <option value="Buccoo">Buccoo</option>
+                <option value="Castara">Castara</option>
+                <option value="Doux Doux Dahlin">Doux Doux Dahlin</option>
+                <option value="Echoes">Echoes</option>
+                <option value="Emperor">Emperor</option>
+                <option value="Flambeaux">Flambeaux</option>
+                <option value="Hibiscus">Hibiscus </option>
+                <option value="Iëre">Iëre</option>
+                <option value="Magnificent 7">Magnificent 7</option>
+                <option value="Masala">Masala</option>
+                <option value="Nariva">Nariva</option>
+                <option value="Poui">Poui</option>
+                <option value="Riddim">Riddim</option>
+                <option value="Rii Dung">Rii Dung</option>
+
+              </select>
+
+              <select id="dloc" name="Location">
+                <option value=""disabled selected>Select Drop-off Location</option>
+                <option value="Hyatt POS">Hyatt POS $45.USD</option>
+                <option value="Cruise Ship Complex">Cruise Ship Complex (Epic Carnival) $45.USD</option>
+                <option value="Radisson Hotel POS">Radisson Hotel POS $45.USD</option>              
+                <option value="One Woodbrook Place">One Woodbrook Place $45.USD</option>
+                <option value="Hilton POS">Hilton POS $45.USD</option>                
+                <option value="The Brix POS">The Brix POS $45.USD</option>
+                <option value="Massy Stores (Cascade/St. Anns)">Massy Stores(Cascade/St. Anns) $45.USD</option> 
+                <option value="Kapok Hotel">Kapok Hotel $45.USD</option>
+                <option value="Courtyard by Marriot POS">Courtyard by Marriot POS $50.USD</option>
+                <option value="Grand Bazaar">Grand Bazaar $50.USD</option> 
+                <option value="StarLite (Maraval)">StarLite (Maraval) $50.USD</option>
+                <option value="Xtra Foods Plaza(Aranguez)">Xtra Foods Plaza (Aranguez) $50.USD</option>
+                <option value="Massy Stores (Maraval)">Massy Stores (Maraval) $50.USD</option>
+                <option value="StarLite (Diego Martin)">StarLite (Diego Martin) $50.USD</option>
+                <option value="Holiday Inn Trincity">Holiday Inn Trincity $45.USD</option>
+                <option value="Trincity Mall">Trincity Mall $45.USD</option>
+                <option value="Shoppes of Arima">Shoppes of Arima $50.USD</option>
+                <option value="Xtra Foods (Sangre Grande)">Xtra Foods (Sangre Grande) $60.USD</option>            
+              
+              </select>
+
+              <select name="Costume Type" id="Costume Type" name="Costume Type">
+                <option value=""disabled selected>Select Costume Type</option>
+                <option value="Male">Male</option>               
+                <option value="Hardline">Hardline</option>
+                <option value="Hardline 1 ">Hardline 1</option>
+                <option value="Hardline 2">Hardline 2</option>
+                <option value="Hardline 3">Hardline 3</option>
+                <option value="Midline">Midline</option>
+                <option value="Midline 1">Midline 1</option>
+                <option value="Midline 2">Midline 2</option>
+                <option value="Monokini">Monokini</option>
+                <option value="Monokini">Monokini 1</option>
+                <option value="Monokini">Monokini 2</option>
+                <option value="Body 1">Body 1</option> 
+                <option value="Body 1">Body 2</option> 
+                           
+              </select>
+
+              <div class="buttonur">
+                <label for="Reciept">
+                  YUMA Reciept
+                  <input type="file" id="Reciept" name="Recipt" required onchange="valid()"  />
+                </label>
+              </div>
+
+              <div class="buttonui">
+                <label for="Identification"
+                  >ID Card/Drivers Permit
+                  <input type="file" id="Identification" name="Identification" required onchange="valrc()" />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="buttonus">
+            <label for="submit"
+              >Submit
+              <input type="submit" id="submit" />
+             </label>
+        </form>
+      </div>
+      <p class="disclaimer">*By clicking submit. I hereby, permit "CYC" to collect my costume and all relevant articles on my behalf using the valid informatiion provided.</p>
+    </section>
+
+    <footer>
+      <div class="container1">
+        <p>Collect Yuh Carnival©</p>
+      </div>
+    </footer>
+    <script src="/vali.js"></script>
+    <script> 
+      document.addEventListener('DOMContentLoaded', () => {
+  const eventDateInput = document.getElementById('event_date');
+  const today = new Date();
+
+ // Format today's date to YYYY-MM-DD
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 since months are 0-indexed
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`; // Format for input[type="date"]
+    };
+
+  // Set minimum date to today
+  eventDateInput.min = formatDate(today);
+
+  // Set maximum date to March 1, 2025
+  eventDateInput.max = "2025-03-01";
+});
+  </script>
+
+  </body>
+</html>

@@ -1,0 +1,277 @@
+/* General Reset */
+body, h1, h3, p, input, select, button, label {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(225deg, #FE90AF, #C6EA8D);
+  padding: 20px;
+}
+
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px; /* Adjust padding as needed */
+  width: 100%; /* Ensures the navbar stretches across the entire width */
+  color: white;
+  background: none;
+  box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
+}
+
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 20px; /* Pushes the logo to the far left */
+  line-height: 1; /* Aligns the logo vertically */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.navbar .logo:hover {
+  color: #d918a7; /* Hover color for the logo */
+}
+
+.navbar .nav {
+  margin-left: 20px; /* Ensures the nav links align to the far right */
+  align-items: center; /* Ensures navigation links align vertically */
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+.navbar .nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.navbar .nav-link:hover {
+  color: #d918a7;
+}
+
+/* Hamburger Menu */
+.ham {
+  display: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  background-color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Transform to X when active */
+.ham.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.ham.active .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.ham.active .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .ham {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Push it to the right of the screen */
+    cursor: pointer;
+  }
+
+  .navbar .nav {
+  display: none;
+  flex-direction: column;
+  position: absolute; /* Changed from fixed to absolute */
+  top: 20px; /* Adjusts vertical positioning */
+  right: 20px; /* Aligns to the right */
+  width: 200px; /* Limits width */
+  height: auto; /* Adjusts height dynamically */
+  background: linear-gradient(225deg, #FE90AF, #C6EA8D);
+  align-items: flex-start;
+  padding: 10px 15px; /* Adds padding */
+  z-index: 999;
+  border-radius: 8px; /* Optional: Adds rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Adds shadow */
+}
+ /* FORM CSS
+  .nav {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    gap: 0;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    background-color: black;
+  }*/
+
+  .ham.active + .nav {
+    display: flex;
+  }
+
+  .nav-link {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  .ham.active {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+  }
+
+  .nav .close {
+    align-self: flex-end;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+/* Desktop Navigation */
+@media (min-width: 769px) {
+  .ham {
+    display: none;
+  }
+
+  .navbar .nav {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .nav-link {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+/* Container */
+.container1 {
+  width: 100%;
+  max-width: none; /* Removes any default max-width constraint */
+  margin: 0; /* Ensures no margin is applied */
+  padding: 0 30px; /* Optional: Adjusts padding for spacing */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Heading */
+h1 {
+  font-size: 32px;
+  text-align: center;
+  color: #75898F;
+  margin-bottom: 20px;
+}
+
+/* Form Fields */
+.input-field {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  color: #75898F;
+  margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="email"],
+select,
+input[type="file"],
+input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 16px;
+  background: #f3f3f3;
+  font-size: 14px;
+  color: #333333;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+input[type="file"]:focus,
+input[type="date"]:focus {
+  background: #eaeaea;
+  border: none;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Buttons */
+button,
+input[type="submit"] {
+  background: linear-gradient(90deg, #007bff, #00a3ff);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background: linear-gradient(90deg, #0056b3, #007bff);
+}
+
+/* Group Member Buttons */
+#add-yuman, #remove-yuman {
+  background: linear-gradient(90deg, #FFEE00, #FFA500);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin-right: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#add-yuman:hover, #remove-yuman:hover {
+  background: linear-gradient(90deg, #007e33, #005b20);
+}
+
+/* Footer */
+footer {
+  margin-top: 20px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 15px;
+}

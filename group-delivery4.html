@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Group Delivery Form</title>
+    <link rel="stylesheet" href="group-delivery.css" />
+    <script src="/ham.js" defer></script>
+  </head>
+  <body>
+  <nav class="navbar">
+      <div class="container1">
+        <a class="logo" href="/index.html">CYC</a>
+        <div class="ham">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <ul class="nav">
+          <li class="nav-item">
+            <a href="/index.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="/instructions.html" class="nav-link">Instructions</a>
+          </li>
+          <li class="nav-item">
+            <a href="/faq.html" class="nav-link">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a href="/contact.html" class="nav-link">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="formD">
+      <div class="container">
+        <h1>Group Delivery Registration</h1>
+        <form 
+          name="Group Members" 
+          method="post" 
+          data-netlify="true"
+          action="/success.html"
+        >
+          <!-- Authorized Collector -->
+          <fieldset>
+            <legend>Authorized Collector</legend>
+            <div class="fields">
+              <div class="input-field">
+                <label for="auth_fname">First Name</label>
+                <input type="text" id="auth_fname" name="auth_fname" required />
+              </div>
+              <div class="input-field">
+                <label for="auth_lname">Last Name</label>
+                <input type="text" id="auth_lname" name="auth_lname" required />
+              </div>
+              <div class="input-field">
+                <label for="auth_email">Email</label>
+                <input type="email" id="auth_email" name="auth_email" required />
+              </div>
+              <div class="input-field">
+                <label for="auth_phone"> Whatsapp Phone Number</label>
+                <input type="text" id="auth_phone" name="auth_phone" required />
+              </div>
+              <div class="input-field">
+                <label for="auth_phone_secondary"> Secondary Whatsapp Phone Number</label>
+                <input type="text" id="auth_phone_secondary" name="auth_phone_secondary" required />
+              </div>
+              <div class="input-field">
+                <label for="event_date">Arrival Date</label>
+                <input
+                  type="date"
+                  id="event_date"
+                  name="event_date"
+                  required
+                  />
+              </div>
+              <div class="input-field">
+                <label for="auth_costume">Costume Type</label>
+                <select id="auth_costume" name="auth_costume" required>
+                  <option value="">Select Costume Type</option>
+                <option value="Male">Male</option>               
+                <option value="Hardline">Hardline</option>
+                <option value="Hardline 1 ">Hardline 1</option>
+                <option value="Hardline 2">Hardline 2</option>
+                <option value="Hardline 3">Hardline 3</option>
+                <option value="Midline">Midline</option>
+                <option value="Midline 1">Midline 1</option>
+                <option value="Midline 2">Midline 2</option>
+                <option value="Monokini">Monokini</option>
+                <option value="Monokini">Monokini 1</option>
+                <option value="Monokini">Monokini 2</option>
+                <option value="Body 1">Body 1</option> 
+                <option value="Body 1">Body 2</option> 
+                </select>
+              </div>
+              <div class="input-field">
+                <label for="auth_section">Section</label>
+                <select id="auth_section" name="auth_section" required>
+                <option value="">Select Section</option>
+                <option value="Bae-Go">Bae-Go</option>               
+                <option value="Buccoo">Buccoo</option>
+                <option value="Castara">Castara</option>
+                <option value="Doux Doux Dahlin">Doux Doux Dahlin</option>
+                <option value="Echoes">Echoes</option>
+                <option value="Emperor">Emperor</option>
+                <option value="Flambeaux">Flambeaux</option>
+                <option value="Hibiscus">Hibiscus </option>
+                <option value="Iëre">Iëre</option>
+                <option value="Magnificent 7">Magnificent 7</option>
+                <option value="Masala">Masala</option>
+                <option value="Nariva">Nariva</option>
+                <option value="Poui">Poui</option>
+                <option value="Riddim">Riddim</option>
+                <option value="Rii Dung">Rii Dung</option>
+                </select>
+              </div>
+              <div class="input-field">
+                <label for="auth_receipt">YUMA Receipt</label>
+                <input type="file" id="auth_receipt" name="auth_receipt" accept=".jpeg,.pdf" required />
+              </div>
+              <div class="input-field">
+                <label for="auth_id">I.D. Card/Driver's Permit</label>
+                <input type="file" id="auth_id" name="auth_id" accept=".jpeg,.pdf" required />
+              </div>
+               <div class="input-field">
+                <label for="auth_letter">Authorisation Letter</label>
+                <input type="file" id="auth_letter" name="auth_letter" accept=".jpeg,.pdf" required />
+              </div>
+              <div class="input-field">
+                <label for="auth_dropoff">Drop-off Location</label>
+                <select id="auth_dropoff" name="auth_dropoff" required>
+                  <option value="">Select Drop-off Location</option>
+                <option value="Hyatt POS">Hyatt POS  $35.USD</option>
+                <option value="Xtra Foods (Sangre Grande)">Xtra Foods (Sangre Grande) $60.USD</option>            
+                <option value="Shoppes of Arima">Shoppes of Arima  $50.USD</option>
+                <option value="Holiday Inn Trincity">Holiday Inn Trincity $45.USD</option>
+                <option value="East Gates Mall">East Gates Mall  $45.USD</option>
+                <option value="Grand Bazaar">Grand Bazaar  $40.USD</option>  
+                <option value="Xtra Foods Plaza(Aranguez)">Xtra Foods Plaza (Aranguez) $40.USD</option> 
+                <option value="Radisson Hotel POS">Radisson Hotel POS  $35.USD</option>               
+                <option value="One Woodbrook Place">One Woodbrook Place  $35.USD</option>
+                <option value="Hilton POS">Hilton POS  $35.USD</option>                
+                <option value="The Brix POS">The Brix POS $35.USD</option>
+                <option value="Massy Stores (Cascade/St. Anns)">Massy Stores(Cascade/St. Anns)  $35.USD</option> 
+                <option value="Kapok Hotel">Kapok Hotel  $35.USD</option>
+                <option value="StarLite (Maraval)">StarLite (Maraval)  $40.USD</option>
+                <option value="Massy Stores (Maraval)">Massy Stores (Maraval)  45.USD</option>
+                <option value="StarLite (Diego Martin)">StarLite (Diego Martin)  $45.USD</option>
+                <option value="Courtyard by Marriot POS">Courtyard by Marriot POS  $40.USD</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Group Members -->
+          <fieldset>
+            <legend>Group Members</legend>
+            <div id="group-members">
+              <!-- Group member fields will be dynamically added here -->
+            </div>
+            <button type="button" id="add-yuman">Add Yuman</button>
+            <button type="button" id="remove-yuman">Remove Yuman</button>
+          </fieldset>
+
+          <div class="buttonus">
+            <input type="submit" value="Submit" />
+          </div>
+            <p class="disclaimer">*By clicking submit. I hereby, permit "CYC" to collect these costumes and all relevant articles on my behalf using the valid information provided.</p>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container1">
+        <h2>Collect Yuh Carnival&copy;</h2>
+      </div>
+    </footer>
+
+ <script>
+  const groupMembersContainer = document.getElementById('group-members');
+  const addMemberButton = document.getElementById('add-yuman');
+  const removeMemberButton = document.getElementById('remove-yuman');
+
+  // Add Yuman fields
+ addMemberButton.addEventListener('click', () => {
+  const currentMembers = groupMembersContainer.children.length;
+  const maxMembers = 9;
+
+  if (currentMembers >= maxMembers) {
+    alert('You can only add up to 9 group members.');
+    return;
+  }
+
+  const memberNumber = currentMembers + 1;
+
+  const memberForm = document.createElement('form');
+  memberForm.setAttribute('method', 'post');
+  memberForm.setAttribute('data-netlify', 'true');
+  memberForm.setAttribute('name', `Group Member ${memberNumber}`);
+  memberForm.classList.add('member-fields');
+
+  // User-visible and hidden fields
+  memberForm.innerHTML = `
+    <h3>Yuman ${memberNumber}</h3>
+    <!-- User-visible fields -->
+    <div class="input-field">
+        <label for="member${memberNumber}_fname">First Name</label>
+        <input type="text" id="member${memberNumber}_fname" name="member${memberNumber}_fname" required />
+    </div>
+    <div class="input-field">
+        <label for="member${memberNumber}_lname">Last Name</label>
+        <input type="text" id="member${memberNumber}_lname" name="member${memberNumber}_lname" required />
+    </div>
+    <div class="input-field">
+        <label for="member${memberNumber}_email">Email</label>
+        <input type="email" id="member${memberNumber}_email" name="member${memberNumber}_email" required />
+    </div>
+    <div class="input-field">
+        <label for="member${memberNumber}_costume">Costume Type</label>
+        <select id="member${memberNumber}_costume" name="member${memberNumber}_costume" required>
+            <option value="">Select Costume Type</option>
+            <option value="Male">Male</option>
+            <option value="Hardline">Hardline</option>
+            <option value="Hardline 1">Hardline 1</option>
+            <option value="Hardline 2">Hardline 2</option>
+            <option value="Hardline 3">Hardline 3</option>
+            <option value="Midline">Midline</option>
+            <option value="Midline 1">Midline 1</option>
+            <option value="Midline 2">Midline 2</option>
+            <option value="Monokini">Monokini</option>
+            <option value="Monokini 1">Monokini 1</option>
+            <option value="Monokini 2">Monokini 2</option>
+            <option value="Body 1">Body 1</option>
+            <option value="Body 2">Body 2</option>
+        </select>
+    </div>
+    <div class="input-field">
+        <label for="member${memberNumber}_section">Section</label>
+        <select id="member${memberNumber}_section" name="member${memberNumber}_section" required>
+            <option value="">Select Section</option>
+            <option value="Bae-Go">Bae-Go</option>
+            <option value="Buccoo">Buccoo</option>
+            <option value="Castara">Castara</option>
+            <option value="Doux Doux Dahlin">Doux Doux Dahlin</option>
+            <option value="Echoes">Echoes</option>
+            <option value="Emperor">Emperor</option>
+            <option value="Flambeaux">Flambeaux</option>
+            <option value="Hibiscus">Hibiscus</option>
+            <option value="Iëre">Iëre</option>
+            <option value="Magnificent 7">Magnificent 7</option>
+            <option value="Masala">Masala</option>
+            <option value="Nariva">Nariva</option>
+            <option value="Poui">Poui</option>
+            <option value="Riddim">Riddim</option>
+            <option value="Rii Dung">Rii Dung</option>
+        </select>
+    </div>
+    <div class="input-field">
+        <label for="member${memberNumber}_receipt">YUMA Receipt</label>
+        <input type="file" id="member${memberNumber}_receipt" name="member${memberNumber}_receipt" accept=".jpeg,.pdf" required />
+    </div>
+    <div class="input-field">
+        <label for="member${memberNumber}_id">I.D. Card/Driver's Permit</label>
+        <input type="file" id="member${memberNumber}_id" name="member${memberNumber}_id" accept=".jpeg,.pdf" required />
+    </div>
+    
+    <!-- Hidden fields (pre-filled from the main form) -->
+    <input type="hidden" name="auth_fname" value="" />
+    <input type="hidden" name="auth_lname" value="" />
+    <input type="hidden" name="auth_email" value="" />
+    <input type="hidden" name="auth_phone" value="" />
+    <input type="hidden" name="auth_phone_secondary" value="" />
+    <input type="hidden" name="event_date" value="" />
+    <input type="hidden" name="auth_costume" value="" />
+    <input type="hidden" name="auth_section" value="" />
+    <input type="hidden" name="auth_dropoff" value="" />
+    <input type="hidden" name="auth_receipt" value="" />
+    <input type="hidden" name="auth_id" value="" />
+    <input type="hidden" name="auth_letter" value="" />
+  `;
+
+  groupMembersContainer.appendChild(memberForm);
+});
+   document.querySelectorAll('[name="auth_fname"]').forEach(input => {
+  input.value = document.getElementById('auth_fname').value;
+});
+  // Remove Yuman fields
+  removeMemberButton.addEventListener('click', () => {
+    const lastMember = groupMembersContainer.lastElementChild;
+
+    if (lastMember) {
+      groupMembersContainer.removeChild(lastMember); // Remove last added group member
+    } else {
+      alert('No group members to remove.');
+    }
+  });
+</script>
+    
+<script>
+  const handleSubmit = async (event) => {
+  event.preventDefault();
+  console.log('Form submission started.');
+
+  const form = event.target; // Reference to the main form
+  const formData = new FormData(form);
+
+  // Collect the main form data (Authorized Collector)
+  const collectorData = {};
+  formData.forEach((value, key) => {
+    collectorData[key] = value;
+  });
+
+  try {
+    console.log('Submitting collector data:', collectorData);
+    await submitToNetlify(collectorData); // First POST request for the collector
+  } catch (error) {
+    console.error('Error submitting collector data:', error);
+    alert('Error submitting collector data. Aborting.');
+    return;
+  }
+
+  // Collect and submit group member data
+  const groupMembers = document.querySelectorAll('.member-fields'); // Unique group member forms
+  for (const member of groupMembers) {
+  const memberData = {};
+
+  // Gather inputs from this specific group member form
+  const inputs = member.querySelectorAll('input, select');
+  inputs.forEach((input) => {
+    memberData[input.name] = input.value;
+  });
+
+  // Populate hidden inputs with collector data
+  const hiddenInputs = member.querySelectorAll('input[type="hidden"]');
+  hiddenInputs.forEach((hidden) => {
+    if (collectorData[hidden.name] !== undefined) {
+  hidden.value = collectorData[hidden.name];
+   }
+  });
+  // Debugging to ensure hidden inputs are populated
+  console.log('Hidden input values:', [...hiddenInputs].map(input => ({ [input.name]: input.value })));
+
+  // Merge collector's data with the member's data
+  const combinedData = { ...collectorData, ...memberData };
+
+  // Debugging logs
+  console.log('Collector Data:', collectorData);
+  console.log('Member Data:', memberData);
+  console.log('Combined Data:', combinedData);
+
+  try {
+    await submitToNetlify(combinedData);
+  } catch (error) {
+    console.error('Error submitting member data:', error);
+  }
+}
+
+  alert('All forms successfully submitted!');
+  window.location.href = '/success.html'; // Redirect on success
+};
+
+// Function to submit data to Netlify
+const submitToNetlify = async (data) => {
+  try {
+    const response = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString(),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Netlify submission error:', error);
+    throw error;
+  }
+};
+// Attach the handleSubmit function to the main form
+document.querySelector('form[name="Group Members"]').addEventListener('submit', handleSubmit);
+</script>
+    
+<script> 
+      document.addEventListener('DOMContentLoaded', () => {
+  const eventDateInput = document.getElementById('event_date');
+  const today = new Date();
+
+ // Format today's date to YYYY-MM-DD
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 since months are 0-indexed
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`; // Format for input[type="date"]
+    };
+
+  // Set minimum date to today
+  eventDateInput.min = formatDate(today);
+
+  // Set maximum date to March 1, 2025
+  eventDateInput.max = "2025-03-01";
+});
+    </script>
+  </body>
+</html>
