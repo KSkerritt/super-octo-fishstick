@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Delivery - Collect Yuh Carnival</title>
@@ -584,6 +584,73 @@
                 <!-- Group Members -->
                 <fieldset>
                     <legend>Group Members</legend>
+                    
+                    <!-- Hidden fields for Netlify to detect at build time -->
+                    <div style="display: none;">
+                        <!-- Member 1 -->
+                        <input type="text" name="member1_fname" id="hidden_member1_fname">
+                        <input type="text" name="member1_lname" id="hidden_member1_lname">
+                        <input type="email" name="member1_email" id="hidden_member1_email">
+                        <input type="text" name="member1_costume" id="hidden_member1_costume">
+                        <input type="text" name="member1_section" id="hidden_member1_section">
+                        
+                        <!-- Member 2 -->
+                        <input type="text" name="member2_fname" id="hidden_member2_fname">
+                        <input type="text" name="member2_lname" id="hidden_member2_lname">
+                        <input type="email" name="member2_email" id="hidden_member2_email">
+                        <input type="text" name="member2_costume" id="hidden_member2_costume">
+                        <input type="text" name="member2_section" id="hidden_member2_section">
+                        
+                        <!-- Member 3 -->
+                        <input type="text" name="member3_fname" id="hidden_member3_fname">
+                        <input type="text" name="member3_lname" id="hidden_member3_lname">
+                        <input type="email" name="member3_email" id="hidden_member3_email">
+                        <input type="text" name="member3_costume" id="hidden_member3_costume">
+                        <input type="text" name="member3_section" id="hidden_member3_section">
+                        
+                        <!-- Member 4 -->
+                        <input type="text" name="member4_fname" id="hidden_member4_fname">
+                        <input type="text" name="member4_lname" id="hidden_member4_lname">
+                        <input type="email" name="member4_email" id="hidden_member4_email">
+                        <input type="text" name="member4_costume" id="hidden_member4_costume">
+                        <input type="text" name="member4_section" id="hidden_member4_section">
+                        
+                        <!-- Member 5 -->
+                        <input type="text" name="member5_fname" id="hidden_member5_fname">
+                        <input type="text" name="member5_lname" id="hidden_member5_lname">
+                        <input type="email" name="member5_email" id="hidden_member5_email">
+                        <input type="text" name="member5_costume" id="hidden_member5_costume">
+                        <input type="text" name="member5_section" id="hidden_member5_section">
+                        
+                        <!-- Member 6 -->
+                        <input type="text" name="member6_fname" id="hidden_member6_fname">
+                        <input type="text" name="member6_lname" id="hidden_member6_lname">
+                        <input type="email" name="member6_email" id="hidden_member6_email">
+                        <input type="text" name="member6_costume" id="hidden_member6_costume">
+                        <input type="text" name="member6_section" id="hidden_member6_section">
+                        
+                        <!-- Member 7 -->
+                        <input type="text" name="member7_fname" id="hidden_member7_fname">
+                        <input type="text" name="member7_lname" id="hidden_member7_lname">
+                        <input type="email" name="member7_email" id="hidden_member7_email">
+                        <input type="text" name="member7_costume" id="hidden_member7_costume">
+                        <input type="text" name="member7_section" id="hidden_member7_section">
+                        
+                        <!-- Member 8 -->
+                        <input type="text" name="member8_fname" id="hidden_member8_fname">
+                        <input type="text" name="member8_lname" id="hidden_member8_lname">
+                        <input type="email" name="member8_email" id="hidden_member8_email">
+                        <input type="text" name="member8_costume" id="hidden_member8_costume">
+                        <input type="text" name="member8_section" id="hidden_member8_section">
+                        
+                        <!-- Member 9 -->
+                        <input type="text" name="member9_fname" id="hidden_member9_fname">
+                        <input type="text" name="member9_lname" id="hidden_member9_lname">
+                        <input type="email" name="member9_email" id="hidden_member9_email">
+                        <input type="text" name="member9_costume" id="hidden_member9_costume">
+                        <input type="text" name="member9_section" id="hidden_member9_section">
+                    </div>
+                    
                     <div id="group-members"></div>
                     <div class="button-group">
                         <button type="button" id="add-yuman">Add Yuman</button>
@@ -636,19 +703,19 @@
                 <div class="fields">
                     <div class="input-field">
                         <label for="member${memberNumber}_fname">First Name</label>
-                        <input type="text" id="member${memberNumber}_fname" name="member${memberNumber}_fname" required />
+                        <input type="text" id="member${memberNumber}_fname" class="sync-input" data-hidden="hidden_member${memberNumber}_fname" required />
                     </div>
                     <div class="input-field">
                         <label for="member${memberNumber}_lname">Last Name</label>
-                        <input type="text" id="member${memberNumber}_lname" name="member${memberNumber}_lname" required />
+                        <input type="text" id="member${memberNumber}_lname" class="sync-input" data-hidden="hidden_member${memberNumber}_lname" required />
                     </div>
                     <div class="input-field">
                         <label for="member${memberNumber}_email">Email</label>
-                        <input type="email" id="member${memberNumber}_email" name="member${memberNumber}_email" required />
+                        <input type="email" id="member${memberNumber}_email" class="sync-input" data-hidden="hidden_member${memberNumber}_email" required />
                     </div>
                     <div class="input-field">
                         <label for="member${memberNumber}_costume">Costume Type</label>
-                        <select id="member${memberNumber}_costume" name="member${memberNumber}_costume" required>
+                        <select id="member${memberNumber}_costume" class="sync-input" data-hidden="hidden_member${memberNumber}_costume" required>
                             <option value="">Select Costume Type</option>
                             <option value="Male">Male</option>
                             <option value="Hardline">Hardline</option>
@@ -667,7 +734,7 @@
                     </div>
                     <div class="input-field">
                         <label for="member${memberNumber}_section">Section</label>
-                        <select id="member${memberNumber}_section" name="member${memberNumber}_section" required>
+                        <select id="member${memberNumber}_section" class="sync-input" data-hidden="hidden_member${memberNumber}_section" required>
                             <option value="">Select Section</option>
                             <option value="Bae-Go">Bae-Go</option>
                             <option value="Buccoo">Buccoo</option>
@@ -698,6 +765,25 @@
             `;
 
             groupMembersContainer.appendChild(memberFields);
+            
+            // Sync visible inputs to hidden inputs in real-time
+            const syncInputs = memberFields.querySelectorAll('.sync-input');
+            syncInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const hiddenInputId = this.getAttribute('data-hidden');
+                    const hiddenInput = document.getElementById(hiddenInputId);
+                    if (hiddenInput) {
+                        hiddenInput.value = this.value;
+                    }
+                });
+                input.addEventListener('change', function() {
+                    const hiddenInputId = this.getAttribute('data-hidden');
+                    const hiddenInput = document.getElementById(hiddenInputId);
+                    if (hiddenInput) {
+                        hiddenInput.value = this.value;
+                    }
+                });
+            });
         });
 
         removeMemberButton.addEventListener('click', () => {
@@ -707,6 +793,16 @@
                 alert('No members to remove.');
                 return;
             }
+
+            const memberNumber = currentMembers;
+            
+            // Clear the hidden fields for this member
+            ['fname', 'lname', 'email', 'costume', 'section'].forEach(field => {
+                const hiddenInput = document.getElementById(`hidden_member${memberNumber}_${field}`);
+                if (hiddenInput) {
+                    hiddenInput.value = '';
+                }
+            });
 
             groupMembersContainer.removeChild(groupMembersContainer.lastChild);
         });
