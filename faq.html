@@ -12,107 +12,469 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="/ham.js" defer></script>
-    <title>FAQ</title>
-  </head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-53ZHYRD64Y"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <title>FAQ - Collect Yuh Carnival</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-53ZHYRD64Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-53ZHYRD64Y');
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-  gtag('config', 'G-53ZHYRD64Y');
-</script>
-  <body>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #C6EA8D 0%, #FE90AF 100%);
+            --accent-pink: #FE90AF;
+            --accent-green: #C6EA8D;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--primary-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-pink);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-pink);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .ham {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .bar {
+            width: 25px;
+            height: 2px;
+            background: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .mnav {
+            display: none;
+        }
+
+        .about {
+            padding: 80px 20px;
+        }
+
+        .about .container {
+            max-width: 900px;
+        }
+
+        .box {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 64px 48px;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .box h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--text-dark);
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        dl {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        dt {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        dd {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+            margin-left: 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-green);
+        }
+
+        dd a {
+            color: var(--accent-pink);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        dd a:hover {
+            color: var(--accent-green);
+        }
+
+        .carousel-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 60px 0;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .carousel-title {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+        }
+
+        .carousel-item {
+            flex: 0 0 300px;
+            height: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-item:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            color: var(--text-light);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer h1 {
+            font-size: 18px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .navbar .container {
+                padding: 16px 24px;
+            }
+
+            .ham {
+                display: flex;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .mnav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                padding: 32px 0;
+                box-shadow: var(--shadow-lg);
+                opacity: 0;
+                transform: translateY(-20px);
+                pointer-events: none;
+                transition: all 0.3s ease;
+            }
+
+            .mnav.active {
+                display: block;
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: all;
+            }
+
+            .mnav ul {
+                list-style: none;
+                text-align: center;
+            }
+
+            .mnav ul li {
+                margin: 16px 0;
+            }
+
+            .mnav .nav-link {
+                font-size: 18px;
+            }
+
+            .about {
+                padding: 40px 20px;
+            }
+
+            .box {
+                padding: 40px 24px;
+                border-radius: 20px;
+            }
+
+            .box h2 {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            .carousel-title {
+                font-size: 24px;
+            }
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-320px * 22)); }
+        }
+    </style>
+</head>
+
+<body>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8QBV7"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8QBV7"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <nav class="navbar">
-      <div class="container">
-        <a class="logo" href="/index.html">CYC</a>
-
-        <div class="ham">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+        <div class="container">
+            <a class="logo" href="/index.html">
+                <img src="/cycl3s.svg" alt="CYC Logo">
+            </a>
+            <div class="ham">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/instructions.html" class="nav-link">Instructions</a></li>
+                <li class="nav-item"><a href="/faq.html" class="nav-link">FAQ</a></li>
+                <li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>
+            </ul>
         </div>
-
-        <ul class="nav">
-          <li class="nav-item">
-            <a href="/index.html" class="nav-link">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="/instructions.html" class="nav-link">Instructions</a>
-          </li>
-          <li class="nav-item">
-            <a href="/faq.html" class="nav-link">FAQ</a>
-          </li>
-          <li class="nav-item">
-            <a href="/contact.html" class="nav-link">Contact</a>
-          </li>
-        </ul>
-      </div>
     </nav>
 
     <div class="mnav">
-      <ul>
-        <li class="nav-item">
-          <a href="/index.html" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item">
-          <a href="/instructions.html" class="nav-link">Instructions</a>
-        </li>
-        <li class="nav-item">
-            <a href="/faq.html" class="nav-link">FAQ</a>
-          </li>
-        <li class="nav-item">
-          <a href="/contact.html" class="nav-link">Contact</a>
-        </li>
-      </ul>
+        <ul>
+            <li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="/instructions.html" class="nav-link">Instructions</a></li>
+            <li class="nav-item"><a href="/faq.html" class="nav-link">FAQ</a></li>
+            <li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>
+        </ul>
     </div>
 
     <section class="about">
-      <div style="max-width: 900px" class="container">
-        <div style="padding-left: 50px" class="box">
-          <!-- <h1>FAQ</h1> -->
+        <div class="container">
+            <div class="box">
+                <h2>Frequently Asked Questions</h2>
+                <dl>
+                    <dt>What is Collect Yuh Carnival?</dt>
+                    <dd>Collect Yuh Carnival is a delivery option for your Carnival costume, think of it as Uber for your backpack</dd>
 
-          <h2>Frequently Asked Questions</h2>    
-          <dl>
-          
-            <b><dt>What is Collect Yuh Carnival?</dt></b>
-            <dd>Collect Yuh Carnival is  a delivery option for your Carnival costume, think of it as Uber for your backpack</dd>
-            <br />
-            <b><dt>Where do you deliver?</dt></b>
-            <dd>We will deliver to your stated drop off location. If you’d like us to deliver to a specific address please email us at info@collectyuhcarnival.com to deliver based on available access to your location.</dd>
-            <br />
-            <b><dt>How do I pay?</dt></b>
-            <dd>All payments are made online via WiPay, be sure to have your credit card information on hand NO cash will be accepted at delivery</dd>
-            <br />
-            <b><dt>When will deliveries be made?</dt></b>
-            <dd>Your scheduled date and approximate time for delivery will be sent to you subject to YUMA’s distribution schedule</dd>
-            <br />
-            <b><dt>My costume isn't paid in full, can I still register?</dt></b>
-            <dd>Definitely! Just upload your YUMA or MasOS receipt and ensure your order invoice number and costume details are clearly shown. <b>We can not collect your costume or deliver it to you until full payment is completed</b></dd>
-            <br />
-            <b><dt>What if I miss or don't show up for delivery?</dt></b>
-            <dd>If you miss or fail to show for delivery, your costume will be considered UNDELIVERABLE and will be returned to YUMA distribution centre</dd>
-            <br />
-            <b><dt>Where are drop off locations?</dt></b>
-            <dd>We have  more than 10  easily accessible drop off locations in Trinidad only, click <a href=/form.html>Schedule Delivery</a> to see a detailed list</dd>
-            <br />
-            <b><dt>Will Collect Yuh Carnival take responsibility for missing items in package?</dt></b>
-            <dd>We are a delivery service & accept <b><u>no liability for incorrect sizing, missing pieces or defects in design</u></b>.Costume issues should be  referred to & will be resolved by Yuma</dd>
-            <br />        
-              </dl>
+                    <dt>Where do you deliver?</dt>
+                    <dd>We will deliver to your stated drop off location. If you'd like us to deliver to a specific address please email us at info@collectyuhcarnival.com to deliver based on available access to your location.</dd>
+
+                    <dt>How do I pay?</dt>
+                    <dd>All payments are made online via WiPay, be sure to have your credit card information on hand NO cash will be accepted at delivery</dd>
+
+                    <dt>When will deliveries be made?</dt>
+                    <dd>Your scheduled date and approximate time for delivery will be sent to you subject to YUMA's distribution schedule</dd>
+
+                    <dt>My costume isn't paid in full, can I still register?</dt>
+                    <dd>Definitely! Just upload your YUMA or MasOS receipt and ensure your order invoice number and costume details are clearly shown. <strong>We can not collect your costume or deliver it to you until full payment is completed</strong></dd>
+
+                    <dt>What if I miss or don't show up for delivery?</dt>
+                    <dd>If you miss or fail to show for delivery, your costume will be considered UNDELIVERABLE and will be returned to YUMA distribution centre</dd>
+
+                    <dt>Where are drop off locations?</dt>
+                    <dd>We have more than 10 easily accessible drop off locations in Trinidad only, click <a href="/form.html">Schedule Delivery</a> to see a detailed list</dd>
+
+                    <dt>Will Collect Yuh Carnival take responsibility for missing items in package?</dt>
+                    <dd>We are a delivery service & accept <strong><u>no liability for incorrect sizing, missing pieces or defects in design</u></strong>. Costume issues should be referred to & will be resolved by Yuma</dd>
+                </dl>
+            </div>
         </div>
-      </div>
+    </section>
+
+    <section class="carousel-section">
+        <h2 class="carousel-title">Previous Deliveries</h2>
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack"></div>
+        </div>
     </section>
 
     <footer>
-      <div class="container">
-        <h1>Collect Yuh Carnival©</h1>
-      </div>
+        <div class="container">
+            <h1>Collect Yuh Carnival © 2025</h1>
+        </div>
     </footer>
-  </body>
+
+    <script>
+        const clientImages = [
+            '/images/client1.jpg',
+            '/images/client2.jpg',
+            '/images/client3.jpg',
+            '/images/client4.jpg',
+            '/images/client5.jpg',
+            '/images/client6.jpg',
+            '/images/client7.jpg',
+            '/images/client8.jpg',
+            '/images/client9.jpg',
+            '/images/client10.jpg',
+            '/images/client11.jpg',
+            '/images/client12.jpg',
+            '/images/client13.jpg',
+            '/images/client14.jpg',
+            '/images/client15.jpg',
+            '/images/client16.jpg',
+            '/images/client17.jpg',
+            '/images/client18.jpg',
+            '/images/client19.jpg',
+            '/images/client20.jpg',
+            '/images/client21.jpg',
+            '/images/client22.jpg'
+        ];
+
+        function buildCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const allImages = [...clientImages, ...clientImages];
+            
+            allImages.forEach((imgSrc, index) => {
+                const item = document.createElement('div');
+                item.className = 'carousel-item';
+                item.innerHTML = `<img src="${imgSrc}" alt="Client delivery ${(index % clientImages.length) + 1}">`;
+                track.appendChild(item);
+            });
+            
+            track.style.animation = 'scroll 30s linear infinite';
+        }
+
+        buildCarousel();
+    </script>
+</body>
 </html>
