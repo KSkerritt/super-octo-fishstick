@@ -401,15 +401,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </footer>
 
     <script>
-        function toggleMenu() {
-            const mobileNav = document.querySelector('.mnav');
-            const ham = document.querySelector('.ham');
-            mobileNav.classList.toggle('active');
-            ham.classList.toggle('active');
+    function toggleMenu() {
+        const mobileNav = document.querySelector('.mnav');
+        const ham = document.querySelector('.ham');
+        mobileNav.classList.toggle('active');
+        ham.classList.toggle('active');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamButton = document.querySelector('.ham');
+        if (hamButton) {
+            hamButton.addEventListener('click', toggleMenu);
         }
-
-        document.querySelector('.ham').addEventListener('click', toggleMenu);
-    </script>
+    });
+</script>
 </body>
 </html>
 
