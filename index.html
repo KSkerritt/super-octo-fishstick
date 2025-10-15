@@ -597,13 +597,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         function buildCarousel() {
             const track = document.getElementById('carouselTrack');
             
-            // Duplicate the array twice for seamless infinite scroll
-            const allImages = [...clientImages, ...clientImages];
+            // Duplicate the array 3 times for seamless infinite scroll
+            const allImages = [...clientImages, ...clientImages, ...clientImages];
             
             allImages.forEach((imgSrc, index) => {
                 const item = document.createElement('div');
                 item.className = 'carousel-item';
-                item.innerHTML = `<img src="${imgSrc}" alt="Client delivery ${index + 1}">`;
+                item.innerHTML = `<img src="${imgSrc}" alt="Client delivery ${(index % clientImages.length) + 1}">`;
                 track.appendChild(item);
             });
         }
