@@ -71,14 +71,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
             text-decoration: none;
-            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
         }
 
         .nav {
@@ -498,7 +498,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <body>
     <nav class="navbar">
         <div class="container">
-            <a class="logo" href="/index.html">CYC</a>
+           <a class="logo" href="/index.html">
+                <img src="/cycl3s.svg" alt="CYC Logo">
+            </a>
             <div class="ham" onclick="toggleMenu()">
                 <span class="bar"></span>
                 <span class="bar"></span>
