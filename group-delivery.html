@@ -300,6 +300,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .tooltip:hover + .tooltip-box {
             display: block;
         }
+        /*Autho Tooltip*/
+        
+        .tooltip-autho {
+            display: inline-block;
+            background: var(--accent-green);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: help;
+            margin-left: 8px;
+            position: relative;
+        }
+
+        .tooltip-box-autho {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: -130px;
+            margin-top: 8px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #666;
+            width: 280px;
+            max-width: 90vw;
+            box-shadow: var(--shadow-md);
+            z-index: 10;
+            line-height: 1.5;
+        }
+
+        .tooltip-autho:hover + .tooltip-box-autho {
+            display: block;
+        }
 
         .member-fields {
             background: #f8f9fa;
@@ -643,8 +683,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </div>
                         <div class="input-field">
                             <label for="auth_letter">Authorization Letter</label>
-                             <span class="tooltip">?</span>
-                                <div class="tooltip-box">
+                             <span class="tooltip-autho">?</span>
+                                <div class="tooltip-box-autho">
                                     All members in the group can sign one authorization letter stating who will be the authorized collector for their costumes
                                 </div>
                             </label>
