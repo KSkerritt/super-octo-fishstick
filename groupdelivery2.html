@@ -217,7 +217,7 @@
         .tooltip-box {
             display: none;
             position: absolute;
-            top: 30px;
+            top: calc(100% + 8px);
             left: 50%;
             transform: translateX(-50%);
             background: white;
@@ -227,6 +227,7 @@
             font-size: 13px;
             color: #666;
             width: 280px;
+            max-width: 90vw;
             box-shadow: var(--shadow-md);
             z-index: 10;
             line-height: 1.5;
@@ -291,46 +292,6 @@
 
         input[type="file"]::file-selector-button:hover {
             background: #b5d97d;
-        }
-
-        .tooltip {
-            display: inline-block;
-            background: var(--accent-green);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            text-align: center;
-            line-height: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: help;
-            margin-left: 8px;
-            position: relative;
-            vertical-align: middle;
-        }
-
-        .tooltip-box {
-            display: none;
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 13px;
-            color: #666;
-            width: 280px;
-            max-width: 90vw;
-            box-shadow: var(--shadow-md);
-            z-index: 10;
-            line-height: 1.5;
-        }
-
-        .tooltip:hover + .tooltip-box {
-            display: block;
         }
 
         .member-fields {
@@ -853,20 +814,20 @@
                 <h3>Yuman ${memberNumber}</h3>
                 <div class="fields">
                     <div class="input-field">
-                        <label for="member${memberNumber}_fname">First Name</label>
-                        <input type="text" id="member${memberNumber}_fname" class="sync-input" data-hidden="hidden_member${memberNumber}_fname" required />
+                        <label for="visible_member${memberNumber}_fname">First Name</label>
+                        <input type="text" id="visible_member${memberNumber}_fname" class="sync-input" data-hidden="hidden_member${memberNumber}_fname" required />
                     </div>
                     <div class="input-field">
-                        <label for="member${memberNumber}_lname">Last Name</label>
-                        <input type="text" id="member${memberNumber}_lname" class="sync-input" data-hidden="hidden_member${memberNumber}_lname" required />
+                        <label for="visible_member${memberNumber}_lname">Last Name</label>
+                        <input type="text" id="visible_member${memberNumber}_lname" class="sync-input" data-hidden="hidden_member${memberNumber}_lname" required />
                     </div>
                     <div class="input-field">
-                        <label for="member${memberNumber}_email">Email</label>
-                        <input type="email" id="member${memberNumber}_email" class="sync-input" data-hidden="hidden_member${memberNumber}_email" required />
+                        <label for="visible_member${memberNumber}_email">Email</label>
+                        <input type="email" id="visible_member${memberNumber}_email" class="sync-input" data-hidden="hidden_member${memberNumber}_email" required />
                     </div>
                     <div class="input-field">
-                        <label for="member${memberNumber}_costume">Costume Type</label>
-                        <select id="member${memberNumber}_costume" class="sync-input" data-hidden="hidden_member${memberNumber}_costume" required>
+                        <label for="visible_member${memberNumber}_costume">Costume Type</label>
+                        <select id="visible_member${memberNumber}_costume" class="sync-input" data-hidden="hidden_member${memberNumber}_costume" required>
                             <option value="">Select Costume Type</option>
                             <option value="Male">Male</option>
                             <option value="Hardline">Hardline</option>
@@ -884,8 +845,8 @@
                         </select>
                     </div>
                     <div class="input-field">
-                        <label for="member${memberNumber}_section">Section</label>
-                        <select id="member${memberNumber}_section" class="sync-input" data-hidden="hidden_member${memberNumber}_section" required>
+                        <label for="visible_member${memberNumber}_section">Section</label>
+                        <select id="visible_member${memberNumber}_section" class="sync-input" data-hidden="hidden_member${memberNumber}_section" required>
                             <option value="">Select Section</option>
                             <option value="Champagne">Champagne</option>
                             <option value="Fabergè">Fabergè</option>
@@ -905,12 +866,12 @@
                         </select>
                     </div>
                     <div class="input-field">
-                        <label for="member${memberNumber}_receipt">YUMA Receipt</label>
-                        <input type="file" id="member${memberNumber}_receipt" name="member${memberNumber}_receipt" accept=".jpeg,.jpg,.png,.pdf" required />
+                        <label for="visible_member${memberNumber}_receipt">YUMA Receipt</label>
+                        <input type="file" id="visible_member${memberNumber}_receipt" class="file-input" data-hidden="hidden_member${memberNumber}_receipt" accept=".jpeg,.jpg,.png,.pdf" required />
                     </div>
                     <div class="input-field">
-                        <label for="member${memberNumber}_id">I.D. Card/Driver's Permit</label>
-                        <input type="file" id="member${memberNumber}_id" name="member${memberNumber}_id" accept=".jpeg,.jpg,.png,.pdf" required />
+                        <label for="visible_member${memberNumber}_id">I.D. Card/Driver's Permit</label>
+                        <input type="file" id="visible_member${memberNumber}_id" class="file-input" data-hidden="hidden_member${memberNumber}_id" accept=".jpeg,.jpg,.png,.pdf" required />
                     </div>
                 </div>
             `;
@@ -937,42 +898,25 @@
             });
             
             // Sync file inputs to hidden file inputs
-            const receiptInput = memberFields.querySelector(`#member${memberNumber}_receipt`);
-            const idInput = memberFields.querySelector(`#member${memberNumber}_id`);
-            const hiddenReceiptInput = document.getElementById(`hidden_member${memberNumber}_receipt`);
-            const hiddenIdInput = document.getElementById(`hidden_member${memberNumber}_id`);
-            
-            if (receiptInput && hiddenReceiptInput) {
-                receiptInput.addEventListener('change', function() {
-                    try {
-                        if (this.files && this.files.length > 0) {
+            const fileInputs = memberFields.querySelectorAll('.file-input');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const hiddenInputId = this.getAttribute('data-hidden');
+                    const hiddenInput = document.getElementById(hiddenInputId);
+                    
+                    if (hiddenInput && this.files && this.files.length > 0) {
+                        try {
                             const dataTransfer = new DataTransfer();
                             for (let i = 0; i < this.files.length; i++) {
                                 dataTransfer.items.add(this.files[i]);
                             }
-                            hiddenReceiptInput.files = dataTransfer.files;
+                            hiddenInput.files = dataTransfer.files;
+                        } catch (e) {
+                            console.log('File sync not supported on this browser');
                         }
-                    } catch (e) {
-                        console.log('File sync not supported on this browser');
                     }
                 });
-            }
-            
-            if (idInput && hiddenIdInput) {
-                idInput.addEventListener('change', function() {
-                    try {
-                        if (this.files && this.files.length > 0) {
-                            const dataTransfer = new DataTransfer();
-                            for (let i = 0; i < this.files.length; i++) {
-                                dataTransfer.items.add(this.files[i]);
-                            }
-                            hiddenIdInput.files = dataTransfer.files;
-                        }
-                    } catch (e) {
-                        console.log('File sync not supported on this browser');
-                    }
-                });
-            }
+            });
         });
 
         removeMemberButton.addEventListener('click', () => {
@@ -987,6 +931,14 @@
             
             // Clear the hidden fields for this member
             ['fname', 'lname', 'email', 'costume', 'section'].forEach(field => {
+                const hiddenInput = document.getElementById(`hidden_member${memberNumber}_${field}`);
+                if (hiddenInput) {
+                    hiddenInput.value = '';
+                }
+            });
+            
+            // Clear file inputs
+            ['receipt', 'id'].forEach(field => {
                 const hiddenInput = document.getElementById(`hidden_member${memberNumber}_${field}`);
                 if (hiddenInput) {
                     hiddenInput.value = '';
