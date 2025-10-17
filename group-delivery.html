@@ -915,18 +915,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             const hiddenIdInput = document.getElementById(`hidden_member${memberNumber}_id`);
             
             if (receiptInput && hiddenReceiptInput) {
-                receiptInput.addEventListener('change', function() {
-                    const dataTransfer = new DataTransfer();
-                    Array.from(this.files).forEach(file => dataTransfer.items.add(file));
-                    hiddenReceiptInput.files = dataTransfer.files;
+                 receiptInput.addEventListener('change', function() {
+                    try {
+                        if (this.files && this.files.length > 0) {
+                            const dataTransfer = new DataTransfer();
+                            for (let i = 0; i < this.files.length; i++) {
+                                dataTransfer.items.add(this.files[i]);
+                            }
+                            hiddenReceiptInput.files = dataTransfer.files;
+                        }
+                    } catch (e) {
+                        console.log('File sync not supported on this browser');
+                    }
                 });
             }
             
             if (idInput && hiddenIdInput) {
-                idInput.addEventListener('change', function() {
-                    const dataTransfer = new DataTransfer();
-                    Array.from(this.files).forEach(file => dataTransfer.items.add(file));
-                    hiddenIdInput.files = dataTransfer.files;
+               idInput.addEventListener('change', function() {
+                    try {
+                        if (this.files && this.files.length > 0) {
+                            const dataTransfer = new DataTransfer();
+                            for (let i = 0; i < this.files.length; i++) {
+                                dataTransfer.items.add(this.files[i]);
+                            }
+                            hiddenIdInput.files = dataTransfer.files;
+                        }
+                    } catch (e) {
+                        console.log('File sync not supported on this browser');
+                    }
                 });
             }
         });
