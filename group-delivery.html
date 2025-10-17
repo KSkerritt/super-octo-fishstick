@@ -691,6 +691,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member1_email" id="hidden_member1_email">
                         <input type="text" name="member1_costume" id="hidden_member1_costume">
                         <input type="text" name="member1_section" id="hidden_member1_section">
+                        <input type="file" name="member1_receipt" id="hidden_member1_receipt">
+                        <input type="file" name="member1_id" id="hidden_member1_id">
                         
                         <!-- Member 2 -->
                         <input type="text" name="member2_fname" id="hidden_member2_fname">
@@ -698,6 +700,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member2_email" id="hidden_member2_email">
                         <input type="text" name="member2_costume" id="hidden_member2_costume">
                         <input type="text" name="member2_section" id="hidden_member2_section">
+                        <input type="file" name="member2_receipt" id="hidden_member2_receipt">
+                        <input type="file" name="member2_id" id="hidden_member2_id">
                         
                         <!-- Member 3 -->
                         <input type="text" name="member3_fname" id="hidden_member3_fname">
@@ -705,6 +709,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member3_email" id="hidden_member3_email">
                         <input type="text" name="member3_costume" id="hidden_member3_costume">
                         <input type="text" name="member3_section" id="hidden_member3_section">
+                        <input type="file" name="member3_receipt" id="hidden_member3_receipt">
+                        <input type="file" name="member3_id" id="hidden_member3_id">
                         
                         <!-- Member 4 -->
                         <input type="text" name="member4_fname" id="hidden_member4_fname">
@@ -712,6 +718,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member4_email" id="hidden_member4_email">
                         <input type="text" name="member4_costume" id="hidden_member4_costume">
                         <input type="text" name="member4_section" id="hidden_member4_section">
+                        <input type="file" name="member4_receipt" id="hidden_member4_receipt">
+                        <input type="file" name="member4_id" id="hidden_member4_id">
                         
                         <!-- Member 5 -->
                         <input type="text" name="member5_fname" id="hidden_member5_fname">
@@ -719,6 +727,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member5_email" id="hidden_member5_email">
                         <input type="text" name="member5_costume" id="hidden_member5_costume">
                         <input type="text" name="member5_section" id="hidden_member5_section">
+                        <input type="file" name="member5_receipt" id="hidden_member5_receipt">
+                        <input type="file" name="member5_id" id="hidden_member5_id">
                         
                         <!-- Member 6 -->
                         <input type="text" name="member6_fname" id="hidden_member6_fname">
@@ -726,6 +736,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member6_email" id="hidden_member6_email">
                         <input type="text" name="member6_costume" id="hidden_member6_costume">
                         <input type="text" name="member6_section" id="hidden_member6_section">
+                        <input type="file" name="member6_receipt" id="hidden_member6_receipt">
+                        <input type="file" name="member6_id" id="hidden_member6_id">
                         
                         <!-- Member 7 -->
                         <input type="text" name="member7_fname" id="hidden_member7_fname">
@@ -733,6 +745,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member7_email" id="hidden_member7_email">
                         <input type="text" name="member7_costume" id="hidden_member7_costume">
                         <input type="text" name="member7_section" id="hidden_member7_section">
+                        <input type="file" name="member7_receipt" id="hidden_member7_receipt">
+                        <input type="file" name="member7_id" id="hidden_member7_id">
                         
                         <!-- Member 8 -->
                         <input type="text" name="member8_fname" id="hidden_member8_fname">
@@ -740,6 +754,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member8_email" id="hidden_member8_email">
                         <input type="text" name="member8_costume" id="hidden_member8_costume">
                         <input type="text" name="member8_section" id="hidden_member8_section">
+                        <input type="file" name="member8_receipt" id="hidden_member8_receipt">
+                        <input type="file" name="member8_id" id="hidden_member8_id">
                         
                         <!-- Member 9 -->
                         <input type="text" name="member9_fname" id="hidden_member9_fname">
@@ -747,6 +763,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <input type="email" name="member9_email" id="hidden_member9_email">
                         <input type="text" name="member9_costume" id="hidden_member9_costume">
                         <input type="text" name="member9_section" id="hidden_member9_section">
+                        <input type="file" name="member9_receipt" id="hidden_member9_receipt">
+                        <input type="file" name="member9_id" id="hidden_member9_id">
                     </div>
                     
                     <div id="group-members"></div>
@@ -888,6 +906,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }
                 });
             });
+        });
+
+        // Sync file inputs to hidden file inputs
+            const receiptInput = memberFields.querySelector(`#member${memberNumber}_receipt`);
+            const idInput = memberFields.querySelector(`#member${memberNumber}_id`);
+            const hiddenReceiptInput = document.getElementById(`hidden_member${memberNumber}_receipt`);
+            const hiddenIdInput = document.getElementById(`hidden_member${memberNumber}_id`);
+            
+            if (receiptInput && hiddenReceiptInput) {
+                receiptInput.addEventListener('change', function() {
+                    const dataTransfer = new DataTransfer();
+                    Array.from(this.files).forEach(file => dataTransfer.items.add(file));
+                    hiddenReceiptInput.files = dataTransfer.files;
+                });
+            }
+            
+            if (idInput && hiddenIdInput) {
+                idInput.addEventListener('change', function() {
+                    const dataTransfer = new DataTransfer();
+                    Array.from(this.files).forEach(file => dataTransfer.items.add(file));
+                    hiddenIdInput.files = dataTransfer.files;
+                });
+            }
         });
 
         removeMemberButton.addEventListener('click', () => {
