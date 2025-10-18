@@ -955,6 +955,26 @@
                 e.preventDefault();
                 alert('Please add at least one group member before submitting.');
             }
+// Check approximate total file size
+            const allFileInputs = form.querySelectorAll('input[type="file"]');
+            let totalSize = 0;
+            
+            allFileInputs.forEach(input => {
+                if (input.files && input.files.length > 0) {
+                    for (let i = 0; i < input.files.length; i++) {
+                        totalSize += input.files[i].size;
+                    }
+                }
+            });
+            
+            // 10MB limit (slightly under to be safe)
+            const maxSize = 9.5 * 1024 * 1024; // 9.5MB
+            if (totalSize > maxSize) {
+                e.preventDefault();
+                const totalMB = (totalSize / (1024 * 1024)).toFixed(2);
+                alert(`Total file size (${totalMB}MB) exceeds the 10MB limit. Please compress your images or reduce the number of members in this submission.`);
+                return;
+            }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
