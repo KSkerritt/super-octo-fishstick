@@ -793,10 +793,125 @@
             ham.classList.toggle('active');
         }
 
+         // Image compression function
+        async function compressImage(file) {
+            // Only compress images
+            if (!file.type.startsWith('image/')) {
+                return file;
+            }
+
+            // If file is already small enough (< 500KB), don't compress
+            if (file.size < 500 * 1024) {
+                return file;
+            }
+
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+
+                        // Max dimensions
+                        const maxWidth = 1920;
+                        const maxHeight = 1920;
+
+                        // Calculate new dimensions
+                        if (width > height) {
+                            if (width > maxWidth) {
+                                height = (height * maxWidth) / width;
+                                width = maxWidth;
+                            }
+                        } else {
+                            if (height > maxHeight) {
+                                width = (width * maxHeight) / height;
+                                height = maxHeight;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // Convert to blob with compression
+                        canvas.toBlob(
+                            (blob) => {
+                                // Create a new File object with the original name
+                                const compressedFile = new File([blob], file.name, {
+                                    type: 'image/jpeg',
+                                    lastModified: Date.now()
+                                });
+                                console.log(`Compressed ${file.name}: ${(file.size / 1024).toFixed(0)}KB → ${(compressedFile.size / 1024).toFixed(0)}KB`);
+                                resolve(compressedFile);
+                            },
+                            'image/jpeg',
+                            0.8 // 80% quality
+                        );
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Handle file input compression
+        async function handleFileInput(input) {
+            if (!input.files || input.files.length === 0) return;
+
+            const file = input.files[0];
+            const compressedFile = await compressImage(file);
+
+            // Update the input with compressed file
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(compressedFile);
+            input.files = dataTransfer.files;
+
+            // Also update hidden input if this is a visible input
+            const hiddenId = input.getAttribute('data-hidden');
+            if (hiddenId) {
+                const hiddenInput = document.getElementById(hiddenId);
+                if (hiddenInput) {
+                    const hiddenDataTransfer = new DataTransfer();
+                    hiddenDataTransfer.items.add(compressedFile);
+                    hiddenInput.files = hiddenDataTransfer.files;
+                }
+            }
+        }
+
         const form = document.querySelector('form[name="Group Registration"]');
         const groupMembersContainer = document.getElementById('group-members');
         const addMemberButton = document.getElementById('add-yuman');
         const removeMemberButton = document.getElementById('remove-yuman');
+
+          // Add compression to auth file inputs
+        document.addEventListener('DOMContentLoaded', () => {
+            const authFileInputs = ['auth_receipt', 'auth_id', 'auth_letter'];
+            authFileInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('change', async function() {
+                        await handleFileInput(this);
+                    });
+                }
+            });
+
+            const eventDateInput = document.getElementById('event_date');
+            const today = new Date();
+
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            eventDateInput.min = formatDate(today);
+            eventDateInput.max = "2026-02-14";
+        });
 
         addMemberButton.addEventListener('click', () => {
             const currentMembers = groupMembersContainer.children.length;
