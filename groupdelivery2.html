@@ -1012,24 +1012,11 @@
                 });
             });
             
-            // Sync file inputs to hidden file inputs
+           // Sync file inputs to hidden file inputs with compression
             const fileInputs = memberFields.querySelectorAll('.file-input');
             fileInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    const hiddenInputId = this.getAttribute('data-hidden');
-                    const hiddenInput = document.getElementById(hiddenInputId);
-                    
-                    if (hiddenInput && this.files && this.files.length > 0) {
-                        try {
-                            const dataTransfer = new DataTransfer();
-                            for (let i = 0; i < this.files.length; i++) {
-                                dataTransfer.items.add(this.files[i]);
-                            }
-                            hiddenInput.files = dataTransfer.files;
-                        } catch (e) {
-                            console.log('File sync not supported on this browser');
-                        }
-                    }
+                input.addEventListener('change', async function() {
+                    await handleFileInput(this);
                 });
             });
         });
