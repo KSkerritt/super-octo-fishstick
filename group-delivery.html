@@ -418,6 +418,192 @@
             flex: 1;
         }
 
+         .examples-section {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 32px 24px;
+    margin: 32px 0;
+    border: 2px solid #e0e0e0;
+}
+
+.examples-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.examples-description {
+    font-size: 15px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.examples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.example-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.example-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.example-carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.carousel-images {
+    position: relative;
+    width: 100%;
+}
+
+.example-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    max-height: 300px;
+    display: none;
+}
+
+.example-image.active {
+    display: block;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-btn.prev {
+    left: 10px;
+}
+
+.carousel-btn.next {
+    right: 10px;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: var(--accent-pink);
+    width: 24px;
+    border-radius: 4px;
+}
+
+.example-badge {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 1;
+}
+
+.example-badge.correct {
+    background: var(--accent-green);
+    color: white;
+}
+
+.example-badge.incorrect {
+    background: #ff6b6b;
+    color: white;
+}
+
+.example-caption {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.examples-tips {
+    background: white;
+    border-left: 4px solid var(--accent-pink);
+    padding: 16px 20px;
+    border-radius: 8px;
+}
+
+.examples-tips strong {
+    display: block;
+    font-size: 15px;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.examples-tips ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.examples-tips li {
+    font-size: 14px;
+    color: #666;
+    padding: 4px 0 4px 24px;
+    position: relative;
+}
+
+.examples-tips li::before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+    color: var(--accent-pink);
+    font-weight: bold;
+}
+
         footer {
             background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
@@ -670,7 +856,52 @@
                     </div>
                 </fieldset>
 
-                <!-- Group Members -->
+<div class="examples-section">
+    <h3 class="examples-title">What should my YUMA receipt look like?</h3>
+    <p class="examples-description">Your receipt must clearly show your order number and costume details like add-ons and meal choice. Here are examples:</p>
+    
+    <div class="examples-grid">
+        <div class="example-card">
+            <div class="example-badge correct">✓ Correct</div>
+            <div class="example-carousel">
+                <button type="button" class="carousel-btn prev" onclick="changeSlide('correct', -1)">‹</button>
+                <div class="carousel-images" id="correct-carousel">
+                    <img src="/images/receipt-correct-1.png" alt="Correct receipt example 1" class="example-image active">
+                    <img src="/images/receipt-correct-2.png" alt="Correct receipt example 2" class="example-image">              
+                </div>
+                <button type="button" class="carousel-btn next" onclick="changeSlide('correct', 1)">›</button>
+            </div>
+            <div class="carousel-dots" id="correct-dots"></div>
+            <p class="example-caption">Clear order number and costume details visible</p>
+        </div>
+        
+        <div class="example-card">
+            <div class="example-badge incorrect">✗ Incorrect</div>
+            <div class="example-carousel">
+                <button type="button" class="carousel-btn prev" onclick="changeSlide('incorrect', -1)">‹</button>
+                <div class="carousel-images" id="incorrect-carousel">
+                    <img src="/images/receipt-wrong-1.png" alt="Incorrect receipt example 1" class="example-image active">
+                    <img src="/images/receipt-wrong-2.png" alt="Incorrect receipt example 2" class="example-image">
+                    <img src="/images/receipt-wrong-3.png" alt="Incorrect receipt example 3" class="example-image">
+                </div>
+                <button type="button" class="carousel-btn next" onclick="changeSlide('incorrect', 1)">›</button>
+            </div>
+            <div class="carousel-dots" id="incorrect-dots"></div>
+            <p class="example-caption">Order number shown alone, costume details shown alone or only payment info is shown</p>
+        </div>
+    </div>
+    
+    <div class="examples-tips">
+        <strong>Tips for uploading:</strong>
+        <ul>
+            <li>Take a clear screenshot or upload the file</li>
+            <li>Ensure all text is readable</li>
+            <li>Include the full receipt (don't crop important details)</li>
+            <li>Accepted formats: JPG, PNG, or PDF</li>
+        </ul>
+    </div>
+</div>
+      
                 <fieldset>
                     <legend>Group Members</legend>
                     
@@ -911,7 +1142,73 @@
 
             eventDateInput.min = formatDate(today);
             eventDateInput.max = "2026-02-14";
-        });
+
+             // Initialize carousel dots
+               initializeCarousel('correct');
+               initializeCarousel('incorrect');
+ });
+
+         // Carousel functionality
+let currentSlides = {
+    'correct': 0,
+    'incorrect': 0
+};
+
+function initializeCarousel(type) {
+    const carousel = document.getElementById(`${type}-carousel`);
+    const images = carousel.querySelectorAll('.example-image');
+    const dotsContainer = document.getElementById(`${type}-dots`);
+    
+    // Create dots
+    images.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        if (index === 0) dot.classList.add('active');
+        dot.onclick = () => goToSlide(type, index);
+        dotsContainer.appendChild(dot);
+    });
+}
+
+function changeSlide(type, direction) {
+    const carousel = document.getElementById(`${type}-carousel`);
+    const images = carousel.querySelectorAll('.example-image');
+    const dots = document.getElementById(`${type}-dots`).querySelectorAll('.dot');
+    
+    // Remove active class
+    images[currentSlides[type]].classList.remove('active');
+    dots[currentSlides[type]].classList.remove('active');
+    
+    // Calculate new slide
+    currentSlides[type] += direction;
+    
+    // Loop around
+    if (currentSlides[type] >= images.length) {
+        currentSlides[type] = 0;
+    } else if (currentSlides[type] < 0) {
+        currentSlides[type] = images.length - 1;
+    }
+    
+    // Add active class
+    images[currentSlides[type]].classList.add('active');
+    dots[currentSlides[type]].classList.add('active');
+}
+
+function goToSlide(type, index) {
+    const carousel = document.getElementById(`${type}-carousel`);
+    const images = carousel.querySelectorAll('.example-image');
+    const dots = document.getElementById(`${type}-dots`).querySelectorAll('.dot');
+    
+    // Remove active class
+    images[currentSlides[type]].classList.remove('active');
+    dots[currentSlides[type]].classList.remove('active');
+    
+    // Set new slide
+    currentSlides[type] = index;
+    
+    // Add active class
+    images[currentSlides[type]].classList.add('active');
+    dots[currentSlides[type]].classList.add('active');
+}
 
         addMemberButton.addEventListener('click', () => {
             const currentMembers = groupMembersContainer.children.length;
