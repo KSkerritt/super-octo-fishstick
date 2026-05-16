@@ -1,6 +1,6 @@
 # Collect Yuh Carnival - Landing Page
 
-This repository contains the HTML source code for the **Collect Yuh Carnival** landing page, a delivery solution for Carnival 2024 costumes. The landing page includes navigation, an introduction to the service, and buttons for scheduling costume delivery or accessing additional services.
+This repository contains the HTML source code for the **Collect Yuh Carnival** landing page, a delivery solution for Carnival costumes. The landing page includes navigation, an introduction to the service, and buttons for scheduling costume delivery or accessing additional services.
 
 ---
 
