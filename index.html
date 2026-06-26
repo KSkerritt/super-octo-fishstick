@@ -214,6 +214,47 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             100% { transform: translateY(0); }
         }
 
+        @keyframes scrollRight {
+            0%   { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* ── Mobile hero carousel ── */
+        .mobile-hero-carousel {
+            display: none;
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .mobile-carousel-track {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            height: 100%;
+            animation: scrollRight 40s linear infinite;
+            will-change: transform;
+        }
+
+        .mobile-carousel-track img {
+            height: 100%;
+            width: auto;
+            min-width: 160px;
+            object-fit: cover;
+            object-position: center top;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .mobile-hero-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.62);
+            z-index: 1;
+        }
+
         .navbar {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -746,11 +787,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 font-size: 18px;
             }
 
+            .header {
+                overflow: hidden;
+            }
+
+            .mobile-hero-carousel,
+            .mobile-hero-overlay {
+                display: block;
+            }
+
             .header .container {
                 flex-direction: column;
                 text-align: center;
                 gap: 40px;
                 padding-top: 60px;
+                position: relative;
+                z-index: 2;
             }
 
             .h11 {
@@ -769,6 +821,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             .button-group {
                 justify-content: center;
+            }
+
+            .notify-form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .notify-form input[type="email"] {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .notify-form button {
+                width: 100%;
             }
 
             .boxes {
@@ -890,6 +956,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <header class="header">
+        <div class="mobile-hero-carousel">
+            <div class="mobile-carousel-track" id="mobileCarouselTrack"></div>
+        </div>
+        <div class="mobile-hero-overlay"></div>
         <div class="container">
             <div class="h11">
                 <h1>Collect Yuh Carnival!</h1>
@@ -1117,6 +1187,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         buildStrip('stripLeft', 0);
         buildStrip('stripRight', 16);
+
+        // Mobile horizontal carousel
+        var mobileTrack = document.getElementById('mobileCarouselTrack');
+        if (mobileTrack) {
+            var mobileAll = [...imgs, ...imgs];
+            mobileAll.forEach(function(src) {
+                var img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Trinidad Carnival masquerader in YUMA costume';
+                img.loading = 'lazy';
+                mobileTrack.appendChild(img);
+            });
+        }
     })();
   </script>
 </body>
