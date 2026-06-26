@@ -23,7 +23,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #C6EA8D 0%, #FE90AF 100%);
+            --primary-gradient: linear-gradient(225deg, #C6EA8D 0%, #FE90AF 100%);
             --accent-pink: #FE90AF;
             --accent-green: #C6EA8D;
             --text-dark: #1a1a1a;
@@ -171,9 +171,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         .header p {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 400;
-            opacity: 0.95;
+            opacity: 1;
             margin-bottom: 40px;
             max-width: 500px;
         }
@@ -269,6 +269,59 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             color: #666;
             font-size: 15px;
             line-height: 1.7;
+        }
+
+        .box-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .notify-form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .notify-form input[type="email"] {
+            flex: 1;
+            min-width: 220px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: none;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a1a1a;
+            outline: none;
+        }
+
+        .notify-form button {
+            padding: 14px 28px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .notify-form button:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .notify-label {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 10px;
+            display: block;
         }
 
         .carousel-section {
@@ -545,10 +598,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="h11">
                 <h1>Collect Yuh Carnival!</h1>
                 <p>Welcome to your mas delivery solution for the Carnival 2026 season</p>
-                <div class="button-group">
-                    <a style="align-items: center; opacity: 0.5; cursor: not-allowed; pointer-events: none;" href="#" class="button-62">Individual Registration (Closed)</a>
-                   <a style="align-items: center; opacity: 0.5; cursor: not-allowed; pointer-events: none;" href="#" class="button-62">Group Delivery (Closed)</a>
-                </div>
+                <form class="notify-form" name="Notify" method="post" data-netlify="true">
+                    <input type="email" name="Email" placeholder="your@email.com" required />
+                    <button type="submit">Notify me for 2027</button>
+                </form>
+                <span class="notify-label">Registration is closed for 2026 — drop your email to be first in line next year.</span>
             </div>
             <img src="/cycl3s.svg" alt="Carnival illustration">
         </div>
@@ -557,14 +611,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <section class="boxes">
         <div class="container">
             <div class="box">
+                <span class="box-icon">🎭</span>
                 <h2>Vision</h2>
                 <p>Collect Yuh Carnival is a service offered to YUMA masqueraders, giving you the opportunity to have your costumes delivered to you without the hassle or time spent waiting in line at the mas camp for collection</p>
             </div>
             <div class="box">
+                <span class="box-icon">🎉</span>
                 <h2>Goal</h2>
                 <p>Our goal is to keep you out of the line so you can spend more time getting ready to pump and in the fete! Relax at home or get that extra sleep (you'll need it) and get your costume delivered to you. Missed your flight or late for costume pick up? Be assured that we can collect your costume and deliver to you.</p>
             </div>
             <div class="box">
+                <span class="box-icon">📅</span>
                 <h2>Delivery Dates</h2>
                 <p>Costume delivery dates will be based on YUMA's costume distribution schedule</p>
             </div>
