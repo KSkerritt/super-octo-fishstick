@@ -39,9 +39,87 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             font-size: 16px;
             line-height: 1.6;
             color: var(--text-dark);
-            background: var(--primary-gradient);
-            background-attachment: fixed;
+            background: #0f0f10;
             overflow-x: hidden;
+        }
+
+        /* ── Vertical image strips ── */
+        .bg-strips {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .strip {
+            width: 190px;
+            overflow: hidden;
+            opacity: 0.5;
+            position: relative;
+        }
+
+        .strip-left {
+            -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
+            mask-image: linear-gradient(to right, black 50%, transparent 100%);
+        }
+
+        .strip-right {
+            -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%);
+            mask-image: linear-gradient(to left, black 50%, transparent 100%);
+        }
+
+        .strip::before,
+        .strip::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 150px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .strip::before {
+            top: 0;
+            background: linear-gradient(to bottom, #0f0f10, transparent);
+        }
+
+        .strip::after {
+            bottom: 0;
+            background: linear-gradient(to top, #0f0f10, transparent);
+        }
+
+        .strip-track {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .strip-left .strip-track { animation: scrollUp 40s linear infinite; }
+        .strip-right .strip-track { animation: scrollDown 40s linear infinite; }
+
+        .strip-track img {
+            width: 190px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+
+        @keyframes scrollUp {
+            0%   { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        @keyframes scrollDown {
+            0%   { transform: translateY(-50%); }
+            100% { transform: translateY(0); }
         }
 
         .navbar {
@@ -137,6 +215,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .header {
             color: var(--text-light);
             padding: 120px 0 80px;
+            position: relative;
+            z-index: 1;
         }
 
         .header .container {
@@ -220,6 +300,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         .boxes {
             padding: 80px 0;
+            position: relative;
+            z-index: 1;
         }
 
         .boxes .container {
@@ -387,12 +469,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         footer {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
             color: var(--text-light);
             padding: 40px 0;
             text-align: center;
             margin-top: 60px;
+            position: relative;
+            z-index: 1;
         }
 
         footer p {
@@ -407,6 +491,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         .nav-link.active::after {
             width: 100%;
+        }
+
+        @media (max-width: 900px) {
+            .bg-strips { display: none; }
         }
 
         @media (max-width: 768px) {
@@ -565,6 +653,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8QBV7"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+
+    <div class="bg-strips" aria-hidden="true">
+        <div class="strip strip-left">
+            <div class="strip-track" id="stripLeft"></div>
+        </div>
+        <div class="strip strip-right">
+            <div class="strip-track" id="stripRight"></div>
+        </div>
+    </div>
+
     <nav class="navbar">
         <div class="container">
             <a class="logo" href="/index.html">
@@ -625,13 +723,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <h2>Delivery Dates</h2>
                 <p>Costume delivery dates will be based on YUMA's costume distribution schedule</p>
             </div>
-        </div>
-    </section>
-
-    <section class="carousel-section">
-        <h2 class="carousel-title">Our Past Deliveries</h2>
-        <div class="carousel-container">
-            <div class="carousel-track" id="carouselTrack"></div>
         </div>
     </section>
 
@@ -720,6 +811,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         });
     </script>
-  <script src="/carousel.js"></script>
+  <script>
+    (function() {
+        const imgs = [];
+        for (let i = 1; i <= 22; i++) imgs.push('/images/client' + i + '.jpg');
+
+        function buildStrip(id, offset) {
+            const track = document.getElementById(id);
+            if (!track) return;
+            const rotated = [...imgs.slice(offset), ...imgs.slice(0, offset)];
+            const all = [...rotated, ...rotated]; // duplicate for seamless loop
+            all.forEach(function(src) {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = '';
+                img.loading = 'lazy';
+                track.appendChild(img);
+            });
+        }
+
+        buildStrip('stripLeft', 0);
+        buildStrip('stripRight', 11);
+    })();
+  </script>
 </body>
 </html>
