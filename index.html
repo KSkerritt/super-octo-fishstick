@@ -394,6 +394,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             line-height: 1.7;
         }
 
+        /* ── Delivery counter ── */
+        .counter-section {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            background: linear-gradient(135deg, #C6EA8D 0%, #FE90AF 100%);
+            padding: 60px 40px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .counter-label {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 12px;
+        }
+
+        .counter-number {
+            font-size: clamp(80px, 15vw, 160px);
+            font-weight: 700;
+            letter-spacing: -4px;
+            line-height: 1;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+            font-family: 'Inter', monospace;
+        }
+
+        .counter-sublabel {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            margin-top: 16px;
+            letter-spacing: 1px;
+        }
+
 
         .notify-form {
             display: flex;
@@ -759,6 +797,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     </section>
 
+    <section class="counter-section">
+        <p class="counter-label">Costumes Delivered</p>
+        <div class="counter-number" id="deliveryCount">000</div>
+        <p class="counter-sublabel">and counting</p>
+    </section>
+
     <footer>
         <div class="container">
             <p>Collect Yuh Carnival &copy; 2026</p>
@@ -844,6 +888,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         });
     </script>
+  <script>
+    // ── Delivery counter ──────────────────────────────────────────
+    // To connect Airtable: replace TARGET with your fetched count value
+    async function loadDeliveryCount() {
+        const TARGET = 400; // swap this for your Airtable fetch when ready
+
+        const el = document.getElementById('deliveryCount');
+        if (!el) return;
+
+        const duration = 2000;
+        const start = performance.now();
+
+        function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            const value = Math.round(eased * TARGET);
+            el.textContent = String(value).padStart(5, '0');
+            if (progress < 1) requestAnimationFrame(tick);
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                requestAnimationFrame(tick);
+                observer.disconnect();
+            }
+        }, { threshold: 0.3 });
+
+        observer.observe(el);
+    }
+
+    loadDeliveryCount();
+    // ─────────────────────────────────────────────────────────────
+  </script>
   <script>
     (function() {
         const imgs = [];
