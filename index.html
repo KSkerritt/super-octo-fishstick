@@ -2,6 +2,9 @@
 <html lang="en">
   <head>
     <link rel="icon" type="image/svg+xml" href="/cycl3s.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -12,7 +15,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collect Yuh Carnival | Carnival Costume Delivery Service Trinidad</title>
-    <meta name="description" content="Collect Yuh Carnival — skip the line and get your YUMA carnival costume delivered straight to you for the 2026 season.">
+    <meta name="description" content="Trinidad's carnival costume delivery service for YUMA masqueraders. Skip the mas camp line — we collect your costume and deliver it to you for Carnival 2026.">
     <link rel="canonical" href="https://www.collectyuhcarnival.com/">
 
     <!-- Open Graph -->
@@ -34,9 +37,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "DeliveryService"],
       "name": "Collect Yuh Carnival",
-      "description": "Carnival costume delivery service for YUMA masqueraders in Trinidad. Skip the mas camp line and get your costume delivered to your door.",
+      "description": "Trinidad's carnival costume delivery service for YUMA masqueraders. We collect your costume from the mas camp and deliver it to a convenient location near you — no queuing required.",
       "url": "https://www.collectyuhcarnival.com",
       "email": "info@collectyuhcarnival.com",
       "areaServed": {
@@ -44,12 +47,60 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         "name": "Trinidad and Tobago"
       },
       "serviceType": "Carnival Costume Delivery",
-      "offers": {
-        "@type": "Offer",
-        "description": "YUMA carnival costume collection and delivery to drop-off locations across Trinidad",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock"
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "YUMA Carnival Costume Delivery",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "YUMA Carnival Costume Collection and Delivery",
+              "description": "We collect your YUMA carnival costume from the mas camp and deliver it to a drop-off location across Trinidad ahead of Carnival Monday and Tuesday."
+            }
+          }
+        ]
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does carnival costume delivery work in Trinidad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Collect Yuh Carnival collects your YUMA carnival costume directly from the mas camp on your behalf and delivers it to a convenient drop-off location near you — so you avoid the long queues at costume collection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which mas bands do you deliver for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We currently offer costume delivery for YUMA masqueraders in Trinidad. Register your interest for the 2027 season to be notified when bookings open."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When will my carnival costume be delivered?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Delivery dates are based on YUMA's official costume distribution schedule. We coordinate directly with the band to ensure your costume reaches you ahead of Carnival Monday and Tuesday."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I get my costume delivered if I'm arriving late to Trinidad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. If you miss the mas camp collection window due to a late flight or other commitment, we can collect your costume and hold it for delivery once you arrive."
+          }
+        }
+      ]
     }
     </script>
 
@@ -391,6 +442,79 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .box p {
             color: #666;
             font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* ── FAQ section ── */
+        .faq-section {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 80px 40px;
+            background: #0f0f10;
+        }
+
+        .faq-section h2 {
+            font-size: clamp(22px, 3vw, 32px);
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 48px;
+            letter-spacing: -0.5px;
+        }
+
+        .faq-list {
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 20px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 22px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.4);
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+        }
+
+        .faq-item.open .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer p {
+            padding-bottom: 20px;
+            font-size: 15px;
+            color: rgba(255,255,255,0.65);
             line-height: 1.7;
         }
 
@@ -769,7 +893,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="container">
             <div class="h11">
                 <h1>Collect Yuh Carnival!</h1>
-                <p>Welcome to your mas delivery solution for the Carnival 2026 season</p>
+                <p>Trinidad's carnival costume delivery service for YUMA masqueraders — skip the mas camp queue and get your costume delivered to you.</p>
                 <form class="notify-form" name="Notify" method="post" data-netlify="true">
                     <input type="email" name="Email" placeholder="your@email.com" required />
                     <button type="submit">Notify me for 2027</button>
@@ -783,16 +907,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <section class="boxes">
         <div class="container">
             <div class="box">
-                <h2>What We Do</h2>
-                <p>Collect Yuh Carnival is a service offered to YUMA masqueraders, delivering your costumes to you without the hassle or time spent waiting in line at the mas camp for collection</p>
+                <h2>Carnival Costume Delivery in Trinidad</h2>
+                <p>Collect Yuh Carnival is Trinidad's dedicated costume delivery service for YUMA masqueraders. We collect your carnival costume directly from the mas camp and deliver it to a convenient location near you — no long queues, no wasted hours at costume collection.</p>
             </div>
             <div class="box">
-                <h2>Why We Do It</h2>
-                <p>We're keeping you out of the line so you can spend more time getting ready to pump and in the fete! Relax at home or get that extra sleep and have your costume delivered to you. Missed your flight or late for costume pick up? Be assured that we can collect your costume and deliver to you.</p>
+                <h2>Skip the YUMA Mas Camp Queue</h2>
+                <p>Every Trinidad Carnival season masqueraders lose hours standing in line at the mas camp for costume collection. We believe your time is better spent in the fete or getting ready. Late flight? Stuck at work? We collect your YUMA costume and deliver it — so you arrive in costume, not in queue.</p>
             </div>
             <div class="box">
-                <h2>Delivery Dates</h2>
-                <p>Costume delivery dates will be based on the band's costume distribution schedule</p>
+                <h2>2026 Carnival Costume Delivery Dates</h2>
+                <p>Delivery dates are set in line with YUMA's official costume distribution schedule, ensuring your costume arrives ahead of Carnival Monday and Tuesday. Register below to be notified as soon as 2027 bookings open.</p>
             </div>
         </div>
     </section>
@@ -801,6 +925,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <p class="counter-label">Costumes Delivered</p>
         <div class="counter-number" id="deliveryCount">000</div>
         <p class="counter-sublabel">and counting</p>
+    </section>
+
+    <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">How does carnival costume delivery work in Trinidad?</button>
+                <div class="faq-answer" role="region">
+                    <p>Collect Yuh Carnival collects your YUMA carnival costume directly from the mas camp on your behalf and delivers it to a convenient drop-off location near you — so you avoid the long queues at costume collection entirely.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">Which mas bands do you deliver for?</button>
+                <div class="faq-answer" role="region">
+                    <p>We currently offer costume delivery for YUMA masqueraders in Trinidad. Register your interest below to be notified when 2027 bookings open.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">When will my costume be delivered?</button>
+                <div class="faq-answer" role="region">
+                    <p>Delivery dates are set in line with YUMA's official costume distribution schedule. We coordinate directly with the band to ensure your costume reaches you ahead of Carnival Monday and Tuesday.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">Can I get my costume delivered if I'm arriving late to Trinidad?</button>
+                <div class="faq-answer" role="region">
+                    <p>Yes. If you miss the mas camp collection window due to a late flight or other commitment, we can collect your costume and hold it for delivery once you arrive in Trinidad.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <footer>
@@ -923,6 +1077,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     // ─────────────────────────────────────────────────────────────
   </script>
   <script>
+    document.querySelectorAll('.faq-question').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const item = btn.closest('.faq-item');
+            const answer = item.querySelector('.faq-answer');
+            const isOpen = item.classList.contains('open');
+            // close all
+            document.querySelectorAll('.faq-item.open').forEach(function(o) {
+                o.classList.remove('open');
+                o.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                o.querySelector('.faq-answer').style.maxHeight = null;
+            });
+            if (!isOpen) {
+                item.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        });
+    });
+  </script>
+  <script>
     (function() {
         const imgs = [];
         for (let i = 1; i <= 27; i++) imgs.push('/images/client' + i + '.jpg');
@@ -935,7 +1109,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             all.forEach(function(src) {
                 const img = document.createElement('img');
                 img.src = src;
-                img.alt = '';
+                img.alt = 'Trinidad Carnival masquerader in YUMA costume';
                 img.loading = 'lazy';
                 track.appendChild(img);
             });
