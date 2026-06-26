@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <link rel="icon" type="image/svg+xml" href="/cycl3s.svg">
@@ -222,7 +223,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin-top: 32px;
         }
 
-        .buttonus label {
+        .buttonus button {
             padding: 16px 48px;
             background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
             color: white;
@@ -230,6 +231,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: var(--shadow-md);
@@ -281,17 +283,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 padding: 32px 0;
                 box-shadow: var(--shadow-lg);
                 opacity: 0;
+                visibility: hidden;
                 transform: translateY(-20px);
                 pointer-events: none;
-                transition: all 0.3s ease;
+                transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
             }
 
             .mnav.active {
-                display: block;
                 opacity: 1;
+                visibility: visible;
                 transform: translateY(0);
-                z-index:1000;
-                pointer-events: all;
+                z-index: 1000;
+                pointer-events: auto;
             }
 
             .mnav ul {
@@ -378,10 +381,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
                 
                 <div class="buttonus">
-                    <label for="submit">
-                        Submit
-                        <input type="submit" id="submit" />
-                    </label>
+                    <button type="submit">Submit</button>
                 </div>
             </form>
         </div>
@@ -389,7 +389,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <footer>
         <div class="container">
-            <p>Collect Yuh Carnival © 2025</p>
+            <p>Collect Yuh Carnival &copy; 2026</p>
         </div>
     </footer>
 

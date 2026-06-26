@@ -330,7 +330,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin-top: 32px;
         }
 
-        .buttonus label {
+        .buttonus button {
             padding: 16px 48px;
             background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
             color: white;
@@ -338,12 +338,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: var(--shadow-md);
         }
 
-        .buttonus label:hover {
+        .buttonus button:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
@@ -626,17 +627,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 padding: 32px 0;
                 box-shadow: var(--shadow-lg);
                 opacity: 0;
+                visibility: hidden;
                 transform: translateY(-20px);
                 pointer-events: none;
-                transition: all 0.3s ease;
+                transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
             }
 
             .mnav.active {
-                display: block;
                 opacity: 1;
+                visibility: visible;
                 transform: translateY(0);
-                z-index:1000;
-                pointer-events: all;
+                z-index: 1000;
+                pointer-events: auto;
             }
 
             .mnav ul {
@@ -730,7 +732,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </div>
                         <div class="input-field">
                             <span class="details">Whatsapp Phone Number</span>
-                            <input type="text" id="pnum" placeholder="(868)714-1532" name="Phone-Number" required />
+                            <input type="tel" id="pnum" placeholder="(868)714-1532" name="Phone-Number" required />
                         </div>
                     </div>
                 </div>
@@ -895,10 +897,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
               
 <div class="buttonus">
-    <label for="submit">
-                        Submit
-                        <input type="submit" id="submit" />
-                    </label>
+                    <button type="submit">Submit</button>
                 </div>
             </form>
         </div>
@@ -906,7 +905,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <footer>
         <div class="container1">
-            <p>Collect Yuh Carnival © 2025</p>
+            <p>Collect Yuh Carnival &copy; 2026</p>
         </div>
     </footer>
 
@@ -914,8 +913,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         function toggleMenu() {
             const mobileNav = document.getElementById('mobileNav');
             const ham = document.querySelector('.ham');
-            mobileNav.classList.toggle('active');
+            const isOpen = mobileNav.classList.toggle('active');
             ham.classList.toggle('active');
+            ham.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         }
 
         function validReceipt() {

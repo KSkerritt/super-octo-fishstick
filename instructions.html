@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <link rel="icon" type="image/svg+xml" href="/cycl3s.svg">
@@ -12,6 +13,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/ham.js" defer></script>
+    <meta name="description" content="How to use Collect Yuh Carnival — four easy steps to get your YUMA costume delivered without the wait.">
     <title>Instructions - Collect Yuh Carnival</title>
     
     <style>
@@ -300,6 +302,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
 
             .mnav {
+                display: block;
                 position: fixed;
                 top: 70px;
                 left: 0;
@@ -309,17 +312,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 padding: 32px 0;
                 box-shadow: var(--shadow-lg);
                 opacity: 0;
+                visibility: hidden;
                 transform: translateY(-20px);
                 pointer-events: none;
-                transition: all 0.3s ease;
+                transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
             }
 
             .mnav.active {
-                display: block;
                 opacity: 1;
+                visibility: visible;
                 transform: translateY(0);
-                z-index:1000;
-                pointer-events: all;
+                z-index: 1000;
+                pointer-events: auto;
             }
 
             .mnav ul {
@@ -440,7 +444,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <footer>
         <div class="container">
-            <h2>Collect Yuh Carnival © 2025</h2>
+            <p>Collect Yuh Carnival &copy; 2026</p>
         </div>
     </footer>
           <script src="/carousel.js"></script>

@@ -6,7 +6,8 @@ const mnav = document.querySelector(".mnav");
 ham.addEventListener("click", () => {
   ham.classList.toggle("active");
   // nav.classList.toggle("active");
-  mnav.classList.toggle("active");
+  const isOpen = mnav.classList.toggle("active");
+  ham.setAttribute("aria-expanded", isOpen ? "true" : "false");
 });
 
 document.querySelectorAll(".nav-link").forEach((n) =>
@@ -19,6 +20,8 @@ document.querySelectorAll(".nav-link").forEach((n) =>
 // JavaScript to dynamically generate Yuman fields (2-10)
 const formContainer = document.querySelector(".group"); // The div to hold the dynamically generated fields
 const numYumans = 9; // We want fields for Yuman 2-10 (9 additional)
+
+if (!formContainer) return; // Only run on pages with the group form
 
 for (let i = 0; i < numYumans; i++) {
   const yumanFieldset = document.createElement('fieldset');

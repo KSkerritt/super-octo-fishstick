@@ -12,7 +12,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collect Yuh Carnival!</title>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <meta name="description" content="Collect Yuh Carnival — skip the line and get your YUMA carnival costume delivered straight to you for the 2026 season.">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -342,10 +342,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin-top: 60px;
         }
 
-        footer h2 {
+        footer p {
             font-size: 18px;
             font-weight: 500;
             opacity: 0.9;
+        }
+
+        .nav-link.active {
+            color: var(--accent-pink);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
         }
 
         @media (max-width: 768px) {
@@ -362,6 +370,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
 
             .mnav {
+                display: block;
                 position: fixed;
                 top: 70px;
                 left: 0;
@@ -371,17 +380,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 padding: 32px 0;
                 box-shadow: var(--shadow-lg);
                 opacity: 0;
+                visibility: hidden;
                 transform: translateY(-20px);
                 pointer-events: none;
-                transition: all 0.3s ease;
+                transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
             }
 
             .mnav.active {
-                display: block;
                 opacity: 1;
+                visibility: visible;
                 transform: translateY(0);
-                z-index:1000;
-                pointer-events: all;
+                z-index: 1000;
+                pointer-events: auto;
             }
 
             .mnav ul {
@@ -504,7 +514,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- End Google Tag Manager (noscript) -->
     <nav class="navbar">
         <div class="container">
-            <div class="ham" onclick="toggleMenu()">
+            <a class="logo" href="/index.html">
+                <img src="/cycl3s.svg" alt="Collect Yuh Carnival Logo">
+            </a>
+            <div class="ham" onclick="toggleMenu()" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-expanded="false">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -567,7 +580,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <footer>
         <div class="container">
-            <h2>Collect Yuh Carnival © 2025</h2>
+            <p>Collect Yuh Carnival &copy; 2026</p>
         </div>
     </footer>
 
@@ -575,9 +588,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           function toggleMenu() {
             const mobileNav = document.getElementById('mobileNav');
             const ham = document.querySelector('.ham');
-            mobileNav.classList.toggle('active');
+            const isOpen = mobileNav.classList.toggle('active');
             ham.classList.toggle('active');
+            ham.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mobileNav').classList.remove('active');
+                    const ham = document.querySelector('.ham');
+                    ham.classList.remove('active');
+                    ham.setAttribute('aria-expanded', 'false');
+                });
+            });
+            document.querySelector('.ham').addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMenu(); }
+            });
+            const path = window.location.pathname;
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === path || (path === '/' && href === '/index.html')) {
+                    link.classList.add('active');
+                }
+            });
+        });
 /*
       function showPopup() {
             const overlay = document.createElement('div');
