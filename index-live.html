@@ -912,6 +912,153 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
+
+        /* ── WhatsApp floating button ── */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 56px;
+            height: 56px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 998;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.55);
+        }
+
+        .whatsapp-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: #ffffff;
+        }
+
+        /* ── Pricing section ── */
+        .pricing-section {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 80px 40px;
+            background: #0f0f10;
+        }
+
+        .pricing-section h2 {
+            font-size: clamp(22px, 3vw, 32px);
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-sub {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px 28px;
+            transition: border-color 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .pricing-price sup {
+            font-size: 20px;
+            font-weight: 500;
+            vertical-align: super;
+            letter-spacing: 0;
+        }
+
+        .pricing-zone {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .pricing-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .pricing-locations {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pricing-locations li {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            padding-left: 16px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .pricing-locations li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent-green);
+        }
+
+        .pricing-note {
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 32px;
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-section { padding: 60px 24px; }
+        }
     </style>
 </head>
 <body>
@@ -990,6 +1137,53 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <p>Delivery dates are set in line with YUMA's official costume distribution schedule, ensuring your costume arrives ahead of Carnival Monday and Tuesday. Register now to be notified as soon as 2027 bookings open.</p>
             </div>
         </div>
+    </section>
+
+    <section class="pricing-section">
+        <h2>Delivery Pricing</h2>
+        <p class="section-sub">One flat rate per costume — pick your nearest drop-off when you register.</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-price"><sup>$</sup>45</div>
+                <div class="pricing-zone">USD &middot; Port of Spain</div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-locations">
+                    <li>Hyatt POS</li>
+                    <li>Hilton POS</li>
+                    <li>Radisson Hotel POS</li>
+                    <li>The Brix POS</li>
+                    <li>One Woodbrook Place</li>
+                    <li>Kapok Hotel</li>
+                    <li>Courtyard by Marriott POS</li>
+                    <li>Massy Stores (Cascade/St. Anns)</li>
+                    <li>Cruise Ship Complex</li>
+                    <li>Shoppes of Trincity</li>
+                </ul>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-price"><sup>$</sup>50</div>
+                <div class="pricing-zone">USD &middot; Greater POS</div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-locations">
+                    <li>Grand Bazaar</li>
+                    <li>StarLite (Maraval)</li>
+                    <li>Massy Stores (Maraval)</li>
+                    <li>Holiday Inn Trincity</li>
+                    <li>Piarco Plaza</li>
+                </ul>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-price"><sup>$</sup>55</div>
+                <div class="pricing-zone">USD &middot; East / West</div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-locations">
+                    <li>Xtra Foods Plaza (Aranguez)</li>
+                    <li>StarLite (Diego Martin)</li>
+                    <li>Shoppes of Arima</li>
+                </ul>
+            </div>
+        </div>
+        <p class="pricing-note">Prices are per costume in USD. Full drop-off location list available at registration.</p>
     </section>
 
     <section class="counter-section">
@@ -1203,5 +1397,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
     })();
   </script>
+    <a href="https://wa.me/YOURNUMBER" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" aria-label="Chat with us on WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </a>
 </body>
 </html>
