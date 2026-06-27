@@ -18,34 +18,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #C6EA8D 0%, #FE90AF 100%);
             --accent-pink: #FE90AF;
             --accent-green: #C6EA8D;
             --text-dark: #1a1a1a;
             --text-light: #ffffff;
-            --card-bg: #ffffff;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.5);
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-size: 16px;
             line-height: 1.6;
-            color: var(--text-dark);
-            background: var(--primary-gradient);
-            background-attachment: fixed;
+            color: var(--text-light);
+            background: #0f0f10 url('/images/backgroundimage1.jpg') center center / cover no-repeat fixed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.62);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .navbar, .page-header, .formc, footer {
+            position: relative;
+            z-index: 1;
         }
 
         .navbar {
@@ -71,22 +79,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             padding: 20px 40px;
         }
 
-        .logo {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
-
-        .nav {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
+        .logo { text-decoration: none; display: flex; align-items: center; }
+        .logo img { height: 40px; width: auto; }
+        .nav { display: flex; gap: 40px; list-style: none; }
 
         .nav-link {
             color: var(--text-dark);
@@ -108,220 +103,178 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             transition: width 0.3s ease;
         }
 
-        .nav-link:hover {
-            color: var(--accent-pink);
-        }
+        .nav-link:hover { color: var(--accent-pink); }
+        .nav-link:hover::after { width: 100%; }
 
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .ham {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-        }
-
-        .bar {
-            width: 25px;
-            height: 2px;
-            background: var(--text-dark);
-            transition: all 0.3s ease;
-        }
+        .ham { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .bar { width: 25px; height: 2px; background: var(--text-dark); transition: all 0.3s ease; }
 
         .mnav {
-            display: none;
+            display: block;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 32px 0;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+        }
+
+        .mnav.active { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .mnav ul { list-style: none; text-align: center; }
+        .mnav ul li { margin: 16px 0; }
+        .mnav .nav-link { font-size: 18px; }
+
+        .page-header {
+            text-align: center;
+            padding: 64px 24px 0;
+        }
+
+        .page-header h2 {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .formc {
             flex: 1;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 60px 20px;
+            align-items: flex-start;
+            padding: 40px 20px 80px;
         }
 
         .containerf {
             max-width: 600px;
             width: 100%;
-            background: var(--card-bg);
+            background: rgba(15, 20, 15, 0.72);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 48px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .containerf::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-pink));
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .title {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 32px;
-            color: var(--text-dark);
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
+        .title { display: none; }
 
         form span {
             display: block;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            color: #666;
+            color: rgba(255, 255, 255, 0.75);
             margin-bottom: 8px;
             margin-top: 20px;
         }
 
-        form span:first-of-type {
-            margin-top: 0;
-        }
+        form span:first-of-type { margin-top: 0; }
 
-        .input-box {
-            margin-bottom: 4px;
-        }
+        .input-box { margin-bottom: 4px; }
 
         input[type="text"],
         input[type="email"],
         textarea {
             width: 100%;
             padding: 12px 16px;
-            border: 2px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             font-size: 15px;
             font-family: 'Inter', sans-serif;
-            color: var(--text-dark);
-            background: #f8f9fa;
+            color: #1a1a1a;
+            background: rgba(255, 255, 255, 0.92);
             transition: all 0.3s ease;
             outline: none;
         }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        textarea::placeholder { color: #aaa; }
 
         input[type="text"]:focus,
         input[type="email"]:focus,
         textarea:focus {
             border-color: var(--accent-pink);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(254, 144, 175, 0.1);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(254, 144, 175, 0.2);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
+        textarea { resize: vertical; min-height: 150px; color: #1a1a1a; }
 
-        .buttonus {
-            display: flex;
-            justify-content: center;
-            margin-top: 32px;
-        }
+        .buttonus { display: flex; justify-content: center; margin-top: 32px; }
 
         .buttonus button {
-            padding: 16px 48px;
+            padding: 16px 56px;
             background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
-            color: white;
+            color: #1a1a1a;
             border: none;
             border-radius: 12px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 20px rgba(254, 144, 175, 0.3);
+            letter-spacing: 0.3px;
         }
 
-        .buttonus label:hover {
+        .buttonus button:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 32px rgba(254, 144, 175, 0.4);
         }
 
-        input[type="submit"] {
-            display: none;
-        }
+        input[type="submit"] { display: none; }
 
         footer {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            color: var(--text-light);
+            background: rgba(0, 0, 0, 0.5);
+            color: rgba(255, 255, 255, 0.6);
             padding: 24px 0;
             text-align: center;
             margin-top: auto;
         }
 
-        footer p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
+        footer p { font-size: 14px; }
 
         @media (max-width: 768px) {
-            .navbar .container {
-                padding: 16px 24px;
-            }
+            .navbar .container { padding: 16px 24px; }
+            .ham { display: flex; }
+            .nav { display: none; }
 
-            .ham {
-                display: flex;
-            }
-
-            .nav {
-                display: none;
-            }
-
-            .mnav {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(10px);
-                padding: 32px 0;
-                box-shadow: var(--shadow-lg);
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-20px);
-                pointer-events: none;
-                transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
-            }
-
-            .mnav.active {
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-                z-index: 1000;
-                pointer-events: auto;
-            }
-
-            .mnav ul {
-                list-style: none;
-                text-align: center;
-            }
-
-            .mnav ul li {
-                margin: 16px 0;
-            }
-
-            .mnav .nav-link {
-                font-size: 18px;
-            }
-
-            .containerf {
-                padding: 40px 24px;
-                border-radius: 20px;
-            }
-
-            .title {
-                font-size: 28px;
-            }
-
-            .container {
-                padding: 0 24px;
-            }
+            .containerf { padding: 32px 24px; border-radius: 20px; }
+            .container { padding: 0 24px; }
+            .page-header { padding: 40px 24px 0; }
         }
     </style>
 </head>
@@ -358,6 +311,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <li class="nav-item"><a href="/faq.html" class="nav-link">FAQ</a></li>
             <li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>
         </ul>
+    </div>
+
+    <div class="page-header">
+        <h2>Contact Us</h2>
+        <p>Questions, feedback, or just want to get in touch</p>
     </div>
 
     <section class="formc">
