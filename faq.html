@@ -127,7 +127,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             pointer-events: none;
         }
 
-        .navbar, .page-header, .about, .carousel-section, footer {
+        .navbar, .page-header, .about, footer {
             position: relative;
             z-index: 1;
         }
@@ -372,46 +372,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .examples-tips li { font-size: 14px; color: rgba(255,255,255,0.5); padding: 4px 0 4px 24px; position: relative; }
         .examples-tips li::before { content: "•"; position: absolute; left: 8px; color: var(--accent-pink); font-weight: bold; }
 
-        .carousel-section {
-            background: rgba(0, 0, 0, 0.25);
-            padding: 60px 0;
-            overflow: hidden;
-            margin-top: 0;
-        }
-
-        .carousel-title {
-            text-align: center;
-            color: var(--text-light);
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 40px;
-        }
-
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        }
-
-        .carousel-track { display: flex; gap: 20px; }
-
-        .carousel-item {
-            flex: 0 0 300px;
-            height: 200px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .carousel-item:hover { transform: scale(1.05); box-shadow: var(--shadow-lg); }
-        .carousel-item img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
-
         footer {
             background: rgba(0, 0, 0, 0.5);
             color: rgba(255, 255, 255, 0.6);
@@ -436,10 +396,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .examples-grid { grid-template-columns: 1fr; }
         }
 
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-320px * 22)); }
-        }
     </style>
 </head>
 
@@ -559,20 +515,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
         </div>
     </section>
-    <section class="carousel-section">
-        <h2 class="carousel-title">Our Past Deliveries</h2>
-        <div class="carousel-container">
-            <div class="carousel-track" id="carouselTrack"></div>
-        </div>
-    </section>
-
     <footer>
         <div class="container">
             <p>Collect Yuh Carnival &copy; 2026</p>
         </div>
     </footer>
-  <script src="/carousel.js"></script>
-
   <script>
   // Receipt examples carousel functionality
         let currentSlides = {
