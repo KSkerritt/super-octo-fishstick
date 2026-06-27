@@ -12,6 +12,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Form - Collect Yuh Carnival</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -732,6 +733,98 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             fill: #1a1a1a;
             flex-shrink: 0;
         }
+
+        /* ── Delivery map ── */
+        .map-field {
+            margin-bottom: 28px;
+        }
+
+        .map-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        #delivery-map {
+            width: 100%;
+            height: 380px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+        }
+
+        .map-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .map-selection {
+            margin-top: 10px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .map-selection.chosen {
+            border-color: var(--accent-green);
+            color: #ffffff;
+        }
+
+        .map-selection.chosen .sel-name {
+            font-weight: 600;
+        }
+
+        .map-selection .sel-price {
+            margin-left: auto;
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .leaflet-tooltip {
+            background: rgba(15, 20, 15, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+
+        .leaflet-tooltip::before { display: none; }
+
+        @media (max-width: 768px) {
+            #delivery-map { height: 300px; }
+        }
     </style>
 </head>
 <body>
@@ -876,6 +969,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
 
               
+                <div class="map-field">
+                    <span class="map-label">Drop-off Location</span>
+                    <div id="delivery-map"></div>
+                    <div class="map-legend">
+                        <div class="legend-item"><div class="legend-dot" style="background:#C6EA8D"></div>$45 USD</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#FE90AF"></div>$50 USD</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#FFB347"></div>$55 USD</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#4A90D9;border:2px solid #fff"></div>Your location</div>
+                    </div>
+                    <div class="map-selection" id="map-selection-display">Tap a pin to select your drop-off location</div>
+                    <input type="hidden" id="dloc" name="Location">
+                </div>
+
                 <div class="tidy">
                     <select name="Section" id="Section" required>
                         <option value="" disabled selected>Select Section</option>
@@ -894,28 +1000,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <option value="Savage">Savage</option>
                             <option value="Tiffany">Tiffany</option>
                             <option value="Rii Dung">Rii Dung</option>
-                    </select>
-
-                    <select id="dloc" name="Location" required>
-                        <option value="" disabled selected>Select Drop-off Location</option>
-                        <option value="Hyatt POS">Hyatt POS $45.USD</option>
-                        <option value="Cruise Ship Complex">Cruise Ship Complex (Epic Carnival) $45.USD</option>
-                        <option value="Radisson Hotel POS">Radisson Hotel POS $45.USD</option>
-                        <option value="One Woodbrook Place">One Woodbrook Place $45.USD</option>
-                        <option value="Hilton POS">Hilton POS $45.USD</option>
-                        <option value="The Brix POS">The Brix POS $45.USD</option>
-                        <option value="Massy Stores (Cascade/St. Anns)">Massy Stores (Cascade/St. Anns) $45.USD</option>
-                        <option value="Kapok Hotel">Kapok Hotel $45.USD</option>
-                        <option value="Courtyard by Marriot POS">Courtyard by Marriot POS $45.USD</option>
-                        <option value="Grand Bazaar">Grand Bazaar $50.USD</option>
-                        <option value="StarLite (Maraval)">StarLite (Maraval) $50.USD</option>
-                        <option value="Xtra Foods Plaza (Aranguez)">Xtra Foods Plaza (Aranguez) $55.USD</option>
-                        <option value="Massy Stores (Maraval)">Massy Stores (Maraval) $50.USD</option>
-                        <option value="StarLite (Diego Martin)">StarLite (Diego Martin) $55.USD</option>
-                        <option value="Holiday Inn Trincity">Holiday Inn Trincity $50.USD</option>
-                        <option value="Piarco Plaza">Piarco Plaza $50.USD</option>
-                        <option value="Shoppes of Trincity">Shoppes of Trincity $45.USD</option>
-                        <option value="Shoppes of Arima">Shoppes of Arima $55.USD</option>
                     </select>
 
                     <select name="Costume Type" id="CostumeType" required>
@@ -1092,6 +1176,114 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         btn.addEventListener('click', function(){
             window.scrollTo({top: 0, behavior: 'smooth'});
         });
+    })();
+    </script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLs=" crossorigin=""></script>
+    <script>
+    (function () {
+        var LOCS = [
+            { name: 'Hyatt POS',                       lat: 10.653,  lng: -61.511, price: 45, val: 'Hyatt POS' },
+            { name: 'Cruise Ship Complex',              lat: 10.651,  lng: -61.519, price: 45, val: 'Cruise Ship Complex' },
+            { name: 'Radisson Hotel POS',               lat: 10.651,  lng: -61.514, price: 45, val: 'Radisson Hotel POS' },
+            { name: 'One Woodbrook Place',              lat: 10.666,  lng: -61.529, price: 45, val: 'One Woodbrook Place' },
+            { name: 'Hilton POS',                       lat: 10.671,  lng: -61.509, price: 45, val: 'Hilton POS' },
+            { name: 'The Brix POS',                     lat: 10.6725, lng: -61.509, price: 45, val: 'The Brix POS' },
+            { name: 'Massy Stores (Cascade/St. Anns)', lat: 10.679,  lng: -61.509, price: 45, val: 'Massy Stores (Cascade/St. Anns)' },
+            { name: 'Kapok Hotel',                      lat: 10.6725, lng: -61.519, price: 45, val: 'Kapok Hotel' },
+            { name: 'Courtyard by Marriott POS',        lat: 10.659,  lng: -61.535, price: 45, val: 'Courtyard by Marriot POS' },
+            { name: 'Trincity Plaza',                   lat: 10.629,  lng: -61.354, price: 45, val: 'Trincity Plaza' },
+            { name: 'Grand Bazaar',                     lat: 10.631,  lng: -61.426, price: 50, val: 'Grand Bazaar' },
+            { name: 'StarLite (Maraval)',               lat: 10.681,  lng: -61.526, price: 50, val: 'StarLite (Maraval)' },
+            { name: 'Massy Stores (Maraval)',           lat: 10.682,  lng: -61.524, price: 50, val: 'Massy Stores (Maraval)' },
+            { name: 'Holiday Inn Trincity',             lat: 10.619,  lng: -61.349, price: 50, val: 'Holiday Inn Trincity' },
+            { name: 'Piarco Plaza',                     lat: 10.614,  lng: -61.344, price: 50, val: 'Piarco Plaza' },
+            { name: 'Xtra Foods Plaza (Aranguez)',      lat: 10.629,  lng: -61.444, price: 55, val: 'Xtra Foods Plaza (Aranguez)' },
+            { name: 'StarLite (Diego Martin)',          lat: 10.686,  lng: -61.554, price: 55, val: 'StarLite (Diego Martin)' },
+            { name: 'Shoppes of Arima',                 lat: 10.609,  lng: -61.271, price: 55, val: 'Shoppes of Arima' }
+        ];
+
+        var COLORS = { 45: '#C6EA8D', 50: '#FE90AF', 55: '#FFB347' };
+
+        var map = L.map('delivery-map', { zoomControl: true }).setView([10.652, -61.480], 11);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+
+        var hiddenInput   = document.getElementById('dloc');
+        var selDisplay    = document.getElementById('map-selection-display');
+        var selectedLayer = null;
+
+        function styleFor(price, selected) {
+            return {
+                radius: selected ? 13 : 10,
+                fillColor: COLORS[price],
+                color: selected ? '#1a1a1a' : 'rgba(255,255,255,0.7)',
+                weight: selected ? 2.5 : 1.5,
+                opacity: 1,
+                fillOpacity: selected ? 1 : 0.85
+            };
+        }
+
+        LOCS.forEach(function (loc) {
+            var marker = L.circleMarker([loc.lat, loc.lng], styleFor(loc.price, false)).addTo(map);
+
+            marker.bindTooltip(
+                '<strong>' + loc.name + '</strong><br>$' + loc.price + ' USD',
+                { sticky: true, direction: 'top', offset: [0, -8] }
+            );
+
+            marker.on('click', function () {
+                if (selectedLayer) {
+                    selectedLayer.setStyle(styleFor(selectedLayer._locPrice, false));
+                }
+                marker._locPrice = loc.price;
+                marker.setStyle(styleFor(loc.price, true));
+                selectedLayer = marker;
+
+                hiddenInput.value = loc.val;
+                selDisplay.innerHTML =
+                    '<span class="sel-name">' + loc.name + '</span>' +
+                    '<span class="sel-price">$' + loc.price + ' USD</span>';
+                selDisplay.classList.add('chosen');
+            });
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                L.circleMarker([pos.coords.latitude, pos.coords.longitude], {
+                    radius: 8,
+                    fillColor: '#4A90D9',
+                    color: '#ffffff',
+                    weight: 2,
+                    fillOpacity: 1
+                }).addTo(map).bindTooltip('Your location', { direction: 'top' });
+            }, null, { timeout: 8000 });
+        }
+
+        document.getElementById('contactform') &&
+            document.getElementById('contactform').addEventListener('submit', function (e) {
+                if (!hiddenInput.value) {
+                    e.preventDefault();
+                    selDisplay.style.borderColor = '#FE90AF';
+                    selDisplay.textContent = 'Please select a drop-off location from the map above';
+                    selDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+
+        var form = document.querySelector('form[name="Registration"]');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                if (!hiddenInput.value) {
+                    e.preventDefault();
+                    selDisplay.style.borderColor = '#FE90AF';
+                    selDisplay.textContent = 'Please select a drop-off location from the map above';
+                    selDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        }
     })();
     </script>
 </body>
