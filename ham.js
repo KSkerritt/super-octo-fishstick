@@ -17,39 +17,37 @@ document.querySelectorAll(".nav-link").forEach((n) =>
   })
 );
 
-// JavaScript to dynamically generate Yuman fields (2-10)
-const formContainer = document.querySelector(".group"); // The div to hold the dynamically generated fields
-const numYumans = 9; // We want fields for Yuman 2-10 (9 additional)
+// Dynamically generate Yuman fields (2-10) — only runs on pages with the group form
+const formContainer = document.querySelector(".group");
+if (formContainer) {
+  const numYumans = 9;
+  for (let i = 0; i < numYumans; i++) {
+    const yumanFieldset = document.createElement('fieldset');
+    const yumanLegend = document.createElement('legend');
+    yumanLegend.textContent = `Yuman ${i + 2}`;
+    yumanFieldset.appendChild(yumanLegend);
 
-if (!formContainer) return; // Only run on pages with the group form
+    const yumanDiv = document.createElement('div');
+    yumanDiv.classList.add('fields');
 
-for (let i = 0; i < numYumans; i++) {
-  const yumanFieldset = document.createElement('fieldset');
-  const yumanLegend = document.createElement('legend');
-  yumanLegend.textContent = `Yuman ${i + 2}`; // Label "Yuman 2", "Yuman 3", etc.
-  yumanFieldset.appendChild(yumanLegend);
+    ['First Name', 'Last Name', 'Email', 'Phone', 'Costume Details'].forEach(labelText => {
+      const fieldDiv = document.createElement('div');
+      fieldDiv.classList.add('input-field');
 
-  const yumanDiv = document.createElement('div');
-  yumanDiv.classList.add('fields');
-  
-  // Create Yuman fields (First Name, Last Name, Email, Phone, Costume)
-  ['First Name', 'Last Name', 'Email', 'Phone', 'Costume Details'].forEach(labelText => {
-    const fieldDiv = document.createElement('div');
-    fieldDiv.classList.add('input-field');
+      const label = document.createElement('label');
+      label.textContent = labelText;
+      fieldDiv.appendChild(label);
 
-    const label = document.createElement('label');
-    label.textContent = labelText;
-    fieldDiv.appendChild(label);
+      const input = document.createElement('input');
+      input.type = (labelText === 'Email') ? 'email' : 'text';
+      input.id = `${labelText.toLowerCase().replace(" ", "_")}_${i + 2}`;
+      input.name = `${labelText.toLowerCase().replace(" ", "_")}_${i + 2}`;
+      fieldDiv.appendChild(input);
 
-    const input = document.createElement('input');
-    input.type = (labelText === 'Email') ? 'email' : 'text'; // Different input types for email
-    input.id = `${labelText.toLowerCase().replace(" ", "_")}_${i + 2}`;
-    input.name = `${labelText.toLowerCase().replace(" ", "_")}_${i + 2}`;
-    fieldDiv.appendChild(input);
-    
-    yumanDiv.appendChild(fieldDiv);
-  });
+      yumanDiv.appendChild(fieldDiv);
+    });
 
-  yumanFieldset.appendChild(yumanDiv);
-  formContainer.appendChild(yumanFieldset); // Append the fieldset to the group container
+    yumanFieldset.appendChild(yumanDiv);
+    formContainer.appendChild(yumanFieldset);
+  }
 }

@@ -290,7 +290,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <a class="logo" href="/index.html">
                 <img src="/cycl3s.svg" alt="CYC Logo">
             </a>
-            <div class="ham" onclick="toggleMenu()"> 
+            <div class="ham">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -351,20 +351,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     </footer>
 
-    <script>
-    function toggleMenu() {
-        const mobileNav = document.querySelector('.mnav');
-        const ham = document.querySelector('.ham');
-        mobileNav.classList.toggle('active');
-        ham.classList.toggle('active');
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        const hamButton = document.querySelector('.ham');
-        if (hamButton) {
-            hamButton.addEventListener('click', toggleMenu);
-        }
-    });
-</script>
 </body>
 </html>
 
