@@ -36,11 +36,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             font-size: 16px;
             line-height: 1.6;
             color: var(--text-light);
-            background: #0f0f10;
+            background: #0f0f10 url('/images/formimage1.webp') center center / cover no-repeat fixed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.62);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .navbar, .page-header, .formD, footer {
+            position: relative;
+            z-index: 1;
         }
 
         /* ── Navbar ── */
@@ -184,11 +198,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .container {
             max-width: 800px;
             width: 100%;
-            background: #2a2a2e;
+            background: rgba(15, 20, 15, 0.72);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 48px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 0.6s ease;
             position: relative;
             overflow: hidden;
@@ -622,7 +638,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         /* ── Footer ── */
         footer {
-            background: #000;
+            background: rgba(0, 0, 0, 0.5);
             color: rgba(255, 255, 255, 0.6);
             padding: 24px 0;
             text-align: center;
