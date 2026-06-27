@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "https://collectyuhcarnival.com/*"
-  to = "https://www.collectyuhcarnival.com/:splat"
-  status = 301
-  force = true
