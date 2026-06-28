@@ -3,20 +3,339 @@
 <head>
     <link rel="icon" type="image/svg+xml" href="/cycl3s.svg">
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-PD8QBV7');</script>
-    <!-- End Google Tag Manager -->
-    
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PD8QBV7');</script>
+<!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="success.css" />
     <script src="/ham.js" defer></script>
     <title>Success! - Collect Yuh Carnival</title>
-    
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --accent-pink: #FE90AF;
+            --accent-green: #C6EA8D;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-light);
+            background: #0f0f10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ── Vertical image strips ── */
+        .bg-strips {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .strip {
+            width: 350px;
+            overflow: hidden;
+            opacity: 0.5;
+            position: relative;
+        }
+
+        .strip-left {
+            -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
+            mask-image: linear-gradient(to right, black 50%, transparent 100%);
+        }
+
+        .strip-right {
+            -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%);
+            mask-image: linear-gradient(to left, black 50%, transparent 100%);
+        }
+
+        .strip::before,
+        .strip::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 150px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .strip::before {
+            top: 0;
+            background: linear-gradient(to bottom, #0f0f10, transparent);
+        }
+
+        .strip::after {
+            bottom: 0;
+            background: linear-gradient(to top, #0f0f10, transparent);
+        }
+
+        .strip-track {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .strip-left .strip-track  { animation: scrollUp 40s linear infinite; }
+        .strip-right .strip-track { animation: scrollDown 55s linear infinite; }
+
+        .strip-track img {
+            width: 350px;
+            height: 240px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 8px;
+            display: block;
+        }
+
+        @keyframes scrollUp {
+            0%   { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        @keyframes scrollDown {
+            0%   { transform: translateY(-50%); }
+            100% { transform: translateY(0); }
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .logo { text-decoration: none; display: flex; align-items: center; }
+        .logo img { height: 40px; width: auto; }
+        .nav { display: flex; gap: 40px; list-style: none; }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-pink);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover { color: var(--accent-pink); }
+        .nav-link:hover::after { width: 100%; }
+
+        .ham { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .bar { width: 25px; height: 2px; background: var(--text-dark); transition: all 0.3s ease; }
+
+        .mnav {
+            display: block;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 32px 0;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+        }
+
+        .mnav.active { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .mnav ul { list-style: none; text-align: center; }
+        .mnav ul li { margin: 16px 0; }
+        .mnav .nav-link { font-size: 18px; }
+
+        /* ── Success card ── */
+        .formc {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .containerf {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(15, 20, 15, 0.72);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 64px 48px;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .containerf::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-pink));
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .containerf img {
+            max-width: 160px;
+            margin: 0 auto 32px;
+            display: block;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-16px); }
+        }
+
+        .containerf h2 {
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.4;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .containerf p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.55);
+            margin-bottom: 40px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+            color: #1a1a1a;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 20px rgba(254, 144, 175, 0.3);
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(254, 144, 175, 0.4);
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 24px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p { font-size: 14px; }
+
+        /* ── WhatsApp ── */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 56px;
+            height: 56px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 998;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(37, 211, 102, 0.5);
+        }
+
+        @media (max-width: 900px) {
+            .bg-strips { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .container { padding: 16px 24px; }
+            .ham { display: flex; }
+            .nav { display: none; }
+            .container { padding: 0 24px; }
+            .containerf { padding: 48px 28px; border-radius: 20px; }
+        }
+    </style>
 </head>
 
 <body>
@@ -24,9 +343,18 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PD8QBV7"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
+
+    <div class="bg-strips" aria-hidden="true">
+        <div class="strip strip-left">
+            <div class="strip-track" id="stripLeft"></div>
+        </div>
+        <div class="strip strip-right">
+            <div class="strip-track" id="stripRight"></div>
+        </div>
+    </div>
+
     <nav class="navbar">
-        <div class="containern">
+        <div class="container">
             <a class="logo" href="/index.html">
                 <img src="/cycl3s.svg" alt="CYC Logo">
             </a>
@@ -56,26 +384,44 @@
     <section class="formc">
         <div class="containerf">
             <img src="/cycl3s.svg" alt="CYC Logo" />
-            <h2>
-                Thank you for choosing Collect Yuh Carnival as your delivery solution!
-                You'll be contacted shortly.
-            </h2>
-        </div>
-    </section>
-
-    <section class="carousel-section">
-        <h2 class="carousel-title">Our Past Deliveries</h2>
-        <div class="carousel-container">
-            <div class="carousel-track" id="carouselTrack"></div>
+            <h2>You're all set!</h2>
+            <p>Thank you for choosing Collect Yuh Carnival. We've received your registration and will be in touch shortly with your delivery details.</p>
+            <a href="/index.html" class="btn-home">Back to Home</a>
         </div>
     </section>
 
     <footer>
-        <div class="containern">
+        <div class="container">
             <p>Collect Yuh Carnival &copy; 2026</p>
         </div>
     </footer>
 
-    <script src="/carousel.js"></script>
+    <a href="https://wa.me/18687076502" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" aria-label="Chat with us on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.345.223-.643.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+    </a>
+
+    <script>
+    (function() {
+        var imgs = [];
+        for (var i = 1; i <= 27; i++) imgs.push('/images/client' + i + '.jpg');
+
+        function buildStrip(id, offset) {
+            var track = document.getElementById(id);
+            if (!track) return;
+            var rotated = imgs.slice(offset).concat(imgs.slice(0, offset));
+            var all = rotated.concat(rotated);
+            all.forEach(function(src) {
+                var img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Trinidad Carnival masquerader in YUMA costume';
+                img.loading = 'lazy';
+                track.appendChild(img);
+            });
+        }
+
+        buildStrip('stripLeft', 0);
+        buildStrip('stripRight', 16);
+    })();
+    </script>
 </body>
 </html>
