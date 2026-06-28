@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <link rel="icon" type="image/svg+xml" href="/cycl3s.svg">
@@ -12,37 +13,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/ham.js" defer></script>
+    <meta name="description" content="How to use Collect Yuh Carnival — four easy steps to get your YUMA costume delivered without the wait.">
     <title>Instructions - Collect Yuh Carnival</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #C6EA8D 0%, #FE90AF 100%);
             --accent-pink: #FE90AF;
             --accent-green: #C6EA8D;
             --text-dark: #1a1a1a;
             --text-light: #ffffff;
-            --card-bg: #ffffff;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.5);
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-size: 16px;
             line-height: 1.6;
-            color: var(--text-dark);
-            background: var(--primary-gradient);
-            background-attachment: fixed;
+            color: var(--text-light);
+            background: #0f0f10 url('/images/backgroundimage1.jpg') center center / cover no-repeat fixed;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.62);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .navbar, .page-header, .about, footer {
+            position: relative;
+            z-index: 1;
         }
 
         .navbar {
@@ -68,22 +80,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             padding: 20px 40px;
         }
 
-        .logo {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
-
-        .nav {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
+        .logo { text-decoration: none; display: flex; align-items: center; }
+        .logo img { height: 40px; width: auto; }
+        .nav { display: flex; gap: 40px; list-style: none; }
 
         .nav-link {
             color: var(--text-dark);
@@ -105,75 +104,86 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             transition: width 0.3s ease;
         }
 
-        .nav-link:hover {
-            color: var(--accent-pink);
-        }
+        .nav-link:hover { color: var(--accent-pink); }
+        .nav-link:hover::after { width: 100%; }
 
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .ham {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-        }
-
-        .bar {
-            width: 25px;
-            height: 2px;
-            background: var(--text-dark);
-            transition: all 0.3s ease;
-        }
+        .ham { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .bar { width: 25px; height: 2px; background: var(--text-dark); transition: all 0.3s ease; }
 
         .mnav {
-            display: none;
+            display: block;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 32px 0;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
         }
 
-        .about {
-            padding: 80px 20px;
+        .mnav.active { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .mnav ul { list-style: none; text-align: center; }
+        .mnav ul li { margin: 16px 0; }
+        .mnav .nav-link { font-size: 18px; }
+
+        .page-header {
+            text-align: center;
+            padding: 64px 24px 0;
         }
 
-        .about .container {
-            max-width: 700px;
+        .page-header h2 {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
+
+        .page-header p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .about { padding: 40px 20px 80px; }
+        .about .container { max-width: 700px; }
 
         .box {
-            background: var(--card-bg);
+            background: rgba(15, 20, 15, 0.72);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 64px 48px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-pink));
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .box h2 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--text-dark);
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
-
-        .box h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 32px;
-            color: #666;
-            text-align: center;
-        }
+        .box h2, .box h3 { display: none; }
 
         ol {
             counter-reset: step-counter;
@@ -186,6 +196,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin-bottom: 32px;
             position: relative;
             padding-left: 60px;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
         }
 
         ol li::before {
@@ -196,7 +209,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             width: 40px;
             height: 40px;
             background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
-            color: white;
+            color: #1a1a1a;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -208,169 +221,63 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         ol li b {
             display: block;
             font-size: 16px;
-            color: var(--text-dark);
+            color: #ffffff;
             margin-bottom: 8px;
         }
 
-        ol li:not(:has(b)) {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.7;
-        }
-
-        .carousel-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 60px 0;
-            overflow: hidden;
-            margin-top: 60px;
-        }
-
-        .carousel-title {
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 24px 0;
             text-align: center;
-            color: var(--text-light);
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 40px;
+            margin-top: auto;
         }
 
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        footer p { font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .navbar .container { padding: 16px 24px; }
+            .ham { display: flex; }
+            .nav { display: none; }
+
+            .about { padding: 24px 20px 60px; }
+            .box { padding: 40px 24px; border-radius: 20px; }
+            ol li { padding-left: 50px; }
+            ol li::before { width: 36px; height: 36px; font-size: 16px; }
+            .container { padding: 0 24px; }
+            .page-header { padding: 40px 24px 0; }
+            .carousel-title { font-size: 24px; }
         }
 
-        .carousel-track {
-            display: flex;
-            gap: 20px;
-        }
-
-        .carousel-item {
-            flex: 0 0 300px;
-            height: 200px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.1);
+        /* ── WhatsApp floating button ── */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 56px;
+            height: 56px;
+            background: #25D366;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 998;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
         }
 
-        .carousel-item:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-lg);
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.55);
         }
 
-        .carousel-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 8px;
+        .whatsapp-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: #ffffff;
         }
 
-        footer {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            color: var(--text-light);
-            padding: 40px 0;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        footer h2 {
-            font-size: 18px;
-            font-weight: 500;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 768px) {
-            .navbar .container {
-                padding: 16px 24px;
-            }
-
-            .ham {
-                display: flex;
-            }
-
-            .nav {
-                display: none;
-            }
-
-            .mnav {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(10px);
-                padding: 32px 0;
-                box-shadow: var(--shadow-lg);
-                opacity: 0;
-                transform: translateY(-20px);
-                pointer-events: none;
-                transition: all 0.3s ease;
-            }
-
-            .mnav.active {
-                display: block;
-                opacity: 1;
-                transform: translateY(0);
-                z-index:1000;
-                pointer-events: all;
-            }
-
-            .mnav ul {
-                list-style: none;
-                text-align: center;
-            }
-
-            .mnav ul li {
-                margin: 16px 0;
-            }
-
-            .mnav .nav-link {
-                font-size: 18px;
-            }
-
-            .about {
-                padding: 40px 20px;
-            }
-
-            .box {
-                padding: 40px 24px;
-                border-radius: 20px;
-            }
-
-            .box h2 {
-                font-size: 28px;
-            }
-
-            ol li {
-                padding-left: 50px;
-            }
-
-            ol li::before {
-                width: 36px;
-                height: 36px;
-                font-size: 16px;
-            }
-
-            .container {
-                padding: 0 24px;
-            }
-
-            .carousel-title {
-                font-size: 24px;
-            }
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-320px * 22)); }
-        }
     </style>
 </head>
 
@@ -408,6 +315,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </ul>
     </div>
 
+    <div class="page-header">
+        <h2>How It Works</h2>
+        <p>4 easy steps to get your costume delivered</p>
+    </div>
+
     <section class="about">
         <div class="container">
             <div class="box">
@@ -431,18 +343,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     </section>
 
-    <section class="carousel-section">
-        <h2 class="carousel-title">Our Past Deliveries</h2>
-        <div class="carousel-container">
-            <div class="carousel-track" id="carouselTrack"></div>
-        </div>
-    </section>
-
     <footer>
         <div class="container">
-            <h2>Collect Yuh Carnival © 2025</h2>
+            <p>Collect Yuh Carnival &copy; 2026</p>
         </div>
     </footer>
-          <script src="/carousel.js"></script>
+    <a href="https://wa.me/18687076502" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" aria-label="Chat with us on WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </a>
 </body>
 </html>
