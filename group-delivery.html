@@ -12,6 +12,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Delivery - Collect Yuh Carnival</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -204,7 +205,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 0.6s ease;
             position: relative;
-            overflow: hidden;
         }
 
         .container::before {
@@ -771,6 +771,83 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             fill: #1a1a1a;
             flex-shrink: 0;
         }
+
+        /* ── Delivery map ── */
+        .map-field {
+            margin: 32px 0;
+        }
+
+        .map-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #ffffff;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        #delivery-map {
+            width: 100%;
+            height: 380px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .map-selection {
+            margin-top: 12px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .map-selection.selected {
+            background: rgba(198, 234, 141, 0.1);
+            border-color: rgba(198, 234, 141, 0.35);
+            color: #C6EA8D;
+        }
+
+        .map-selection.error {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: rgba(255, 107, 107, 0.4);
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            #delivery-map { height: 300px; }
+        }
     </style>
 </head>
 <body>
@@ -908,32 +985,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </label>
                             <input type="file" id="auth_letter" name="auth_letter" accept=".jpeg,.jpg,.png,.pdf" required />
                         </div>
-                        <div class="input-field">
-                            <label for="auth_dropoff">Drop-off Location</label>
-                            <select id="auth_dropoff" name="auth_dropoff" required>
-                                <option value="" disabled selected>Select Drop-off Location</option>
-                        <option value="Hyatt POS">Hyatt POS $45.USD</option>
-                        <option value="Cruise Ship Complex">Cruise Ship Complex (Epic Carnival) $45.USD</option>
-                        <option value="Radisson Hotel POS">Radisson Hotel POS $45.USD</option>
-                        <option value="One Woodbrook Place">One Woodbrook Place $45.USD</option>
-                        <option value="Hilton POS">Hilton POS $45.USD</option>
-                        <option value="The Brix POS">The Brix POS $45.USD</option>
-                        <option value="Massy Stores (Cascade/St. Anns)">Massy Stores (Cascade/St. Anns) $45.USD</option>
-                        <option value="Kapok Hotel">Kapok Hotel $45.USD</option>
-                        <option value="Courtyard by Marriot POS">Courtyard by Marriot POS $45.USD</option>
-                        <option value="Grand Bazaar">Grand Bazaar $50.USD</option>
-                        <option value="StarLite (Maraval)">StarLite (Maraval) $50.USD</option>
-                        <option value="Xtra Foods Plaza (Aranguez)">Xtra Foods Plaza (Aranguez) $55.USD</option>
-                        <option value="Massy Stores (Maraval)">Massy Stores (Maraval) $50.USD</option>
-                        <option value="StarLite (Diego Martin)">StarLite (Diego Martin) $55.USD</option>
-                        <option value="Holiday Inn Trincity">Holiday Inn Trincity $50.USD</option>
-                        <option value="Piarco Plaza">Piarco Plaza $50.USD</option>
-                        <option value="Shoppes of Trincity">Shoppes of Trincity $45.USD</option>
-                        <option value="Shoppes of Arima">Shoppes of Arima $55.USD</option>
-                            </select>
-                        </div>
                     </div>
+                    <input type="hidden" id="auth_dropoff" name="auth_dropoff">
                 </fieldset>
+
+                <div class="map-field">
+                    <span class="map-label">Drop-off Location</span>
+                    <div id="delivery-map"></div>
+                    <div class="map-legend">
+                        <div class="legend-item"><div class="legend-dot" style="background:#C6EA8D"></div>$45 USD</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#FE90AF"></div>$50 USD</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#FFB347"></div>$55 USD</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#4A90D9;border:2px solid #fff;box-sizing:border-box"></div>Your location</div>
+                    </div>
+                    <div class="map-selection" id="map-selection-display">Tap a pin to select your drop-off location</div>
+                </div>
 
 <div class="examples-section">
     <h3 class="examples-title">What should my YUMA receipt look like?</h3>
@@ -1433,6 +1499,16 @@ function goToSlide(type, index) {
                 e.preventDefault();
                 alert('Please add at least one group member before submitting.');
             }
+
+            var locationInput = document.getElementById('auth_dropoff');
+            if (!locationInput.value) {
+                e.preventDefault();
+                var display = document.getElementById('map-selection-display');
+                display.classList.add('error');
+                display.textContent = 'Please select a drop-off location from the map above.';
+                display.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
 // Check approximate total file size
             const allFileInputs = form.querySelectorAll('input[type="file"]');
             let totalSize = 0;
@@ -1486,6 +1562,101 @@ function goToSlide(type, index) {
             window.scrollTo({top: 0, behavior: 'smooth'});
         });
     })();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
+    <script>
+    if (typeof L === 'undefined') {
+        document.getElementById('delivery-map').innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center;padding:40px 20px;">Map failed to load. Please refresh or select your location by contacting us on WhatsApp.</p>';
+    } else {
+    (function () {
+        var LOCS = [
+            { name: 'Hyatt POS',                       lat: 10.653,  lng: -61.511, price: 45, val: 'Hyatt POS' },
+            { name: 'Cruise Ship Complex',              lat: 10.651,  lng: -61.519, price: 45, val: 'Cruise Ship Complex' },
+            { name: 'Radisson Hotel POS',               lat: 10.651,  lng: -61.514, price: 45, val: 'Radisson Hotel POS' },
+            { name: 'One Woodbrook Place',              lat: 10.666,  lng: -61.529, price: 45, val: 'One Woodbrook Place' },
+            { name: 'Hilton POS',                       lat: 10.671,  lng: -61.509, price: 45, val: 'Hilton POS' },
+            { name: 'The Brix POS',                     lat: 10.6725, lng: -61.509, price: 45, val: 'The Brix POS' },
+            { name: 'Massy Stores (Cascade/St. Anns)', lat: 10.679,  lng: -61.509, price: 45, val: 'Massy Stores (Cascade/St. Anns)' },
+            { name: 'Kapok Hotel',                      lat: 10.6725, lng: -61.519, price: 45, val: 'Kapok Hotel' },
+            { name: 'Courtyard by Marriott POS',        lat: 10.659,  lng: -61.535, price: 45, val: 'Courtyard by Marriot POS' },
+            { name: 'Trincity Plaza',                   lat: 10.629,  lng: -61.354, price: 45, val: 'Trincity Plaza' },
+            { name: 'Grand Bazaar',                     lat: 10.631,  lng: -61.426, price: 50, val: 'Grand Bazaar' },
+            { name: 'StarLite (Maraval)',               lat: 10.681,  lng: -61.526, price: 50, val: 'StarLite (Maraval)' },
+            { name: 'Massy Stores (Maraval)',           lat: 10.682,  lng: -61.524, price: 50, val: 'Massy Stores (Maraval)' },
+            { name: 'Holiday Inn Trincity',             lat: 10.619,  lng: -61.349, price: 50, val: 'Holiday Inn Trincity' },
+            { name: 'Piarco Plaza',                     lat: 10.614,  lng: -61.344, price: 50, val: 'Piarco Plaza' },
+            { name: 'Xtra Foods Plaza (Aranguez)',      lat: 10.629,  lng: -61.444, price: 55, val: 'Xtra Foods Plaza (Aranguez)' },
+            { name: 'StarLite (Diego Martin)',          lat: 10.686,  lng: -61.554, price: 55, val: 'StarLite (Diego Martin)' },
+            { name: 'Shoppes of Arima',                 lat: 10.609,  lng: -61.271, price: 55, val: 'Shoppes of Arima' }
+        ];
+
+        var COLORS = { 45: '#C6EA8D', 50: '#FE90AF', 55: '#FFB347' };
+
+        var map = L.map('delivery-map', { zoomControl: true }).setView([10.652, -61.480], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+
+        var hiddenInput = document.getElementById('auth_dropoff');
+        var selectionDisplay = document.getElementById('map-selection-display');
+        var selectedMarker = null;
+
+        function makeIcon(color, selected) {
+            var size = selected ? 18 : 14;
+            var border = selected ? '3px solid #fff' : '2px solid rgba(255,255,255,0.6)';
+            var shadow = selected ? '0 0 0 3px ' + color : 'none';
+            return L.divIcon({
+                className: '',
+                html: '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:' + color + ';border:' + border + ';box-shadow:' + shadow + ';box-sizing:border-box;"></div>',
+                iconSize: [size, size],
+                iconAnchor: [size / 2, size / 2],
+                popupAnchor: [0, -(size / 2 + 4)]
+            });
+        }
+
+        var markers = LOCS.map(function (loc) {
+            var color = COLORS[loc.price];
+            var marker = L.marker([loc.lat, loc.lng], { icon: makeIcon(color, false) }).addTo(map);
+            marker.bindPopup(
+                '<div style="font-family:Inter,sans-serif;min-width:160px;">' +
+                '<strong style="font-size:14px;color:#1a1a1a;">' + loc.name + '</strong><br>' +
+                '<span style="font-size:13px;color:#555;">$' + loc.price + ' USD</span>' +
+                '</div>'
+            );
+            marker.on('click', function () {
+                if (selectedMarker && selectedMarker !== marker) {
+                    var prevLoc = LOCS[markers.indexOf(selectedMarker)];
+                    selectedMarker.setIcon(makeIcon(COLORS[prevLoc.price], false));
+                }
+                selectedMarker = marker;
+                marker.setIcon(makeIcon(color, true));
+                hiddenInput.value = loc.val;
+                selectionDisplay.textContent = loc.name + ' — $' + loc.price + ' USD';
+                selectionDisplay.classList.add('selected');
+                selectionDisplay.classList.remove('error');
+            });
+            return marker;
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                var userLat = pos.coords.latitude;
+                var userLng = pos.coords.longitude;
+                var userIcon = L.divIcon({
+                    className: '',
+                    html: '<div style="width:14px;height:14px;border-radius:50%;background:#4A90D9;border:3px solid #fff;box-shadow:0 0 0 3px rgba(74,144,217,0.4);box-sizing:border-box;"></div>',
+                    iconSize: [14, 14],
+                    iconAnchor: [7, 7]
+                });
+                L.marker([userLat, userLng], { icon: userIcon, zIndexOffset: 1000 })
+                    .addTo(map)
+                    .bindPopup('<div style="font-family:Inter,sans-serif;font-size:13px;color:#1a1a1a;">Your location</div>');
+            }, function () {});
+        }
+    })();
+    }
     </script>
 </body>
 </html>
