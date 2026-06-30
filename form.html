@@ -733,6 +733,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             flex-shrink: 0;
         }
 
+        /* ── Receipt validation states ── */
+        .receipt-vstate {
+            margin-top: 8px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            display: none;
+        }
+        .receipt-vstate.loading {
+            display: block;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.55);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .receipt-vstate.valid {
+            display: block;
+            background: rgba(198,234,141,0.1);
+            color: #C6EA8D;
+            border: 1px solid rgba(198,234,141,0.3);
+        }
+        .receipt-vstate.invalid {
+            display: block;
+            background: rgba(255,107,107,0.1);
+            color: #ff8080;
+            border: 1px solid rgba(255,107,107,0.3);
+        }
+        .receipt-vstate.warning {
+            display: block;
+            background: rgba(255,179,71,0.1);
+            color: #FFB347;
+            border: 1px solid rgba(255,179,71,0.3);
+        }
+
         /* ── Delivery map ── */
         .map-field {
             margin: 28px 0;
@@ -981,6 +1015,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
               
                 <input type="hidden" id="dloc" name="Location">
+                <input type="hidden" id="dprice" name="DeliveryPrice">
 
                 <div class="tidy">
                     <select name="Section" id="Section" required>
@@ -1026,6 +1061,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <input type="file" id="Receipt" name="Receipt" required onchange="validReceipt()" />
                         </label>
                     </div>
+                    <div id="receipt-validation-status" class="receipt-vstate"></div>
 
                     <div class="buttonui" id="idUpload">
                         <label for="Identification">
@@ -1064,13 +1100,81 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             ham.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         }
 
-        function validReceipt() {
+        async function validReceipt() {
             const receiptInput = document.getElementById('Receipt');
-            if (receiptInput.files.length > 0) {
-                const label = receiptInput.parentElement;
-                label.parentElement.classList.add('active');
-            }
+            const statusDiv    = document.getElementById('receipt-validation-status');
+            if (receiptInput.files.length === 0) return;
+
+            // Preserve existing active-state styling
+            receiptInput.parentElement.parentElement.classList.add('active');
+
+            window.receiptValidated = false;
+            statusDiv.className = 'receipt-vstate loading';
+            statusDiv.textContent = 'Verifying receipt...';
+
+            const file      = receiptInput.files[0];
+            const mediaType = file.type || 'image/jpeg';
+            const reader    = new FileReader();
+
+            reader.onload = async function(e) {
+                const base64 = e.target.result.split(',')[1];
+                try {
+                    const res  = await fetch('/.netlify/functions/validate-receipt', {
+                        method:  'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body:    JSON.stringify({ imageBase64: base64, mediaType: mediaType })
+                    });
+                    if (!res.ok) throw new Error('Service error');
+                    const data = await res.json();
+
+                    if (data.valid) {
+                        window.receiptValidated = true;
+                        statusDiv.className     = 'receipt-vstate valid';
+                        const parts = [];
+                        if (data.order_number)  parts.push('Order: '   + data.order_number);
+                        if (data.section)        parts.push('Section: ' + data.section);
+                        if (data.costume_type)   parts.push('Costume: ' + data.costume_type);
+                        statusDiv.textContent = 'Receipt verified. ' + parts.join(' · ');
+                    } else {
+                        window.receiptValidated = false;
+                        receiptInput.value      = '';
+                        receiptInput.parentElement.parentElement.classList.remove('active');
+                        statusDiv.className   = 'receipt-vstate invalid';
+                        statusDiv.textContent = 'Your receipt must clearly show both your order reference number and costume details (section and costume type). Please upload a different image.';
+                    }
+                } catch (err) {
+                    // Allow submission on service failure — manual review applies
+                    window.receiptValidated = true;
+                    statusDiv.className     = 'receipt-vstate warning';
+                    statusDiv.textContent   = 'Automatic verification unavailable. Please ensure your receipt shows your order number and costume details before submitting.';
+                }
+            };
+            reader.readAsDataURL(file);
         }
+
+        document.querySelector('form[name="Registration"]').addEventListener('submit', function(e) {
+            if (!window.receiptValidated) {
+                e.preventDefault();
+                var statusDiv = document.getElementById('receipt-validation-status');
+                statusDiv.className   = 'receipt-vstate invalid';
+                statusDiv.textContent = 'Please upload and verify your YUMA receipt before submitting.';
+                document.getElementById('receiptUpload').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            // Store payment data for WiPay on success page
+            var location = document.getElementById('dloc').value;
+            var price    = parseFloat(document.getElementById('dprice').value) || 45;
+            var fname    = document.getElementById('fname').value;
+            var lname    = document.getElementById('lname').value;
+            sessionStorage.setItem('cyc_payment', JSON.stringify({
+                orderId:      'CYC-' + Date.now(),
+                total:        price.toFixed(2),
+                customerName: fname + ' ' + lname,
+                location:     location,
+                formType:     'individual'
+            }));
+            // Form proceeds normally to Netlify
+        });
 
         function validID() {
             const idInput = document.getElementById('Identification');
@@ -1248,6 +1352,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 selectedLayer = marker;
 
                 hiddenInput.value = loc.val;
+                document.getElementById('dprice').value = loc.price;
                 selDisplay.innerHTML =
                     '<span class="sel-name">' + loc.name + '</span>' +
                     '<span class="sel-price">$' + loc.price + ' USD</span>';
