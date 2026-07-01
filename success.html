@@ -562,18 +562,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         if (paymentData) {
             localStorage.removeItem('cyc_payment');
-            // Order ID: plain digits only, max 12 chars
+            // Populate WiPay form — submitted only on user button click
             var orderId = String(Date.now()).slice(-10);
-            document.getElementById('wipay-order-id').value   = orderId;
-            document.getElementById('wipay-total').value      = paymentData.total;
+            document.getElementById('wipay-order-id').value     = orderId;
+            document.getElementById('wipay-total').value        = paymentData.total;
             document.getElementById('wipay-response-url').value = window.location.origin + '/success.html';
-            document.getElementById('wipay-data').value = JSON.stringify({
+            document.getElementById('wipay-data').value         = JSON.stringify({
                 customerName: paymentData.customerName,
                 location:     paymentData.location,
                 formType:     paymentData.formType
             });
-            // Auto-redirect to WiPay payment page
-            document.getElementById('wipay-form').submit();
+            // Show payment card — user must click to proceed (auto-submit triggers WiPay fraud detection)
+            document.getElementById('payment-location').textContent = paymentData.location;
+            document.getElementById('payment-total').textContent    = '$' + paymentData.total + ' USD';
+            document.getElementById('payment-section').style.display = 'block';
         } else {
             // Generic visit — show home button
             document.getElementById('home-btn').style.display = 'inline-block';
