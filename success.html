@@ -444,6 +444,7 @@
                 <input type="hidden" name="order_id"       id="wipay-order-id">
                 <input type="hidden" name="response_url"   id="wipay-response-url">
                 <input type="hidden" name="total"          id="wipay-total">
+                <input type="hidden" name="data"           id="wipay-data">
                 <button type="submit" class="btn-home" style="cursor:pointer;border:none;width:100%;text-align:center;">Pay Delivery Fee</button>
                 <p style="font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 12px; text-align: center;">You will be redirected to WiPay's secure payment page.</p>
             </form>
@@ -553,6 +554,11 @@
             document.getElementById('wipay-order-id').value     = orderId;
             document.getElementById('wipay-total').value        = paymentData.total;
             document.getElementById('wipay-response-url').value = window.location.origin + '/success.html';
+            document.getElementById('wipay-data').value         = JSON.stringify({
+                customerName: paymentData.customerName,
+                location:     paymentData.location,
+                formType:     paymentData.formType
+            });
             // Show payment card — user must click to proceed (auto-submit triggers WiPay fraud detection)
             document.getElementById('payment-location').textContent = paymentData.location;
             document.getElementById('payment-total').textContent    = '$' + paymentData.total + ' USD';
