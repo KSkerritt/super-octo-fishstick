@@ -103,12 +103,17 @@ Return ONLY this JSON, no extra text:
         if (!apiResponse.ok) {
             const errText = await apiResponse.text();
             console.error('Anthropic error:', apiResponse.status, errText);
+            const serviceMsg = apiResponse.status === 401
+                ? 'Receipt verification is temporarily unavailable (configuration issue). Your receipt has not been verified — please try again in a few minutes.'
+                : apiResponse.status === 429
+                ? 'Receipt verification is temporarily busy. Please wait a moment and try again.'
+                : 'Receipt verification is temporarily unavailable. Please try again in a few minutes.';
             return {
                 statusCode: 200,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     valid: false,
-                    reasons: ['Receipt verification service error (' + apiResponse.status + '). Please try again or contact us on WhatsApp.'],
+                    reasons: [serviceMsg],
                     debug: { anthropic_status: apiResponse.status, error: errText }
                 })
             };
@@ -199,7 +204,7 @@ Return ONLY this JSON, no extra text:
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 valid: false,
-                reasons: ['Receipt verification failed unexpectedly. Please try again.'],
+                reasons: ['Receipt verification is temporarily unavailable. Please try again in a few minutes.'],
                 debug: { error: err.message }
             })
         };
