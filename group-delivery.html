@@ -1605,7 +1605,7 @@ function goToSlide(type, index) {
 
             // Store payment data for WiPay on success page
             var price = parseFloat(document.getElementById('group_dprice').value) || 45;
-            sessionStorage.setItem('cyc_payment', JSON.stringify({
+            localStorage.setItem('cyc_payment', JSON.stringify({
                 orderId:      'CYC-' + Date.now(),
                 total:        price.toFixed(2),
                 customerName: document.getElementById('auth_fname').value + ' ' + document.getElementById('auth_lname').value,

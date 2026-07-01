@@ -558,19 +558,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         // No WiPay params — check for pending payment from form submit
         var paymentData = null;
-        try { paymentData = JSON.parse(sessionStorage.getItem('cyc_payment') || 'null'); } catch (e) {}
+        try { paymentData = JSON.parse(localStorage.getItem('cyc_payment') || 'null'); } catch (e) {}
 
         if (paymentData) {
-            document.getElementById('payment-location').textContent = paymentData.location;
-            document.getElementById('payment-total').textContent    = '$' + paymentData.total + ' USD';
-            document.getElementById('payment-section').style.display = 'block';
+            localStorage.removeItem('cyc_payment');
             document.getElementById('wipay-order-id').value = paymentData.orderId;
             document.getElementById('wipay-total').value    = paymentData.total;
+            document.getElementById('wipay-response-url').value = window.location.origin + '/success.html';
             document.getElementById('wipay-data').value     = JSON.stringify({
                 customerName: paymentData.customerName,
                 location:     paymentData.location,
                 formType:     paymentData.formType
             });
+            // Auto-redirect to WiPay payment page
+            document.getElementById('wipay-form').submit();
         } else {
             // Generic visit — show home button
             document.getElementById('home-btn').style.display = 'inline-block';

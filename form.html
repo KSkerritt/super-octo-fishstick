@@ -1167,7 +1167,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             var price    = parseFloat(document.getElementById('dprice').value) || 45;
             var fname    = document.getElementById('fname').value;
             var lname    = document.getElementById('lname').value;
-            sessionStorage.setItem('cyc_payment', JSON.stringify({
+            localStorage.setItem('cyc_payment', JSON.stringify({
                 orderId:      'CYC-' + Date.now(),
                 total:        price.toFixed(2),
                 customerName: fname + ' ' + lname,
