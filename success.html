@@ -545,7 +545,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 if (txnId) resultTxn.textContent = 'Transaction ID: ' + txnId;
             } else {
                 document.getElementById('success-heading').textContent = 'Registration Received';
-                document.getElementById('success-text').textContent    = 'Your registration was saved, but the delivery payment was not completed. Please contact us on WhatsApp to arrange payment.';
+                document.getElementById('success-text').innerHTML    = 'Your registration was saved, but the delivery payment was not completed. Please email <a href="mailto:support@collectyuhcarnival.com" style="color:#C6EA8D;">support@collectyuhcarnival.com</a> to arrange payment.';
                 resultEl.style.display    = 'block';
                 resultEl.style.background = 'rgba(255,107,107,0.08)';
                 resultEl.style.border     = '1px solid rgba(255,107,107,0.25)';
