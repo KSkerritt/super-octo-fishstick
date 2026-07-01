@@ -3,3 +3,9 @@
 
 [build.environment]
   NODE_VERSION = "18"
+
+[functions]
+  node_bundler = "esbuild"
+
+[functions."validate-receipt"]
+  timeout = 26
