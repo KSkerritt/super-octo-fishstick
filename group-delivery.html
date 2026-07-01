@@ -1323,15 +1323,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         statusDiv.className     = 'receipt-vstate valid';
                         const parts = [];
                         if (data.order_number) parts.push('Order: '   + data.order_number);
-                        if (data.section)       parts.push('Section: ' + data.section);
-                        if (data.costume_type)  parts.push('Costume: ' + data.costume_type);
+                        if (data.section)      parts.push('Section: ' + data.section);
+                        if (data.costume_type) parts.push('Costume: ' + data.costume_type);
                         statusDiv.textContent = 'Receipt verified. ' + parts.join(' · ');
                     } else {
-                        window.receiptValidated   = false;
-                        const receiptInput        = document.getElementById('auth_receipt');
-                        receiptInput.value        = '';
-                        statusDiv.className       = 'receipt-vstate invalid';
-                        statusDiv.textContent     = 'Your receipt must clearly show both your order reference number and costume details (section and costume type). Please upload a different image.';
+                        window.receiptValidated = false;
+                        document.getElementById('auth_receipt').value = '';
+                        statusDiv.className = 'receipt-vstate invalid';
+                        const reasons = (data.reasons && data.reasons.length) ? data.reasons : ['Receipt could not be verified. Please upload a valid YUMA receipt.'];
+                        statusDiv.innerHTML = reasons.map(function(r) { return '<div>' + r + '</div>'; }).join('');
                     }
                 } catch (err) {
                     window.receiptValidated = true;
