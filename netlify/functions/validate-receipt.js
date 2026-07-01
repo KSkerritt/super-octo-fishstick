@@ -37,22 +37,28 @@ exports.handler = async (event) => {
                             type: 'text',
                             text: `This is a YUMA Trinidad Carnival costume receipt. Extract the information below and return ONLY valid JSON with no other text.
 
+IMPORTANT notes about YUMA receipt format:
+- The order/reference number is the short alphanumeric code at the top of the receipt (e.g. ME337H3F, MF2J4KP, etc.). It may not be labeled — it is simply the code displayed prominently at the top, often alongside a date.
+- The costume product name combines section and costume type together (e.g. "NOIR MALE" means section="Noir", costume_type="Male"). Other examples: "LEGACY HARDLINE" = section="Legacy", costume_type="Hardline". Split them accordingly.
+- Add-ons appear under "ADD-ON OPTION". If the value is "NONE" return empty string.
+- Meal choices appear under "CARNIVAL MONDAY MENU SELECTION" and "CARNIVAL TUESDAY MENU SELECTION".
+
 {
-  "order_number": "the order or reference number",
-  "customer_name": "the customer full name",
-  "costume_type": "costume type such as Male, Hardline, Midline, Monokini, or Body",
-  "section": "section name such as Champagne, Legacy, Nirvana, Monaco, etc.",
-  "add_ons": "any add-ons listed, or empty string if none",
-  "meal_choice": "meal choice if listed, or empty string if none",
+  "order_number": "the alphanumeric code at the top of the receipt",
+  "customer_name": "the masquerader full name",
+  "costume_type": "costume type extracted from product name: Male, Hardline, Midline, Monokini, Body, etc.",
+  "section": "section name extracted from product name: Noir, Legacy, Champagne, Nirvana, Monaco, etc.",
+  "add_ons": "add-on option if any, or empty string",
+  "meal_choice": "meal selections if listed, or empty string",
   "valid": true or false
 }
 
-Set "valid" to true ONLY when BOTH of the following are clearly visible together in the same document:
-1. An order number or reference number
-2. Costume details including both the section name AND the costume type
+Set "valid" to true when BOTH of these are present in the document:
+1. An order/reference code (the alphanumeric identifier at the top)
+2. A product name that includes costume type and section details
 
-If either the order number OR the costume details are absent or unclear, set "valid" to false.
-Set any field to null if not found.`
+Set "valid" to false only if the document is missing the order code OR is missing any costume/section details entirely.
+Set any field to null if genuinely not found.`
                         }
                     ]
                 }]
@@ -81,10 +87,8 @@ Set any field to null if not found.`
         }
 
         const valid = !!(
-            extracted.valid &&
             extracted.order_number &&
-            extracted.costume_type &&
-            extracted.section
+            (extracted.costume_type || extracted.section)
         );
 
         return {
