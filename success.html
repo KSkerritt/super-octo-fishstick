@@ -469,6 +469,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <input type="hidden" name="order_id"       id="wipay-order-id">
             <input type="hidden" name="response_url"   id="wipay-response-url">
             <input type="hidden" name="total"          id="wipay-total">
+            <input type="hidden" name="data"           id="wipay-data">
         </form>
     </section>
 
@@ -566,6 +567,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             document.getElementById('wipay-order-id').value   = orderId;
             document.getElementById('wipay-total').value      = paymentData.total;
             document.getElementById('wipay-response-url').value = window.location.origin + '/success.html';
+            document.getElementById('wipay-data').value = JSON.stringify({
+                customerName: paymentData.customerName,
+                location:     paymentData.location,
+                formType:     paymentData.formType
+            });
             // Auto-redirect to WiPay payment page
             document.getElementById('wipay-form').submit();
         } else {
