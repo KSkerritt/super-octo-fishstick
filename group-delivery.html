@@ -772,6 +772,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             flex-shrink: 0;
         }
 
+        /* ── Receipt validation states ── */
+        .receipt-vstate {
+            margin-top: 8px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            display: none;
+        }
+        .receipt-vstate.loading {
+            display: block;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.55);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .receipt-vstate.valid {
+            display: block;
+            background: rgba(198,234,141,0.1);
+            color: #C6EA8D;
+            border: 1px solid rgba(198,234,141,0.3);
+        }
+        .receipt-vstate.invalid {
+            display: block;
+            background: rgba(255,107,107,0.1);
+            color: #ff8080;
+            border: 1px solid rgba(255,107,107,0.3);
+        }
+        .receipt-vstate.warning {
+            display: block;
+            background: rgba(255,179,71,0.1);
+            color: #FFB347;
+            border: 1px solid rgba(255,179,71,0.3);
+        }
+
         /* ── Delivery map ── */
         .map-field {
             margin: 32px 0;
@@ -970,6 +1004,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <div class="input-field">
                             <label for="auth_receipt">YUMA Receipt</label>
                             <input type="file" id="auth_receipt" name="auth_receipt" accept=".jpeg,.jpg,.png,.pdf" required />
+                            <div id="receipt-validation-status" class="receipt-vstate"></div>
                         </div>
                         <div class="input-field">
                             <label for="auth_id">I.D. Card/Driver's Permit</label>
@@ -987,6 +1022,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </div>
                     </div>
                     <input type="hidden" id="auth_dropoff" name="auth_dropoff">
+                    <input type="hidden" id="group_dprice" name="DeliveryPrice">
                 </fieldset>
 
                 <div class="map-field">
@@ -1263,6 +1299,49 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         const addMemberButton = document.getElementById('add-yuman');
         const removeMemberButton = document.getElementById('remove-yuman');
 
+        async function validateGroupReceipt(file) {
+            const statusDiv = document.getElementById('receipt-validation-status');
+            window.receiptValidated = false;
+            statusDiv.className   = 'receipt-vstate loading';
+            statusDiv.textContent = 'Verifying receipt...';
+
+            const mediaType = file.type || 'image/jpeg';
+            const reader    = new FileReader();
+            reader.onload   = async function(e) {
+                const base64 = e.target.result.split(',')[1];
+                try {
+                    const res  = await fetch('/.netlify/functions/validate-receipt', {
+                        method:  'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body:    JSON.stringify({ imageBase64: base64, mediaType: mediaType })
+                    });
+                    if (!res.ok) throw new Error('Service error');
+                    const data = await res.json();
+
+                    if (data.valid) {
+                        window.receiptValidated = true;
+                        statusDiv.className     = 'receipt-vstate valid';
+                        const parts = [];
+                        if (data.order_number) parts.push('Order: '   + data.order_number);
+                        if (data.section)      parts.push('Section: ' + data.section);
+                        if (data.costume_type) parts.push('Costume: ' + data.costume_type);
+                        statusDiv.textContent = 'Receipt verified. ' + parts.join(' · ');
+                    } else {
+                        window.receiptValidated = false;
+                        document.getElementById('auth_receipt').value = '';
+                        statusDiv.className = 'receipt-vstate invalid';
+                        const reasons = (data.reasons && data.reasons.length) ? data.reasons : ['Receipt could not be verified. Please upload a valid YUMA receipt.'];
+                        statusDiv.innerHTML = reasons.map(function(r) { return '<div>' + r + '</div>'; }).join('');
+                    }
+                } catch (err) {
+                    window.receiptValidated = true;
+                    statusDiv.className     = 'receipt-vstate warning';
+                    statusDiv.textContent   = 'Automatic verification unavailable. Please ensure your receipt shows your order number and costume details before submitting.';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
           // Add compression to auth file inputs
         document.addEventListener('DOMContentLoaded', () => {
             const authFileInputs = ['auth_receipt', 'auth_id', 'auth_letter'];
@@ -1271,6 +1350,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 if (input) {
                     input.addEventListener('change', async function() {
                         await handleFileInput(this);
+                        // Trigger receipt validation for auth_receipt
+                        if (id === 'auth_receipt' && this.files.length > 0) {
+                            await validateGroupReceipt(this.files[0]);
+                        }
                     });
                 }
             });
@@ -1498,6 +1581,16 @@ function goToSlide(type, index) {
             if (currentMembers === 0) {
                 e.preventDefault();
                 alert('Please add at least one group member before submitting.');
+                return;
+            }
+
+            if (!window.receiptValidated) {
+                e.preventDefault();
+                var statusDiv       = document.getElementById('receipt-validation-status');
+                statusDiv.className   = 'receipt-vstate invalid';
+                statusDiv.textContent = 'Please upload and verify your YUMA receipt before submitting.';
+                document.getElementById('auth_receipt').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
             }
 
             var locationInput = document.getElementById('auth_dropoff');
@@ -1509,6 +1602,17 @@ function goToSlide(type, index) {
                 display.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
+
+            // Store payment data for WiPay on success page
+            var price = parseFloat(document.getElementById('group_dprice').value) || 45;
+            localStorage.setItem('cyc_payment', JSON.stringify({
+                orderId:      'CYC-' + Date.now(),
+                total:        price.toFixed(2),
+                customerName: document.getElementById('auth_fname').value + ' ' + document.getElementById('auth_lname').value,
+                location:     locationInput.value,
+                formType:     'group'
+            }));
+
 // Check approximate total file size
             const allFileInputs = form.querySelectorAll('input[type="file"]');
             let totalSize = 0;
@@ -1557,7 +1661,7 @@ function goToSlide(type, index) {
     } else {
     (function () {
         var LOCS = [
-            { name: 'Hyatt POS',                       lat: 10.653,  lng: -61.511, price: 45, val: 'Hyatt POS' },
+            { name: 'Hyatt POS',                       lat: 10.6506, lng: -61.5165, price: 45, val: 'Hyatt POS' },
             { name: 'Cruise Ship Complex',              lat: 10.651,  lng: -61.519, price: 45, val: 'Cruise Ship Complex' },
             { name: 'Radisson Hotel POS',               lat: 10.651,  lng: -61.514, price: 45, val: 'Radisson Hotel POS' },
             { name: 'One Woodbrook Place',              lat: 10.666,  lng: -61.529, price: 45, val: 'One Woodbrook Place' },
@@ -1619,6 +1723,7 @@ function goToSlide(type, index) {
                 selectedMarker = marker;
                 marker.setIcon(makeIcon(color, true));
                 hiddenInput.value = loc.val;
+                document.getElementById('group_dprice').value = loc.price;
                 selectionDisplay.textContent = loc.name + ' — $' + loc.price + ' USD';
                 selectionDisplay.classList.add('selected');
                 selectionDisplay.classList.remove('error');

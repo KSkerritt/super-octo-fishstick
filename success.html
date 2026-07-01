@@ -199,6 +199,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .mnav ul li { margin: 16px 0; }
         .mnav .nav-link { font-size: 18px; }
 
+        /* ── Mobile hero carousel ── */
+        .mobile-hero-carousel {
+            display: none;
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .mobile-carousel-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            animation: scrollRight 50s linear infinite;
+            will-change: transform;
+        }
+
+        .mobile-carousel-track img {
+            height: 100%;
+            width: auto;
+            min-width: 180px;
+            object-fit: cover;
+            object-position: center top;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .mobile-hero-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.62);
+            z-index: 1;
+        }
+
+        @keyframes scrollRight {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         /* ── Success card ── */
         .formc {
             flex: 1;
@@ -334,6 +378,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .nav { display: none; }
             .container { padding: 0 24px; }
             .containerf { padding: 48px 28px; border-radius: 20px; }
+            .formc { overflow: hidden; }
+            .mobile-hero-carousel,
+            .mobile-hero-overlay { display: block; }
         }
     </style>
 </head>
@@ -382,11 +429,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <section class="formc">
-        <div class="containerf">
+        <div class="mobile-hero-carousel" aria-hidden="true">
+            <div class="mobile-carousel-track" id="mobileCarouselTrack"></div>
+        </div>
+        <div class="mobile-hero-overlay" aria-hidden="true"></div>
+        <div class="containerf" style="position:relative;z-index:2;">
             <img src="/cycl3s.svg" alt="CYC Logo" />
-            <h2>You're all set!</h2>
-            <p>Thank you for choosing Collect Yuh Carnival. We've received your registration and will be in touch shortly with your delivery details.</p>
-            <a href="/index.html" class="btn-home">Back to Home</a>
+            <h2 id="success-heading">You're all set!</h2>
+            <p id="success-text">Thank you for choosing Collect Yuh Carnival! Your registration details are below, you can proceed to payment.</p>
+
+            <!-- WiPay payment card — the form IS the card; native submit avoids hosted-service detection -->
+            <form id="payment-section" action="https://tt.wipayfinancial.com/plugins/payments/request" method="POST"
+                  style="display:none; margin: 28px 0 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; text-align: left;">
+                <p style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px;">Delivery Payment</p>
+                <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 6px;">Drop-off location: <span id="payment-location" style="color: #fff; font-weight: 500;"></span></p>
+                <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 24px;">Delivery fee: <span id="payment-total" style="color: #C6EA8D; font-weight: 700; font-size: 18px;"></span></p>
+                <input type="hidden" name="account_number" value="8857557911">
+                <input type="hidden" name="avs"            value="0">
+                <input type="hidden" name="country_code"   value="TT">
+                <input type="hidden" name="currency"       value="USD">
+                <input type="hidden" name="environment"    value="live">
+                <input type="hidden" name="fee_structure"  value="customer_pay">
+                <input type="hidden" name="method"         value="credit_card">
+                <input type="hidden" name="origin"         value="Collect_Yuh_Carnival">
+                <input type="hidden" name="order_id"       id="wipay-order-id">
+                <input type="hidden" name="response_url"   id="wipay-response-url">
+                <input type="hidden" name="total"          id="wipay-total">
+                <input type="hidden" name="name"           id="wipay-name">
+                <input type="hidden" name="data"           id="wipay-data">
+                <button type="submit" class="btn-home" style="cursor:pointer;border:none;width:100%;text-align:center;">Pay Delivery Fee</button>
+                <p style="font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 12px; text-align: center;">You will be redirected to WiPay's secure payment page.</p>
+            </form>
+
+            <!-- Payment result — shown when WiPay redirects back -->
+            <div id="payment-result" style="display:none; margin: 28px 0 8px; border-radius: 16px; padding: 20px; text-align: center;">
+                <p id="payment-result-text" style="font-size: 14px; margin-bottom: 8px;"></p>
+                <p id="payment-txn" style="font-size: 12px; color: rgba(255,255,255,0.4);"></p>
+            </div>
+
+            <a href="/index.html" class="btn-home" id="home-btn" style="display:none; margin-top: 8px; text-decoration: none;">Back to Home</a>
         </div>
     </section>
 
@@ -421,7 +502,85 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         buildStrip('stripLeft', 0);
         buildStrip('stripRight', 16);
+
+        var mobileTrack = document.getElementById('mobileCarouselTrack');
+        if (mobileTrack) {
+            var mobileAll = imgs.concat(imgs);
+            mobileAll.forEach(function(src) {
+                var img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Trinidad Carnival masquerader in YUMA costume';
+                img.loading = 'eager';
+                mobileTrack.appendChild(img);
+            });
+        }
     })();
+    </script>
+
+    <script>
+    (function () {
+        var params      = new URLSearchParams(window.location.search);
+        var wipayStatus = params.get('status');
+
+        if (wipayStatus) {
+            // Returning from WiPay — show payment result
+            sessionStorage.removeItem('cyc_payment');
+            var txnId   = params.get('transaction_id') || '';
+            var total   = params.get('total')           || '';
+            var resultEl  = document.getElementById('payment-result');
+            var resultText = document.getElementById('payment-result-text');
+            var resultTxn  = document.getElementById('payment-txn');
+            var homeBtn    = document.getElementById('home-btn');
+
+            if (wipayStatus === 'success') {
+                document.getElementById('success-heading').textContent = 'Payment Confirmed!';
+                document.getElementById('success-text').textContent    = 'Your registration and delivery payment are complete. We will be in touch with your collection details.';
+                resultEl.style.display          = 'block';
+                resultEl.style.background       = 'rgba(198,234,141,0.08)';
+                resultEl.style.border           = '1px solid rgba(198,234,141,0.25)';
+                resultText.style.color          = '#C6EA8D';
+                resultText.textContent          = 'Delivery fee of $' + total + ' USD paid successfully.';
+                if (txnId) resultTxn.textContent = 'Transaction ID: ' + txnId;
+            } else {
+                document.getElementById('success-heading').textContent = 'Registration Received';
+                document.getElementById('success-text').innerHTML    = 'Your registration was saved, but the delivery payment was not completed. Please email <a href="mailto:support@collectyuhcarnival.com" style="color:#C6EA8D;">support@collectyuhcarnival.com</a> to arrange payment.';
+                resultEl.style.display    = 'block';
+                resultEl.style.background = 'rgba(255,107,107,0.08)';
+                resultEl.style.border     = '1px solid rgba(255,107,107,0.25)';
+                resultText.style.color    = '#ff8080';
+                resultText.textContent    = 'Payment was not completed. Your registration is saved.';
+            }
+            homeBtn.style.display = 'inline-block';
+            return;
+        }
+
+        // No WiPay params — check for pending payment from form submit
+        var paymentData = null;
+        try { paymentData = JSON.parse(localStorage.getItem('cyc_payment') || 'null'); } catch (e) {}
+
+        if (paymentData) {
+            localStorage.removeItem('cyc_payment');
+            // Populate WiPay form — submitted only on user button click
+            var orderId = String(Date.now()).slice(-10);
+            document.getElementById('wipay-order-id').value     = orderId;
+            document.getElementById('wipay-total').value        = paymentData.total;
+            document.getElementById('wipay-name').value         = paymentData.customerName;
+            document.getElementById('wipay-response-url').value = window.location.origin + '/success.html';
+            document.getElementById('wipay-data').value         = JSON.stringify({
+                customerName: paymentData.customerName,
+                location:     paymentData.location,
+                formType:     paymentData.formType
+            });
+            // Show payment card — user must click to proceed (auto-submit triggers WiPay fraud detection)
+            document.getElementById('payment-location').textContent = paymentData.location;
+            document.getElementById('payment-total').textContent    = '$' + paymentData.total + ' USD';
+            document.getElementById('payment-section').style.display = 'block';
+        } else {
+            // Generic visit — show home button
+            document.getElementById('home-btn').style.display = 'inline-block';
+        }
+    })();
+
     </script>
 </body>
 </html>
