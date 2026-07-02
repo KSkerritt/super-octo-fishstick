@@ -1766,7 +1766,7 @@ function goToSlide(type, index) {
 
         function updateDeliveryDisplay() {
             if (!selectedLocPrice) return;
-            var totalPeople = groupMembersContainer.children.length + 1;
+            var totalPeople = document.getElementById('group-members').children.length + 1;
             var totalCost   = selectedLocPrice * totalPeople;
             selectionDisplay.textContent = selectedLocName + ' — $' + totalCost.toFixed(2) + ' USD (' + totalPeople + ' member' + (totalPeople !== 1 ? 's' : '') + ')';
             selectionDisplay.classList.add('selected');
