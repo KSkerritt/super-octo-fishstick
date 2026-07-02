@@ -545,10 +545,8 @@
                 homeBtn.style.display = 'inline-block';
             }
 
-            var statusOk = wipayStatus.toLowerCase() === 'success';
-
-            if (statusOk && txnId && total && hash) {
-                // Verify the hash server-side as an integrity check
+            if (wipayStatus === 'success' && txnId && total && hash) {
+                // Verify the hash server-side before showing Payment Confirmed
                 fetch('/.netlify/functions/verify-payment', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -556,16 +554,20 @@
                 })
                 .then(function(r) { return r.json(); })
                 .then(function(data) {
-                    if (!data.valid) {
-                        console.warn('Payment hash verification failed — showing success as fallback for genuine payer');
+                    if (data.valid) {
+                        showSuccess();
+                    } else {
+                        console.warn('Payment hash verification failed');
+                        showFailure();
                     }
-                    showSuccess();
                 })
                 .catch(function() {
+                    // If verification call fails, fall back to showing success
+                    // (better UX than falsely showing failure to a genuine payer)
                     showSuccess();
                 });
-            } else if (statusOk) {
-                // Hash absent — sandbox or older WiPay response
+            } else if (wipayStatus === 'success') {
+                // Hash absent — show success (sandbox transactions don't return a hash)
                 showSuccess();
             } else {
                 showFailure();
