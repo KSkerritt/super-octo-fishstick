@@ -1299,6 +1299,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         const addMemberButton = document.getElementById('add-yuman');
         const removeMemberButton = document.getElementById('remove-yuman');
 
+        window.memberReceiptsValidated = {};
+
         async function validateGroupReceipt(file) {
             const statusDiv = document.getElementById('receipt-validation-status');
             window.receiptValidated = false;
@@ -1337,6 +1339,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     window.receiptValidated = true;
                     statusDiv.className     = 'receipt-vstate warning';
                     statusDiv.textContent   = 'Automatic verification unavailable. Please ensure your receipt shows your order number and costume details before submitting.';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function validateMemberReceipt(memberNumber, file) {
+            var statusDiv = document.getElementById('member' + memberNumber + '-receipt-vstate');
+            if (!statusDiv) return;
+            window.memberReceiptsValidated[memberNumber] = false;
+            statusDiv.className   = 'receipt-vstate loading';
+            statusDiv.textContent = 'Verifying receipt...';
+
+            var mediaType = file.type || 'image/jpeg';
+            var reader    = new FileReader();
+            reader.onload = async function(e) {
+                var base64 = e.target.result.split(',')[1];
+                try {
+                    var res = await fetch('/.netlify/functions/validate-receipt', {
+                        method:  'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body:    JSON.stringify({ imageBase64: base64, mediaType: mediaType })
+                    });
+                    if (!res.ok) throw new Error('Service error');
+                    var data = await res.json();
+
+                    if (data.valid) {
+                        window.memberReceiptsValidated[memberNumber] = true;
+                        statusDiv.className = 'receipt-vstate valid';
+                        var parts = [];
+                        if (data.order_number) parts.push('Order: '   + data.order_number);
+                        if (data.section)      parts.push('Section: ' + data.section);
+                        if (data.costume_type) parts.push('Costume: ' + data.costume_type);
+                        statusDiv.textContent = 'Receipt verified. ' + parts.join(' · ');
+                    } else {
+                        window.memberReceiptsValidated[memberNumber] = false;
+                        document.getElementById('visible_member' + memberNumber + '_receipt').value = '';
+                        statusDiv.className = 'receipt-vstate invalid';
+                        var reasons = (data.reasons && data.reasons.length) ? data.reasons : ['Receipt could not be verified. Please upload a valid YUMA receipt.'];
+                        statusDiv.innerHTML = reasons.map(function(r) { return '<div>' + r + '</div>'; }).join('');
+                    }
+                } catch (err) {
+                    window.memberReceiptsValidated[memberNumber] = true;
+                    statusDiv.className   = 'receipt-vstate warning';
+                    statusDiv.textContent = 'Automatic verification unavailable. Please ensure your receipt shows your order number and costume details before submitting.';
                 }
             };
             reader.readAsDataURL(file);
@@ -1508,6 +1554,7 @@ function goToSlide(type, index) {
                     <div class="input-field">
                         <label for="visible_member${memberNumber}_receipt">YUMA Receipt</label>
                         <input type="file" id="visible_member${memberNumber}_receipt" class="file-input" data-hidden="hidden_member${memberNumber}_receipt" accept=".jpeg,.jpg,.png,.pdf" required />
+                        <div id="member${memberNumber}-receipt-vstate" class="receipt-vstate"></div>
                     </div>
                     <div class="input-field">
                         <label for="visible_member${memberNumber}_id">I.D. Card/Driver's Permit</label>
@@ -1537,13 +1584,18 @@ function goToSlide(type, index) {
                 });
             });
             
-           // Sync file inputs to hidden file inputs with compression
+           // Sync file inputs to hidden file inputs with compression; validate receipt
             const fileInputs = memberFields.querySelectorAll('.file-input');
             fileInputs.forEach(input => {
                 input.addEventListener('change', async function() {
                     await handleFileInput(this);
+                    if (this.id === 'visible_member' + memberNumber + '_receipt' && this.files.length > 0) {
+                        await validateMemberReceipt(memberNumber, this.files[0]);
+                    }
                 });
             });
+
+            updateDeliveryDisplay();
         });
 
         removeMemberButton.addEventListener('click', () => {
@@ -1555,7 +1607,7 @@ function goToSlide(type, index) {
             }
 
             const memberNumber = currentMembers;
-            
+
             // Clear the hidden fields for this member
             ['fname', 'lname', 'email', 'costume', 'section'].forEach(field => {
                 const hiddenInput = document.getElementById(`hidden_member${memberNumber}_${field}`);
@@ -1563,7 +1615,7 @@ function goToSlide(type, index) {
                     hiddenInput.value = '';
                 }
             });
-            
+
             // Clear file inputs
             ['receipt', 'id'].forEach(field => {
                 const hiddenInput = document.getElementById(`hidden_member${memberNumber}_${field}`);
@@ -1572,7 +1624,9 @@ function goToSlide(type, index) {
                 }
             });
 
+            delete window.memberReceiptsValidated[memberNumber];
             groupMembersContainer.removeChild(groupMembersContainer.lastChild);
+            updateDeliveryDisplay();
         });
 
         form.addEventListener('submit', (e) => {
@@ -1593,6 +1647,20 @@ function goToSlide(type, index) {
                 return;
             }
 
+            // Check all group member receipts are validated
+            for (var mi = 1; mi <= currentMembers; mi++) {
+                if (!window.memberReceiptsValidated[mi]) {
+                    e.preventDefault();
+                    var memberStatusDiv = document.getElementById('member' + mi + '-receipt-vstate');
+                    if (memberStatusDiv) {
+                        memberStatusDiv.className   = 'receipt-vstate invalid';
+                        memberStatusDiv.textContent = 'Please upload and verify your YUMA receipt before submitting.';
+                        memberStatusDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+            }
+
             var locationInput = document.getElementById('auth_dropoff');
             if (!locationInput.value) {
                 e.preventDefault();
@@ -1603,11 +1671,12 @@ function goToSlide(type, index) {
                 return;
             }
 
-            // Store payment data for WiPay on success page
-            var price = parseFloat(document.getElementById('group_dprice').value) || 45;
+            // Store payment data for WiPay on success page — total = price × (collector + all members)
+            var price       = parseFloat(document.getElementById('group_dprice').value) || 45;
+            var totalPeople = currentMembers + 1;
             localStorage.setItem('cyc_payment', JSON.stringify({
                 orderId:      'CYC-' + Date.now(),
-                total:        price.toFixed(2),
+                total:        (price * totalPeople).toFixed(2),
                 customerName: document.getElementById('auth_fname').value + ' ' + document.getElementById('auth_lname').value,
                 location:     locationInput.value,
                 formType:     'group'
@@ -1692,6 +1761,18 @@ function goToSlide(type, index) {
         var hiddenInput = document.getElementById('auth_dropoff');
         var selectionDisplay = document.getElementById('map-selection-display');
         var selectedMarker = null;
+        var selectedLocPrice = 0;
+        var selectedLocName  = '';
+
+        function updateDeliveryDisplay() {
+            if (!selectedLocPrice) return;
+            var totalPeople = groupMembersContainer.children.length + 1;
+            var totalCost   = selectedLocPrice * totalPeople;
+            selectionDisplay.textContent = selectedLocName + ' — $' + totalCost.toFixed(2) + ' USD (' + totalPeople + ' member' + (totalPeople !== 1 ? 's' : '') + ')';
+            selectionDisplay.classList.add('selected');
+            selectionDisplay.classList.remove('error');
+            document.getElementById('group_dprice').value = selectedLocPrice;
+        }
 
         function makeIcon(color, selected) {
             var size = selected ? 18 : 14;
@@ -1722,11 +1803,10 @@ function goToSlide(type, index) {
                 }
                 selectedMarker = marker;
                 marker.setIcon(makeIcon(color, true));
-                hiddenInput.value = loc.val;
-                document.getElementById('group_dprice').value = loc.price;
-                selectionDisplay.textContent = loc.name + ' — $' + loc.price + ' USD';
-                selectionDisplay.classList.add('selected');
-                selectionDisplay.classList.remove('error');
+                hiddenInput.value  = loc.val;
+                selectedLocPrice   = loc.price;
+                selectedLocName    = loc.name;
+                updateDeliveryDisplay();
             });
             return marker;
         });
