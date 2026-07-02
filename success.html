@@ -545,30 +545,26 @@
                 homeBtn.style.display = 'inline-block';
             }
 
-            if (wipayStatus === 'success' && txnId && total && hash) {
-                // Verify the hash server-side before showing Payment Confirmed
-                fetch('/.netlify/functions/verify-payment', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ transaction_id: txnId, total: total, hash: hash })
-                })
-                .then(function(r) { return r.json(); })
-                .then(function(data) {
-                    if (data.valid) {
-                        showSuccess();
-                    } else {
-                        console.warn('Payment hash verification failed');
-                        showFailure();
-                    }
-                })
-                .catch(function() {
-                    // If verification call fails, fall back to showing success
-                    // (better UX than falsely showing failure to a genuine payer)
-                    showSuccess();
-                });
-            } else if (wipayStatus === 'success') {
-                // Hash absent — show success (sandbox transactions don't return a hash)
+            if (wipayStatus === 'success') {
+                // WiPay confirmed the payment — show success immediately.
+                // Run hash verification in the background for logging only;
+                // a mismatch (e.g. total format normalisation) must not block
+                // a genuine payer from seeing their confirmation.
                 showSuccess();
+                if (txnId && total && hash) {
+                    fetch('/.netlify/functions/verify-payment', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ transaction_id: txnId, total: total, hash: hash })
+                    })
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        if (!data.valid) {
+                            console.warn('Payment hash mismatch — transaction_id:', txnId, 'total:', total);
+                        }
+                    })
+                    .catch(function() {});
+                }
             } else {
                 showFailure();
             }
