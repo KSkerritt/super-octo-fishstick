@@ -1,7 +1,7 @@
 const VALID_SECTIONS = [
-    'champagne', 'faberge', 'juliet rose', 'legacy', 'luxara',
-    'merlot', 'monaco', 'nirvana', 'noir', 'pink diamond',
-    'panthere', 'reign', 'savage', 'tiffany', 'rii dung'
+    'mirage', 'claw', 'electric', 'seduction', 'siren',
+    'sting', 'venom', 'ferocious', 'toxic', 'fury',
+    'hypnotiq', 'rii dung'
 ];
 
 const VALID_COSTUMES = [
@@ -78,7 +78,7 @@ exports.handler = async (event) => {
 YUMA receipt format:
 - The order reference number is the 8-character alphanumeric code at the top (e.g. ME337H3F). It appears alongside a date and is NOT labeled.
 - The product name combines section and costume type (e.g. "NOIR MALE" means section="Noir", costume_type="Male").
-- Valid sections: Champagne, Fabergè, Juliet Rose, Legacy, Luxara, Merlot, Monaco, Nirvana, Noir, Pink Diamond, Panthére, Reign, Savage, Tiffany, Rii Dung
+- Valid sections: Mirage, Claw, Electric, Seduction, Siren, Sting, Venom, Ferocious, Toxic, Fury, Hypnotiq, Rii Dung
 - Valid costume types: Male, Hardline, Hardline 1, Hardline 2, Hardline 3, Midline, Midline 1, Midline 2, Monokini, Monokini 1, Monokini 2, Body 1, Body 2
 - Add-on option appears under "ADD-ON OPTION". Return the value as shown, including "NONE".
 - Monday meal: look for any label containing "Monday" and "Menu" or "Selection". Return whatever meal text is listed there.
