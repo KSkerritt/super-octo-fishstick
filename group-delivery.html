@@ -1770,7 +1770,7 @@ function goToSlide(type, index) {
         var selectedLocPrice = 0;
         var selectedLocName  = '';
 
-        function updateDeliveryDisplay() {
+        window.updateDeliveryDisplay = function updateDeliveryDisplay() {
             if (!selectedLocPrice) return;
             var totalPeople = document.getElementById('group-members').children.length + 1;
             var totalCost   = selectedLocPrice * totalPeople;
@@ -1778,7 +1778,7 @@ function goToSlide(type, index) {
             selectionDisplay.classList.add('selected');
             selectionDisplay.classList.remove('error');
             document.getElementById('group_dprice').value = selectedLocPrice;
-        }
+        };
 
         function makeIcon(color, selected) {
             var size = selected ? 18 : 14;
