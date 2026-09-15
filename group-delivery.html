@@ -1296,6 +1296,53 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         const addMemberButton = document.getElementById('add-yuman');
         const removeMemberButton = document.getElementById('remove-yuman');
 
+        window.memberReceiptsValidated = {};
+
+        async function validateMemberReceipt(memberNumber, file) {
+            const statusDiv = document.getElementById('member' + memberNumber + '-receipt-vstate');
+            if (!statusDiv) return;
+            window.memberReceiptsValidated[memberNumber] = false;
+            statusDiv.className   = 'receipt-vstate loading';
+            statusDiv.textContent = 'Verifying receipt...';
+
+            const mediaType = file.type || 'image/jpeg';
+            const reader    = new FileReader();
+            reader.onload   = async function(e) {
+                const base64 = e.target.result.split(',')[1];
+                try {
+                    const res  = await fetch('/.netlify/functions/validate-receipt', {
+                        method:  'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body:    JSON.stringify({ imageBase64: base64, mediaType: mediaType })
+                    });
+                    if (!res.ok) throw new Error('Service error');
+                    const data = await res.json();
+
+                    if (data.valid) {
+                        window.memberReceiptsValidated[memberNumber] = true;
+                        statusDiv.className     = 'receipt-vstate valid';
+                        const parts = [];
+                        if (data.order_number) parts.push('Order: '   + data.order_number);
+                        if (data.section)      parts.push('Section: ' + data.section);
+                        if (data.costume_type) parts.push('Costume: ' + data.costume_type);
+                        statusDiv.textContent = 'Receipt verified. ' + parts.join(' · ');
+                    } else {
+                        window.memberReceiptsValidated[memberNumber] = false;
+                        const receiptInput = document.getElementById('visible_member' + memberNumber + '_receipt');
+                        if (receiptInput) receiptInput.value = '';
+                        statusDiv.className = 'receipt-vstate invalid';
+                        const reasons = (data.reasons && data.reasons.length) ? data.reasons : ['Receipt could not be verified. Please upload a valid YUMA receipt.'];
+                        statusDiv.innerHTML = reasons.map(function(r) { return '<div>' + r + '</div>'; }).join('');
+                    }
+                } catch (err) {
+                    window.memberReceiptsValidated[memberNumber] = true;
+                    statusDiv.className   = 'receipt-vstate warning';
+                    statusDiv.textContent = 'Automatic verification unavailable. Please ensure your receipt shows your order number and costume details before submitting.';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
         async function validateGroupReceipt(file) {
             const statusDiv = document.getElementById('receipt-validation-status');
             window.receiptValidated = false;
@@ -1501,7 +1548,8 @@ function goToSlide(type, index) {
                     </div>
                     <div class="input-field">
                         <label for="visible_member${memberNumber}_receipt">YUMA Receipt</label>
-                        <input type="file" id="visible_member${memberNumber}_receipt" class="file-input" data-hidden="hidden_member${memberNumber}_receipt" accept=".jpeg,.jpg,.png,.pdf" required />
+                        <input type="file" id="visible_member${memberNumber}_receipt" class="file-input member-receipt-input" data-member="${memberNumber}" data-hidden="hidden_member${memberNumber}_receipt" accept=".jpeg,.jpg,.png,.pdf" required />
+                        <div id="member${memberNumber}-receipt-vstate" class="receipt-vstate"></div>
                     </div>
                     <div class="input-field">
                         <label for="visible_member${memberNumber}_id">I.D. Card/Driver's Permit</label>
@@ -1536,6 +1584,9 @@ function goToSlide(type, index) {
             fileInputs.forEach(input => {
                 input.addEventListener('change', async function() {
                     await handleFileInput(this);
+                    if (this.classList.contains('member-receipt-input') && this.files.length > 0) {
+                        await validateMemberReceipt(parseInt(this.getAttribute('data-member')), this.files[0]);
+                    }
                 });
             });
         });
@@ -1566,6 +1617,7 @@ function goToSlide(type, index) {
                 }
             });
 
+            delete window.memberReceiptsValidated[memberNumber];
             groupMembersContainer.removeChild(groupMembersContainer.lastChild);
         });
 
@@ -1585,6 +1637,19 @@ function goToSlide(type, index) {
                 statusDiv.textContent = 'Please upload and verify your YUMA receipt before submitting.';
                 document.getElementById('auth_receipt').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
+            }
+
+            for (var mi = 1; mi <= currentMembers; mi++) {
+                if (!window.memberReceiptsValidated[mi]) {
+                    e.preventDefault();
+                    var mDiv = document.getElementById('member' + mi + '-receipt-vstate');
+                    if (mDiv) {
+                        mDiv.className   = 'receipt-vstate invalid';
+                        mDiv.textContent = 'Please upload and verify this member\'s YUMA receipt before submitting.';
+                        mDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
             }
 
             var locationInput = document.getElementById('auth_dropoff');
