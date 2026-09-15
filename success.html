@@ -552,6 +552,8 @@
 
                 var fd = new FormData();
                 fd.append('form-name', stored.formName);
+                if (txnId) fd.append('wipay_transaction_id', txnId);
+                if (total)  fd.append('wipay_total_paid',    total);
                 Object.keys(stored.fields || {}).forEach(function(key) { fd.append(key, stored.fields[key]); });
                 var fileEntries = Object.keys(stored.files || {});
                 var filePromises = fileEntries.map(function(key) {
@@ -568,8 +570,12 @@
                 });
                 Promise.all(filePromises).then(function() {
                     return fetch('/', { method: 'POST', body: fd });
-                }).then(function() {
-                    localStorage.removeItem('cyc_form_data');
+                }).then(function(res) {
+                    if (res.ok) {
+                        localStorage.removeItem('cyc_form_data');
+                    } else {
+                        console.error('Netlify rejected submission, status:', res.status);
+                    }
                 }).catch(function(err) {
                     console.error('Netlify submission failed:', err);
                 });
