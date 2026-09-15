@@ -1017,6 +1017,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               
                 <input type="hidden" id="dloc" name="Location">
                 <input type="hidden" id="dprice" name="DeliveryPrice">
+                <input type="hidden" id="yuma_order_ref" name="Order Reference No.">
 
                 <div class="tidy">
                     <select name="Section" id="Section" required>
@@ -1127,6 +1128,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                     if (data.valid) {
                         window.receiptValidated = true;
+                        if (data.order_number) document.getElementById('yuma_order_ref').value = data.order_number;
                         statusDiv.className     = 'receipt-vstate valid';
                         const parts = [];
                         if (data.order_number) parts.push('Order: '   + data.order_number);
