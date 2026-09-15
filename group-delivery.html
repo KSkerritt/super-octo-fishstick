@@ -1623,18 +1623,18 @@ function goToSlide(type, index) {
             updateDeliveryDisplay();
         });
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
             const currentMembers = groupMembersContainer.children.length;
 
             if (currentMembers === 0) {
-                e.preventDefault();
                 alert('Please add at least one group member before submitting.');
                 return;
             }
 
             if (!window.receiptValidated) {
-                e.preventDefault();
-                var statusDiv       = document.getElementById('receipt-validation-status');
+                var statusDiv = document.getElementById('receipt-validation-status');
                 statusDiv.className   = 'receipt-vstate invalid';
                 statusDiv.textContent = 'Please upload and verify your YUMA receipt before submitting.';
                 document.getElementById('auth_receipt').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1643,7 +1643,6 @@ function goToSlide(type, index) {
 
             for (var mi = 1; mi <= currentMembers; mi++) {
                 if (!window.memberReceiptsValidated[mi]) {
-                    e.preventDefault();
                     var mDiv = document.getElementById('member' + mi + '-receipt-vstate');
                     if (mDiv) {
                         mDiv.className   = 'receipt-vstate invalid';
@@ -1656,7 +1655,6 @@ function goToSlide(type, index) {
 
             var locationInput = document.getElementById('auth_dropoff');
             if (!locationInput.value) {
-                e.preventDefault();
                 var display = document.getElementById('map-selection-display');
                 display.classList.add('error');
                 display.textContent = 'Please select a drop-off location from the map above.';
@@ -1664,9 +1662,34 @@ function goToSlide(type, index) {
                 return;
             }
 
-            // Store payment data for WiPay on success page — total = price × (collector + all members)
+            // Collect all text/select/hidden fields
+            var fields = {};
+            form.querySelectorAll('input:not([type=file]), select, textarea').forEach(function(el) {
+                if (!el.name) return;
+                if (el.type === 'checkbox') fields[el.name] = el.checked ? 'on' : '';
+                else fields[el.name] = el.value;
+            });
+
+            // Collect file fields as base64 (only populated ones)
+            var fileEls = Array.from(form.querySelectorAll('input[type=file]')).filter(function(el) {
+                return el.name && el.files && el.files[0];
+            });
+            var files = {};
+            await Promise.all(fileEls.map(function(el) {
+                return new Promise(function(resolve) {
+                    var reader = new FileReader();
+                    reader.onload = function(ev) {
+                        files[el.name] = { base64: ev.target.result.split(',')[1], type: el.files[0].type || 'application/octet-stream', name: el.files[0].name };
+                        resolve();
+                    };
+                    reader.onerror = resolve;
+                    reader.readAsDataURL(el.files[0]);
+                });
+            }));
+
             var price       = parseFloat(document.getElementById('group_dprice').value) || 45;
             var totalPeople = currentMembers + 1;
+
             localStorage.setItem('cyc_payment', JSON.stringify({
                 orderId:      'CYC-' + Date.now(),
                 total:        (price * totalPeople).toFixed(2),
@@ -1675,25 +1698,13 @@ function goToSlide(type, index) {
                 formType:     'group'
             }));
 
-// Check approximate total file size
-            const allFileInputs = form.querySelectorAll('input[type="file"]');
-            let totalSize = 0;
-            
-            allFileInputs.forEach(input => {
-                if (input.files && input.files.length > 0) {
-                    for (let i = 0; i < input.files.length; i++) {
-                        totalSize += input.files[i].size;
-                    }
-                }
-            });
-            
-            // 10MB limit (slightly under to be safe)
-            const maxSize = 9.5 * 1024 * 1024; // 9.5MB
-            if (totalSize > maxSize) {
-                e.preventDefault();
-                const totalMB = (totalSize / (1024 * 1024)).toFixed(2);
-                alert(`Total file size (${totalMB}MB) exceeds the 10MB limit. Please compress your images in this submission.`);
-                return;
+            try {
+                localStorage.setItem('cyc_form_data', JSON.stringify({ formName: 'Group Registration', fields: fields, files: files }));
+                window.location.href = '/success.html';
+            } catch (storageErr) {
+                // Quota exceeded (very large group) — fall back to direct Netlify submission
+                console.warn('localStorage full, submitting directly:', storageErr);
+                form.submit();
             }
         });
 

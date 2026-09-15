@@ -1150,20 +1150,47 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             reader.readAsDataURL(file);
         }
 
-        document.querySelector('form[name="Registration"]').addEventListener('submit', function(e) {
+        document.querySelector('form[name="Registration"]').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
             if (!window.receiptValidated) {
-                e.preventDefault();
                 var statusDiv = document.getElementById('receipt-validation-status');
                 statusDiv.className   = 'receipt-vstate invalid';
                 statusDiv.textContent = 'Please upload and verify your YUMA receipt before submitting.';
                 document.getElementById('receiptUpload').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
-            // Store payment data for WiPay on success page
+
+            // Collect all text/select/hidden fields
+            var fields = {};
+            this.querySelectorAll('input:not([type=file]), select, textarea').forEach(function(el) {
+                if (!el.name) return;
+                if (el.type === 'checkbox') fields[el.name] = el.checked ? 'on' : '';
+                else fields[el.name] = el.value;
+            });
+
+            // Collect file fields as base64
+            var fileEls = Array.from(this.querySelectorAll('input[type=file]')).filter(function(el) {
+                return el.name && el.files && el.files[0];
+            });
+            var files = {};
+            await Promise.all(fileEls.map(function(el) {
+                return new Promise(function(resolve) {
+                    var reader = new FileReader();
+                    reader.onload = function(ev) {
+                        files[el.name] = { base64: ev.target.result.split(',')[1], type: el.files[0].type || 'application/octet-stream', name: el.files[0].name };
+                        resolve();
+                    };
+                    reader.onerror = resolve;
+                    reader.readAsDataURL(el.files[0]);
+                });
+            }));
+
             var location = document.getElementById('dloc').value;
             var price    = parseFloat(document.getElementById('dprice').value) || 45;
             var fname    = document.getElementById('fname').value;
             var lname    = document.getElementById('lname').value;
+
             localStorage.setItem('cyc_payment', JSON.stringify({
                 orderId:      'CYC-' + Date.now(),
                 total:        price.toFixed(2),
@@ -1171,7 +1198,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 location:     location,
                 formType:     'individual'
             }));
-            // Form proceeds normally to Netlify
+
+            try {
+                localStorage.setItem('cyc_form_data', JSON.stringify({ formName: 'Registration', fields: fields, files: files }));
+                window.location.href = '/success.html';
+            } catch (storageErr) {
+                // Quota exceeded — fall back to direct Netlify submission (payment link lost)
+                console.warn('localStorage full, submitting directly:', storageErr);
+                this.submit();
+            }
         });
 
         function validID() {

@@ -535,18 +535,49 @@
             }
 
             function showFailure() {
-                document.getElementById('success-heading').textContent = 'Registration Received';
-                document.getElementById('success-text').innerHTML    = 'Your registration was saved, but the delivery payment was not completed. Please email <a href="mailto:support@collectyuhcarnival.com" style="color:#C6EA8D;">support@collectyuhcarnival.com</a> to arrange payment.';
+                document.getElementById('success-heading').textContent = 'Payment Not Completed';
+                document.getElementById('success-text').innerHTML    = 'Your payment was not completed and your registration has not been submitted. Please go back and try again, or email <a href="mailto:support@collectyuhcarnival.com" style="color:#C6EA8D;">support@collectyuhcarnival.com</a> for help.';
                 resultEl.style.display    = 'block';
                 resultEl.style.background = 'rgba(255,107,107,0.08)';
                 resultEl.style.border     = '1px solid rgba(255,107,107,0.25)';
                 resultText.style.color    = '#ff8080';
-                resultText.textContent    = 'Payment was not completed. Your registration is saved.';
+                resultText.textContent    = 'Payment was not completed. No registration was submitted.';
                 homeBtn.style.display = 'inline-block';
+            }
+
+            function submitToNetlify() {
+                var stored = null;
+                try { stored = JSON.parse(localStorage.getItem('cyc_form_data') || 'null'); } catch (e) {}
+                if (!stored) return;
+
+                var fd = new FormData();
+                fd.append('form-name', stored.formName);
+                Object.keys(stored.fields || {}).forEach(function(key) { fd.append(key, stored.fields[key]); });
+                var fileEntries = Object.keys(stored.files || {});
+                var filePromises = fileEntries.map(function(key) {
+                    return new Promise(function(resolve) {
+                        try {
+                            var f = stored.files[key];
+                            var bytes = atob(f.base64);
+                            var arr = new Uint8Array(bytes.length);
+                            for (var i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+                            fd.append(key, new Blob([arr], { type: f.type }), f.name);
+                        } catch (e) { /* skip corrupt entry */ }
+                        resolve();
+                    });
+                });
+                Promise.all(filePromises).then(function() {
+                    return fetch('/', { method: 'POST', body: fd });
+                }).then(function() {
+                    localStorage.removeItem('cyc_form_data');
+                }).catch(function(err) {
+                    console.error('Netlify submission failed:', err);
+                });
             }
 
             if (wipayStatus === 'success') {
                 showSuccess();
+                submitToNetlify();
                 if (txnId && total && hash) {
                     fetch('/.netlify/functions/verify-payment', {
                         method: 'POST',
