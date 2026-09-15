@@ -925,8 +925,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <section class="formD">
         <div class="container">
             <h1>Group Delivery Registration</h1>
-            <form name="Group Registration" method="post" data-netlify="true" action="/success.html">
-                
+            <form name="Group Registration" method="post" data-netlify="true" data-netlify-honeypot="bot-field" action="/success.html">
+                <p style="display:none;"><label>Leave this empty: <input name="bot-field" autocomplete="off" tabindex="-1" /></label></p>
                 <!-- Authorized Collector -->
                 <fieldset>
                     <legend>Authorized Collector</legend>
@@ -1697,6 +1697,9 @@ function goToSlide(type, index) {
                 location:     locationInput.value,
                 formType:     'group'
             }));
+
+            fields['member_count']         = String(totalPeople);
+            fields['total_delivery_cost']  = (price * totalPeople).toFixed(2);
 
             try {
                 localStorage.setItem('cyc_form_data', JSON.stringify({ formName: 'Group Registration', fields: fields, files: files }));
