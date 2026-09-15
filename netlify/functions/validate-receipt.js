@@ -92,7 +92,8 @@ Return ONLY this JSON, no extra text:
   "costume_type": "costume type only",
   "add_ons": "add-on value or null if field absent",
   "meal_monday": "Monday meal selection text or null",
-  "meal_tuesday": "Tuesday meal selection text or null"
+  "meal_tuesday": "Tuesday meal selection text or null",
+  "receipt_date": "date of the receipt in YYYY-MM-DD format, or null if not found"
 }`
                         }
                     ]
@@ -151,27 +152,36 @@ Return ONLY this JSON, no extra text:
             reasons.push('Order reference number not found or invalid (expected an 8-character code like ME337H3F at the top of your receipt).');
         }
 
-        // 2. Section must match a known YUMA section
+        // 2. Receipt date must be July 1 2026 or later
+        if (extracted.receipt_date) {
+            const receiptDate = new Date(extracted.receipt_date);
+            const cutoff = new Date('2026-07-01');
+            if (!isNaN(receiptDate) && receiptDate < cutoff) {
+                reasons.push('Receipt date (' + extracted.receipt_date + ') is before July 1st 2026. Please upload a valid 2026 YUMA receipt.');
+            }
+        }
+
+        // 3. Section must match a known YUMA section
         if (!matchesList(extracted.section, VALID_SECTIONS)) {
             reasons.push('Section not recognised ("' + (extracted.section || 'missing') + '"). Your receipt must show a valid YUMA section name.');
         }
 
-        // 3. Costume type must match a known YUMA costume type
+        // 4. Costume type must match a known YUMA costume type
         if (!matchesList(extracted.costume_type, VALID_COSTUMES)) {
             reasons.push('Costume type not recognised ("' + (extracted.costume_type || 'missing') + '"). Your receipt must show a valid YUMA costume type.');
         }
 
-        // 4. Monday meal selection must be present
+        // 5. Monday meal selection must be present
         if (!extracted.meal_monday || extracted.meal_monday === 'null') {
             reasons.push('Monday menu selection not found. Please ensure your receipt shows your Monday meal choice.');
         }
 
-        // 5. Tuesday meal selection must be present
+        // 6. Tuesday meal selection must be present
         if (!extracted.meal_tuesday || extracted.meal_tuesday === 'null') {
             reasons.push('Tuesday menu selection not found. Please ensure your receipt shows your Tuesday meal choice.');
         }
 
-        // 6. Add-on required for all sections except Rii Dung
+        // 7. Add-on required for all sections except Rii Dung
         const isRiiDung = norm(extracted.section || '').includes('rii dung');
         if (!isRiiDung && extracted.add_ons === null) {
             reasons.push('Add-on option not found. Your receipt should show an add-on option (even if "None").');
