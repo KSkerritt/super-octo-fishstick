@@ -1589,6 +1589,7 @@ function goToSlide(type, index) {
                     }
                 });
             });
+            updateDeliveryDisplay();
         });
 
         removeMemberButton.addEventListener('click', () => {
@@ -1619,6 +1620,7 @@ function goToSlide(type, index) {
 
             delete window.memberReceiptsValidated[memberNumber];
             groupMembersContainer.removeChild(groupMembersContainer.lastChild);
+            updateDeliveryDisplay();
         });
 
         form.addEventListener('submit', (e) => {
@@ -1662,11 +1664,12 @@ function goToSlide(type, index) {
                 return;
             }
 
-            // Store payment data for WiPay on success page
-            var price = parseFloat(document.getElementById('group_dprice').value) || 45;
+            // Store payment data for WiPay on success page — total = price × (collector + all members)
+            var price       = parseFloat(document.getElementById('group_dprice').value) || 45;
+            var totalPeople = currentMembers + 1;
             localStorage.setItem('cyc_payment', JSON.stringify({
                 orderId:      'CYC-' + Date.now(),
-                total:        price.toFixed(2),
+                total:        (price * totalPeople).toFixed(2),
                 customerName: document.getElementById('auth_fname').value + ' ' + document.getElementById('auth_lname').value,
                 location:     locationInput.value,
                 formType:     'group'
@@ -1750,6 +1753,18 @@ function goToSlide(type, index) {
         var hiddenInput = document.getElementById('auth_dropoff');
         var selectionDisplay = document.getElementById('map-selection-display');
         var selectedMarker = null;
+        var selectedLocPrice = 0;
+        var selectedLocName  = '';
+
+        function updateDeliveryDisplay() {
+            if (!selectedLocPrice) return;
+            var totalPeople = document.getElementById('group-members').children.length + 1;
+            var totalCost   = selectedLocPrice * totalPeople;
+            selectionDisplay.textContent = selectedLocName + ' — $' + totalCost.toFixed(2) + ' USD (' + totalPeople + ' member' + (totalPeople !== 1 ? 's' : '') + ')';
+            selectionDisplay.classList.add('selected');
+            selectionDisplay.classList.remove('error');
+            document.getElementById('group_dprice').value = selectedLocPrice;
+        }
 
         function makeIcon(color, selected) {
             var size = selected ? 18 : 14;
@@ -1780,11 +1795,10 @@ function goToSlide(type, index) {
                 }
                 selectedMarker = marker;
                 marker.setIcon(makeIcon(color, true));
-                hiddenInput.value = loc.val;
-                document.getElementById('group_dprice').value = loc.price;
-                selectionDisplay.textContent = loc.name + ' — $' + loc.price + ' USD';
-                selectionDisplay.classList.add('selected');
-                selectionDisplay.classList.remove('error');
+                hiddenInput.value  = loc.val;
+                selectedLocPrice   = loc.price;
+                selectedLocName    = loc.name;
+                updateDeliveryDisplay();
             });
             return marker;
         });
