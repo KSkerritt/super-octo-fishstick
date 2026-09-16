@@ -9,3 +9,6 @@
 
 [functions."validate-receipt"]
   timeout = 26
+
+[functions."netlify-to-airtable"]
+  timeout = 26
