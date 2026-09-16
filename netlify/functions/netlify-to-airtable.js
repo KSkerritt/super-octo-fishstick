@@ -96,7 +96,7 @@ function mapMember(data, i, collectorRecordId) {
         'Section':             data[`member${i}_section`],
         'Costume Type':        data[`member${i}_costume`],
         'Order Reference No.': data[`member${i}_order_ref`],
-        'Authorized Collector': [{ id: collectorRecordId }],
+        'Authorized Collector': [collectorRecordId],
     };
     const receipt = attachment(data[`member${i}_receipt`]);
     const id      = attachment(data[`member${i}_id`]);
