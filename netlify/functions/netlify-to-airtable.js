@@ -216,12 +216,14 @@ exports.handler = async (event) => {
 
             await Promise.allSettled([
                 sendMailchimpConfirmation(email, {
-                    FNAME:    firstName,
-                    LNAME:    lastName,
-                    SECTION:  section,
-                    COSTUME:  costume,
-                    LOCATION: location,
-                    PAID:     total ? `$${total} USD` : '',
+                    FNAME:   firstName,
+                    LNAME:   lastName,
+                    PHONE:   phone,
+                    SECTION: section,
+                    TYPE:    costume,
+                    DROPOFF: location,
+                    AMTPAID: total ? `$${total} USD` : '',
+                    MMERGE5: 'Paid',
                 }),
                 sendWhatsApp(phone, whatsappMsg),
             ]);
@@ -264,12 +266,14 @@ exports.handler = async (event) => {
 
             const commsPromises = [
                 sendMailchimpConfirmation(email, {
-                    FNAME:    firstName,
-                    LNAME:    lastName,
-                    SECTION:  section,
-                    COSTUME:  costume,
-                    LOCATION: location,
-                    PAID:     total ? `$${total} USD` : '',
+                    FNAME:   firstName,
+                    LNAME:   lastName,
+                    PHONE:   phone,
+                    SECTION: section,
+                    TYPE:    costume,
+                    DROPOFF: location,
+                    AMTPAID: total ? `$${total} USD` : '',
+                    MMERGE5: 'Paid',
                 }),
                 sendWhatsApp(phone, whatsappMsg),
             ];
