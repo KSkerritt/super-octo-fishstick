@@ -155,7 +155,7 @@ Return ONLY this JSON, no extra text:
         // 2. Receipt date must be July 1 2026 or later
         if (extracted.receipt_date) {
             const receiptDate = new Date(extracted.receipt_date);
-            const cutoff = new Date('2020-07-01');
+            const cutoff = new Date('2026-07-01');
             if (!isNaN(receiptDate) && receiptDate < cutoff) {
                 reasons.push('Receipt date (' + extracted.receipt_date + ') is before July 1st 2026. Please upload a valid 2026 YUMA receipt.');
             }
