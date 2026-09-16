@@ -90,12 +90,12 @@ function mapCollector(data) {
 
 function mapMember(data, i, collectorRecordId) {
     const fields = {
-        'First Name':          data[`member${i}_fname`],
-        'Last Name':           data[`member${i}_lname`],
-        'Email':               data[`member${i}_email`],
-        'Section':             data[`member${i}_section`],
-        'Costume Type':        data[`member${i}_costume`],
-        'Order Reference No.': data[`member${i}_order_ref`],
+        'First Name':           data[`member${i}_fname`],
+        'Last Name':            data[`member${i}_lname`],
+        'Email':                data[`member${i}_email`],
+        'Section':              data[`member${i}_section`],
+        'Costume Type':         data[`member${i}_costume`],
+        'Order Reference No.':  data[`member${i}_order_ref`],
         'Authorized Collector': [collectorRecordId],
     };
     const receipt = attachment(data[`member${i}_receipt`]);
