@@ -37,9 +37,76 @@ async function airtableCreate(table, fields) {
         const err = await res.text();
         throw new Error(`Airtable error ${res.status} on ${table}: ${err}`);
     }
-    return res.json(); // { id, fields, createdTime }
+    return res.json();
 }
 
+// ── Mailchimp ─────────────────────────────────────────────────────────────────
+// Upserts the contact into the audience with merge fields, then applies the
+// 'cyc-confirmed' tag. Set up a Customer Journey in Mailchimp triggered by
+// that tag to send the confirmation email.
+async function sendMailchimpConfirmation(email, mergeFields) {
+    const API_KEY = process.env.MAILCHIMP_API_KEY;
+    const SERVER  = process.env.MAILCHIMP_SERVER_PREFIX; // e.g. 'us1'
+    const LIST_ID = process.env.MAILCHIMP_LIST_ID;
+    if (!API_KEY || !SERVER || !LIST_ID || !email) return;
+
+    const crypto = require('crypto');
+    const hash   = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
+    const base   = `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${hash}`;
+    const auth   = { Authorization: `apikey ${API_KEY}`, 'Content-Type': 'application/json' };
+
+    // Upsert subscriber (status_if_new keeps existing subscribers from being reset)
+    const upsertRes = await fetch(base, {
+        method:  'PUT',
+        headers: auth,
+        body:    JSON.stringify({
+            email_address: email,
+            status_if_new: 'subscribed',
+            merge_fields:  mergeFields,
+        }),
+    });
+    if (!upsertRes.ok) {
+        console.error('Mailchimp upsert failed:', await upsertRes.text());
+        return;
+    }
+
+    // Apply tag to trigger the Customer Journey automation
+    const tagRes = await fetch(`${base}/tags`, {
+        method:  'POST',
+        headers: auth,
+        body:    JSON.stringify({ tags: [{ name: 'cyc-confirmed', status: 'active' }] }),
+    });
+    if (!tagRes.ok) console.error('Mailchimp tag failed:', await tagRes.text());
+    else console.log('Mailchimp confirmation triggered for', email);
+}
+
+// ── Twilio WhatsApp ───────────────────────────────────────────────────────────
+// Sends a WhatsApp message via the Twilio Messages API.
+// phone should be in E.164 format (e.g. +18681234567).
+// In production, the message body must match a WhatsApp-approved template.
+async function sendWhatsApp(phone, message) {
+    const SID   = process.env.TWILIO_ACCOUNT_SID;
+    const TOKEN = process.env.TWILIO_AUTH_TOKEN;
+    const FROM  = process.env.TWILIO_WHATSAPP_FROM; // e.g. '+14155238886'
+    if (!SID || !TOKEN || !FROM || !phone) return;
+
+    // Normalise to E.164: strip all non-digits, prepend + if missing
+    const digits    = phone.replace(/\D/g, '');
+    const e164      = phone.trim().startsWith('+') ? '+' + digits : '+' + digits;
+    const toFormatted = `whatsapp:${e164}`;
+    const fromFormatted = `whatsapp:${FROM}`;
+
+    const auth = Buffer.from(`${SID}:${TOKEN}`).toString('base64');
+    const res  = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${SID}/Messages.json`, {
+        method:  'POST',
+        headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+        body:    new URLSearchParams({ From: fromFormatted, To: toFormatted, Body: message }).toString(),
+    });
+    if (!res.ok) console.error('Twilio WhatsApp failed:', await res.text());
+    else console.log('WhatsApp confirmation sent to', e164);
+}
+
+// ── Map functions ─────────────────────────────────────────────────────────────
 function mapIndividual(data) {
     const fields = {
         'First Name':          data['First-Name'],
@@ -76,7 +143,7 @@ function mapCollector(data) {
         'Costume Type':             data['auth_costume'],
         'Drop-off Location':        data['auth_dropoff'],
         'Order Reference No.':      data['auth_order_ref'],
-        'Total Group Size':         data['member_count']         ? parseInt(data['member_count'])          : undefined,
+        'Total Group Size':         data['member_count'] ? parseInt(data['member_count']) : undefined,
         'Payment Status':           'Paid',
     };
     const receipt = attachment(data['auth_receipt']);
@@ -131,6 +198,34 @@ exports.handler = async (event) => {
             await airtableCreate(TABLES.INDIVIDUAL, mapIndividual(data));
             console.log('Individual registration written to Airtable');
 
+            const total     = data['wipay_total_paid'] || '';
+            const firstName = data['First-Name']       || '';
+            const lastName  = data['Last-Name']        || '';
+            const section   = data['Section']          || '';
+            const costume   = data['Costume Type']     || '';
+            const location  = data['Location']         || '';
+            const phone     = data['Phone-Number']     || '';
+            const email     = data['E-mail']           || '';
+
+            const whatsappMsg =
+                `Hi ${firstName}! ✅ Collect Yuh Carnival has received your registration.\n\n` +
+                `📍 Drop-off: ${location}\n` +
+                `🎭 Section: ${section} | Costume: ${costume}\n` +
+                `💰 Delivery fee paid: $${total} USD\n\n` +
+                `We'll be in touch with your collection details. — CYC`;
+
+            await Promise.allSettled([
+                sendMailchimpConfirmation(email, {
+                    FNAME:    firstName,
+                    LNAME:    lastName,
+                    SECTION:  section,
+                    COSTUME:  costume,
+                    LOCATION: location,
+                    PAID:     total ? `$${total} USD` : '',
+                }),
+                sendWhatsApp(phone, whatsappMsg),
+            ]);
+
         } else if (formName === 'Group Registration') {
             // 1. Create the collector record first to get its Airtable record ID
             const collectorRecord = await airtableCreate(TABLES.COLLECTORS, mapCollector(data));
@@ -147,6 +242,40 @@ exports.handler = async (event) => {
                     .then(() => console.log(`Member ${i} created`))
             ));
             console.log(`Group complete: 1 collector + ${memberSlots.length} member(s)`);
+
+            const total      = data['wipay_total_paid']  || '';
+            const firstName  = data['auth_fname']        || '';
+            const lastName   = data['auth_lname']        || '';
+            const section    = data['auth_section']      || '';
+            const costume    = data['auth_costume']      || '';
+            const location   = data['auth_dropoff']      || '';
+            const phone      = data['auth_phone']        || '';
+            const phone2     = data['auth_phone_secondary'] || '';
+            const email      = data['auth_email']        || '';
+            const groupSize  = data['member_count']      || '';
+
+            const whatsappMsg =
+                `Hi ${firstName}! ✅ Collect Yuh Carnival has received your group registration.\n\n` +
+                `👥 Group size: ${groupSize} masquerader(s)\n` +
+                `📍 Drop-off: ${location}\n` +
+                `🎭 Your section: ${section} | Costume: ${costume}\n` +
+                `💰 Delivery fee paid: $${total} USD\n\n` +
+                `We'll be in touch with your collection details. — CYC`;
+
+            const commsPromises = [
+                sendMailchimpConfirmation(email, {
+                    FNAME:    firstName,
+                    LNAME:    lastName,
+                    SECTION:  section,
+                    COSTUME:  costume,
+                    LOCATION: location,
+                    PAID:     total ? `$${total} USD` : '',
+                }),
+                sendWhatsApp(phone, whatsappMsg),
+            ];
+            if (phone2) commsPromises.push(sendWhatsApp(phone2, whatsappMsg));
+
+            await Promise.allSettled(commsPromises);
 
         } else {
             console.log('Unrecognised form name:', formName);
