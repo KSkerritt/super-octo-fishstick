@@ -140,10 +140,11 @@ exports.handler = async (event) => {
             // 2. Create a member record for each present member, linked to the collector
             // Count by checking which member slots have a first name populated (max 9)
             console.log('Member data received:', JSON.stringify({
-                member1_fname: data['member1_fname'],
-                member1_lname: data['member1_lname'],
-                member1_section: data['member1_section'],
-                member_count: data['member_count'],
+                member1_fname:     data['member1_fname'],
+                member1_lname:     data['member1_lname'],
+                member1_section:   data['member1_section'],
+                member1_order_ref: data['member1_order_ref'],
+                member_count:      data['member_count'],
             }));
             for (let i = 1; i <= 9; i++) {
                 if (!data[`member${i}_fname`]) continue;
