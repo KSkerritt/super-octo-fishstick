@@ -70,11 +70,11 @@ async function sendMailchimpConfirmation(email, mergeFields) {
         return;
     }
 
-    // Apply tag to trigger the Customer Journey automation
+    // Apply tags: 'cyc-confirmed' triggers the Customer Journey; '2027' segments the audience
     const tagRes = await fetch(`${base}/tags`, {
         method:  'POST',
         headers: auth,
-        body:    JSON.stringify({ tags: [{ name: 'cyc-confirmed', status: 'active' }] }),
+        body:    JSON.stringify({ tags: [{ name: 'cyc-confirmed', status: 'active' }, { name: '2027', status: 'active' }] }),
     });
     if (!tagRes.ok) console.error('Mailchimp tag failed:', await tagRes.text());
     else console.log('Mailchimp confirmation triggered for', email);
