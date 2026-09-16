@@ -1307,11 +1307,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         const removeMemberButton = document.getElementById('remove-yuman');
 
         window.memberReceiptsValidated = {};
+        window.memberOrderRefs = {};
 
         async function validateMemberReceipt(memberNumber, file) {
             const statusDiv = document.getElementById('member' + memberNumber + '-receipt-vstate');
             if (!statusDiv) return;
             window.memberReceiptsValidated[memberNumber] = false;
+            delete window.memberOrderRefs[memberNumber];
             statusDiv.className   = 'receipt-vstate loading';
             statusDiv.textContent = 'Verifying receipt...';
 
@@ -1330,10 +1332,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                     if (data.valid) {
                         window.memberReceiptsValidated[memberNumber] = true;
-                        if (data.order_number) {
-                            var refInput = document.getElementById('hidden_member' + memberNumber + '_order_ref');
-                            if (refInput) refInput.value = data.order_number;
-                        }
+                        window.memberOrderRefs[memberNumber] = data.order_number || '';
                         statusDiv.className     = 'receipt-vstate valid';
                         const parts = [];
                         if (data.order_number) parts.push('Order: '   + data.order_number);
@@ -1564,7 +1563,6 @@ function goToSlide(type, index) {
                     <div class="input-field">
                         <label for="visible_member${memberNumber}_receipt">YUMA Receipt</label>
                         <input type="file" id="visible_member${memberNumber}_receipt" class="file-input member-receipt-input" data-member="${memberNumber}" data-hidden="hidden_member${memberNumber}_receipt" accept=".jpeg,.jpg,.png,.pdf" required />
-                        <input type="hidden" id="hidden_member${memberNumber}_order_ref" name="member${memberNumber}_order_ref" />
                         <div id="member${memberNumber}-receipt-vstate" class="receipt-vstate"></div>
                     </div>
                     <div class="input-field">
@@ -1635,6 +1633,7 @@ function goToSlide(type, index) {
             });
 
             delete window.memberReceiptsValidated[memberNumber];
+            delete window.memberOrderRefs[memberNumber];
             groupMembersContainer.removeChild(groupMembersContainer.lastChild);
             updateDeliveryDisplay();
         });
@@ -1713,6 +1712,13 @@ function goToSlide(type, index) {
                 location:     locationInput.value,
                 formType:     'group'
             }));
+
+            // Inject member order refs from in-memory store (bypasses DOM round-trip)
+            for (var mi = 1; mi <= currentMembers; mi++) {
+                if (window.memberOrderRefs[mi]) {
+                    fields['member' + mi + '_order_ref'] = window.memberOrderRefs[mi];
+                }
+            }
 
             fields['member_count']         = String(totalPeople);
             fields['total_delivery_cost']  = (price * totalPeople).toFixed(2);
