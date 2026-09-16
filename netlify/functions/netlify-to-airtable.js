@@ -138,8 +138,8 @@ exports.handler = async (event) => {
             console.log('Group collector created:', collectorId);
 
             // 2. Create a member record for each present member, linked to the collector
-            const memberCount = parseInt(data['member_count']) || 0;
-            for (let i = 1; i <= memberCount; i++) {
+            // Count by checking which member slots have a first name populated (max 9)
+            for (let i = 1; i <= 9; i++) {
                 if (!data[`member${i}_fname`]) continue;
                 await airtableCreate(TABLES.MEMBERS, mapMember(data, i, collectorId));
                 console.log(`Member ${i} created and linked to collector`);
