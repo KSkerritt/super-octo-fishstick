@@ -44,7 +44,7 @@ async function airtableCreate(table, fields) {
 // Upserts the contact into the audience with merge fields, then applies the
 // 'cyc-confirmed' tag. Set up a Customer Journey in Mailchimp triggered by
 // that tag to send the confirmation email.
-async function sendMailchimpConfirmation(email, mergeFields) {
+async function sendMailchimpConfirmation(email, mergeFields, extraTags = []) {
     const API_KEY = process.env.MAILCHIMP_API_KEY;
     const SERVER  = process.env.MAILCHIMP_SERVER_PREFIX; // e.g. 'us1'
     const LIST_ID = process.env.MAILCHIMP_LIST_ID;
@@ -70,14 +70,15 @@ async function sendMailchimpConfirmation(email, mergeFields) {
         return;
     }
 
-    // Apply tags: 'cyc-confirmed' triggers the Customer Journey; '2027' segments the audience
-    const tagRes = await fetch(`${base}/tags`, {
+    const baseTags = ['cyc-confirmed', '2027'];
+    const allTags  = [...new Set([...baseTags, ...extraTags])];
+    const tagRes   = await fetch(`${base}/tags`, {
         method:  'POST',
         headers: auth,
-        body:    JSON.stringify({ tags: [{ name: 'cyc-confirmed', status: 'active' }, { name: '2027', status: 'active' }] }),
+        body:    JSON.stringify({ tags: allTags.map(name => ({ name, status: 'active' })) }),
     });
     if (!tagRes.ok) console.error('Mailchimp tag failed:', await tagRes.text());
-    else console.log('Mailchimp confirmation triggered for', email);
+    else console.log('Mailchimp confirmation triggered for', email, '| tags:', allTags.join(', '));
 }
 
 // ── Twilio WhatsApp ───────────────────────────────────────────────────────────
@@ -274,7 +275,7 @@ exports.handler = async (event) => {
                     DROPOFF: location,
                     AMTPAID: total ? `$${total} USD` : '',
                     MMERGE5: 'Paid',
-                }),
+                }, ['group-collector']),
                 sendWhatsApp(phone, whatsappMsg),
             ];
             if (phone2) commsPromises.push(sendWhatsApp(phone2, whatsappMsg));
