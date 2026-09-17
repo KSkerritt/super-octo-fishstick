@@ -44,7 +44,7 @@ async function airtableCreate(table, fields) {
 // Upserts the contact into the audience with merge fields, then applies the
 // 'cyc-confirmed' tag. Set up a Customer Journey in Mailchimp triggered by
 // that tag to send the confirmation email.
-async function sendMailchimpConfirmation(email, mergeFields, extraTags = []) {
+async function sendMailchimpConfirmation(email, mergeFields, tags = ['cyc-confirmed', '2027']) {
     const API_KEY = process.env.MAILCHIMP_API_KEY;
     const SERVER  = process.env.MAILCHIMP_SERVER_PREFIX; // e.g. 'us1'
     const LIST_ID = process.env.MAILCHIMP_LIST_ID;
@@ -70,15 +70,14 @@ async function sendMailchimpConfirmation(email, mergeFields, extraTags = []) {
         return;
     }
 
-    const baseTags = ['cyc-confirmed', '2027'];
-    const allTags  = [...new Set([...baseTags, ...extraTags])];
-    const tagRes   = await fetch(`${base}/tags`, {
+    const allTags = [...new Set(tags)];
+    const tagRes  = await fetch(`${base}/tags`, {
         method:  'POST',
         headers: auth,
         body:    JSON.stringify({ tags: allTags.map(name => ({ name, status: 'active' })) }),
     });
     if (!tagRes.ok) console.error('Mailchimp tag failed:', await tagRes.text());
-    else console.log('Mailchimp confirmation triggered for', email, '| tags:', allTags.join(', '));
+    else console.log('Mailchimp upsert for', email, '| tags:', allTags.join(', '));
 }
 
 // ── Twilio WhatsApp ───────────────────────────────────────────────────────────
@@ -225,7 +224,7 @@ exports.handler = async (event) => {
                     DROPOFF: location,
                     AMTPAID: total ? `$${total} USD` : '',
                     MMERGE5: 'Paid',
-                }),
+                }, ['cyc-confirmed', '2027']),
                 sendWhatsApp(phone, whatsappMsg),
             ]);
 
@@ -245,6 +244,21 @@ exports.handler = async (event) => {
                     .then(() => console.log(`Member ${i} created`))
             ));
             console.log(`Group complete: 1 collector + ${memberSlots.length} member(s)`);
+
+            // 3. Add members to Mailchimp audience for marketing (non-fatal)
+            await Promise.allSettled(memberSlots
+                .filter(i => data[`member${i}_email`])
+                .map(i => sendMailchimpConfirmation(
+                    data[`member${i}_email`],
+                    {
+                        FNAME:   data[`member${i}_fname`]    || '',
+                        LNAME:   data[`member${i}_lname`]    || '',
+                        SECTION: data[`member${i}_section`]  || '',
+                        TYPE:    data[`member${i}_costume`]  || '',
+                    },
+                    ['2027', 'Group Member']
+                ))
+            );
 
             const total      = data['wipay_total_paid']  || '';
             const firstName  = data['auth_fname']        || '';
@@ -275,7 +289,7 @@ exports.handler = async (event) => {
                     DROPOFF: location,
                     AMTPAID: total ? `$${total} USD` : '',
                     MMERGE5: 'Paid',
-                }, ['group-collector']),
+                }, ['cyc-confirmed', '2027', 'group-collector']),
                 sendWhatsApp(phone, whatsappMsg),
             ];
             if (phone2) commsPromises.push(sendWhatsApp(phone2, whatsappMsg));
