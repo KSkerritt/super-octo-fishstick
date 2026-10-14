@@ -1,24 +1,15 @@
-<style>
-:root {
-  --card:      #f6f6f8;
-  --border:    #e4e4ea;
-  --text:      #1a1a1f;
-  --muted:     #6b6b7a;
-  --faint:     #a0a0b0;
-  --pink:      #d9446e;
-  --green:     #5a9a1a;
-  --grad:      linear-gradient(135deg, #7dc832 0%, #FE90AF 100%);
-  --grad-faint:linear-gradient(135deg, rgba(198,234,141,.25) 0%, rgba(254,144,175,.2) 100%);
-}
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style type="text/css">
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   background: #ffffff;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   font-size: 15px;
   line-height: 1.6;
-  color: var(--text);
+  color: #1a1a1f;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 .email-wrap {
@@ -27,40 +18,52 @@ body {
   background: #ffffff;
 }
 
-.gradient-bar { height: 3px; background: var(--grad); }
+/* Gradient bar — solid fallback for Outlook */
+.gradient-bar {
+  height: 3px;
+  background-color: #FE90AF;
+  background-image: linear-gradient(135deg, #7dc832 0%, #FE90AF 100%);
+  line-height: 3px;
+  font-size: 3px;
+}
 
+/* Header */
 .email-header {
   padding: 32px 40px 28px;
+  border-bottom: 1px solid #e4e4ea;
+}
+
+.header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border);
   gap: 16px;
 }
 
 .logo-lockup { display: flex; align-items: center; gap: 14px; }
-.logo-svg-wrap { width: 52px; height: 52px; flex-shrink: 0; }
-.logo-svg-wrap svg { width: 100%; height: 100%; }
 
-.logo-text { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.25; }
+.logo-text { font-size: 15px; font-weight: 700; color: #1a1a1f; line-height: 1.25; }
 .logo-text span {
-  display: block; font-size: 10px; font-weight: 500; color: var(--muted);
+  display: block; font-size: 10px; font-weight: 500; color: #6b6b7a;
   letter-spacing: .08em; text-transform: uppercase; margin-top: 2px;
 }
 
 .header-season {
-  text-align: right; font-size: 11px; font-weight: 600;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--green);
+  font-size: 11px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: #5a9a1a;
 }
 
+/* Hero */
 .hero {
-  padding: 48px 40px 40px; text-align: center;
-  background: linear-gradient(to bottom, #f0f4fa, #ffffff);
+  padding: 48px 40px 40px;
+  text-align: center;
+  background-color: #f4f7fb;
+  background-image: linear-gradient(to bottom, #f0f4fa, #ffffff);
 }
 
 .hero-eyebrow {
   display: inline-block; font-size: 10px; font-weight: 700;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--pink);
+  letter-spacing: .18em; text-transform: uppercase; color: #d9446e;
   margin-bottom: 16px; padding: 4px 12px;
   border: 1px solid rgba(217,68,110,.3); border-radius: 100px;
   text-decoration: none;
@@ -68,190 +71,237 @@ body {
 
 .hero h1 {
   font-size: 34px; font-weight: 700; line-height: 1.15;
-  text-wrap: balance; margin-bottom: 18px;
-  background: var(--grad);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 18px;
+  /* Solid fallback first — Outlook shows this */
+  color: #5a9a1a;
+  /* Gradient for supporting clients */
+  background-image: linear-gradient(135deg, #7dc832 0%, #FE90AF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .hero-body { font-size: 15px; color: #555568; line-height: 1.7; max-width: 430px; margin: 0 auto; }
 
+/* Greeting */
 .greeting { padding: 32px 40px 0; font-size: 15px; color: #444455; line-height: 1.75; }
-.greeting strong { color: var(--text); }
+.greeting strong { color: #1a1a1f; }
 
+/* Section label */
 .section-label {
   padding: 32px 40px 16px; font-size: 10px; font-weight: 700;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--faint);
+  letter-spacing: .16em; text-transform: uppercase; color: #a0a0b0;
 }
 
-.divider { height: 1px; background: var(--border); margin: 0 40px; }
+.divider { height: 1px; background: #e4e4ea; margin: 0 40px; font-size: 0; line-height: 0; }
 
-.updates-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 12px; padding: 16px 24px 32px;
-}
+/* Update cards — table-based for Outlook */
+.updates-table { width: 100%; border-collapse: separate; border-spacing: 0; padding: 16px 24px 32px; }
+.updates-table td { vertical-align: top; padding: 0 6px; }
+.updates-table td:first-child { padding-left: 0; }
+.updates-table td:last-child  { padding-right: 0; }
 
 .update-card {
-  background: var(--card); border: 1px solid var(--border);
+  background: #f6f6f8; border: 1px solid #e4e4ea;
   border-radius: 10px; padding: 20px 16px 18px;
 }
 
 .update-icon {
   width: 36px; height: 36px; border-radius: 8px;
-  background: var(--grad-faint); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
+  background-color: #f0f8e8;
+  background-image: linear-gradient(135deg, rgba(198,234,141,.25) 0%, rgba(254,144,175,.2) 100%);
+  border: 1px solid #e4e4ea;
+  text-align: center; line-height: 36px;
   margin-bottom: 14px; font-size: 18px;
 }
 
-.update-card h3 { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
-.update-card p  { font-size: 11px; color: var(--muted); line-height: 1.55; }
+.update-card h3 { font-size: 12px; font-weight: 700; color: #1a1a1f; margin-bottom: 6px; line-height: 1.35; }
+.update-card p  { font-size: 11px; color: #6b6b7a; line-height: 1.55; }
 
+/* Deadline */
 .deadline-wrap { padding: 0 24px 32px; }
 
 .deadline-block {
   padding: 24px 28px; border-radius: 12px;
-  background: var(--grad-faint); border: 1px solid rgba(254,144,175,.25);
-  display: flex; align-items: center; gap: 24px;
+  background-color: #f5fae8;
+  background-image: linear-gradient(135deg, rgba(198,234,141,.25) 0%, rgba(254,144,175,.2) 100%);
+  border: 1px solid rgba(254,144,175,.25);
 }
 
-.deadline-icon { font-size: 36px; flex-shrink: 0; line-height: 1; }
-.deadline-label { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--pink); margin-bottom: 4px; }
-.deadline-date  { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.deadline-note  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.deadline-inner { display: flex; align-items: center; gap: 24px; }
+.deadline-icon  { font-size: 36px; flex-shrink: 0; line-height: 1; }
+.deadline-label { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #d9446e; margin-bottom: 4px; }
+.deadline-date  { font-size: 22px; font-weight: 700; color: #1a1a1f; margin-bottom: 4px; }
+.deadline-note  { font-size: 12px; color: #6b6b7a; line-height: 1.5; }
 
+/* Photos — table-based for Outlook */
 .photos-wrap { padding: 0 24px 32px; }
+.photo-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.photo-table td { vertical-align: top; padding: 0 4px 8px 0; width: 33.33%; }
+.photo-table td:last-child { padding-right: 0; }
 
-.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.photo-ph { border-radius: 8px; overflow: hidden; background: #f6f6f8; display: block; }
+.photo-ph img { width: 100%; height: 200px; object-fit: cover; display: block; border-radius: 8px; }
 
-.photo-ph { aspect-ratio: 3/4; border-radius: 8px; overflow: hidden; background: var(--card); }
-.photo-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
+/* CTA */
 .cta-section { padding: 8px 40px 48px; text-align: center; }
 
 .cta-btn {
   display: inline-block; padding: 17px 52px;
-  background: var(--grad); border-radius: 8px;
+  background-color: #a0d050;
+  background-image: linear-gradient(135deg, #7dc832 0%, #FE90AF 100%);
+  border-radius: 8px;
   color: #0a0a0b; font-weight: 700; font-size: 15px;
   text-decoration: none; letter-spacing: .02em;
 }
 
-.cta-sub { margin-top: 14px; font-size: 12px; color: var(--muted); }
-.cta-sub a { color: var(--green); text-decoration: none; }
+.cta-sub { margin-top: 14px; font-size: 12px; color: #6b6b7a; }
+.cta-sub a { color: #5a9a1a; text-decoration: none; }
 
+/* Footer */
 .email-footer {
-  padding: 24px 40px; border-top: 1px solid var(--border);
-  text-align: center; color: var(--faint); font-size: 11px; line-height: 1.9;
+  padding: 24px 40px; border-top: 1px solid #e4e4ea;
+  text-align: center; color: #a0a0b0; font-size: 11px; line-height: 1.9;
 }
+.email-footer a { color: #a0a0b0; text-decoration: underline; }
+.footer-brand { font-weight: 600; color: #6b6b7a; margin-bottom: 6px; }
 
-.email-footer a { color: var(--faint); text-decoration: underline; text-underline-offset: 2px; }
-.footer-brand { font-weight: 600; color: var(--muted); margin-bottom: 6px; }
-
-@media (max-width: 560px) {
-  .email-header   { padding: 24px 20px; }
-  .hero           { padding: 36px 20px 30px; }
-  .hero h1        { font-size: 26px; }
-  .greeting       { padding: 24px 20px 0; }
-  .section-label  { padding: 24px 20px 14px; }
-  .divider        { margin: 0 20px; }
-  .updates-grid   { grid-template-columns: 1fr; gap: 8px; padding: 16px 16px 24px; }
-  .deadline-wrap  { padding: 0 16px 24px; }
-  .deadline-block { flex-direction: column; gap: 12px; text-align: center; padding: 20px; }
-  .photos-wrap    { padding: 0 16px 24px; }
-  .cta-section    { padding: 8px 20px 36px; }
-  .email-footer   { padding: 20px; }
+/* Mobile */
+@media only screen and (max-width: 560px) {
+  .email-header   { padding: 24px 20px !important; }
+  .hero           { padding: 36px 20px 30px !important; }
+  .hero h1        { font-size: 26px !important; }
+  .greeting       { padding: 24px 20px 0 !important; }
+  .section-label  { padding: 24px 20px 14px !important; }
+  .divider        { margin: 0 20px !important; }
+  .updates-table  { padding: 16px !important; }
+  .updates-table,
+  .updates-table tbody,
+  .updates-table tr,
+  .updates-table td { display: block !important; width: 100% !important; padding: 0 0 12px 0 !important; }
+  .deadline-wrap  { padding: 0 16px 24px !important; }
+  .deadline-inner { flex-direction: column !important; gap: 12px !important; text-align: center !important; }
+  .photos-wrap    { padding: 0 16px 24px !important; }
+  .photo-table,
+  .photo-table tbody,
+  .photo-table tr,
+  .photo-table td { display: inline-block !important; width: 30% !important; padding: 0 2px 4px !important; }
+  .cta-section    { padding: 8px 20px 36px !important; }
+  .email-footer   { padding: 20px !important; }
 }
 </style>
 
 <div class="email-wrap">
 
-  <div class="gradient-bar"></div>
+  <div class="gradient-bar">&nbsp;</div>
 
+  <!-- Header -->
   <div class="email-header">
-    <div class="logo-lockup">
-      <div class="logo-svg-wrap">
-        <svg viewBox="0 0 2880 2223.36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-label="Collect Yuh Carnival logo"><defs><linearGradient id="eg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0.3" stop-color="#c601ff"/><stop offset="0.5" stop-color="#db1aa2"/><stop offset="0.81" stop-color="#ff4701"/></linearGradient></defs><polygon fill="url(#eg)" points="1860.26 1159.68 1526.81 823.23 1330.98 823.23 1330.49 823.73 1663.46 1159.68 1333.48 1492.61 1530.29 1492.61 1860.26 1159.68"/><path fill="url(#eg)" d="M2276.2,1172.17c-7.93,41.23-26,85-53.78,130l-120.27,195.15-14,22.69c-6.62,10.76-19.84,18.92-30.53,19.17h-1c-.46,0-.91,0-1.35-.08-11-1-14.19-11.19-7.06-22.74l11.82-19.18,122.42-198.66c47.74-77.47,62.41-150.14,41.3-204.61-21-54.16-74.95-84-152-84h-66.68a51.15,51.15,0,0,0-43.53,24.3l-47.84,77.63L1760,1361.51l-79,128.24-4.59,7.45L1662.27,1520c-6.73,10.92-20.27,19.17-31,19.17a18.2,18.2,0,0,1-1.82-.08c-11-1-14.18-11.19-7.06-22.74l11.82-19.18,4.59-7.45,11.32-18.37,164.52-267,34.05-55.25,39.06-63.38,60.81-98.68L1962.76,964l37.92-61.54c21-34.07-3.52-78-43.53-78H1289.27a51.15,51.15,0,0,0-43.53,24.3l-16.57,26.9-36.26,58.84c-7.12,11.55-21.83,20.11-32.85,19.09s-14.18-11.19-7.06-22.74l50.08-81.28,29.54-47.93c6.69-10.85,20.18-19.18,31.07-19.18l766.6,11.24c10.18,1.09,31.27,6.59,40.56,14.06,8,6.46,13.44,28.06,5.83,39.74L2050.54,890c-21,34.07,3.52,78,43.53,78h0c44.85,0,83,8.79,113.42,26.12,29.46,16.79,50.42,40.84,62.29,71.49S2283.87,1132.21,2276.2,1172.17Z"/><path fill="url(#eg)" d="M2132,1515c-4.08-10.53-13.88-16.73-27.81-17.7-1.28-.09-2.61-.14-4-.14h-92c3.11-17.34,2.07-33.29-3.28-47.1-11.14-28.73-39.55-44.56-80-44.56-3.44,0-6.94.12-10.48.34-37.48,2.42-80.2,17.52-121.59,43.13a365.22,365.22,0,0,0-54,40.74q-4,3.68-7.92,7.45H1237.16a97.54,97.54,0,0,0,.92-30.7,73.66,73.66,0,0,0-4.21-16.4c-11.13-28.73-39.54-44.56-80-44.56-19.43,0-40.54,3.67-62.32,10.68-22.89,7.37-46.53,18.43-69.74,32.79a363.56,363.56,0,0,0-61.93,48.19H806c-10,0-21.13,2.61-32.43,7.34a128.9,128.9,0,0,0-17.9,9.28c-17.28,10.7-32,25-41.44,40.35-9.9,16.06-12.89,31.26-8.42,42.8s15.74,17.83,31.77,17.83H888.82c-3.11,17.34-2.07,33.3,3.28,47.11,11.14,28.73,39.55,44.56,80,44.56,39.87,0,86.77-15.44,132.07-43.47a364.58,364.58,0,0,0,61.94-48.2h493.7c-3.11,17.34-2.06,33.3,3.29,47.11,11.13,28.73,39.54,44.56,80,44.56,39.87,0,86.77-15.44,132.07-43.47a364.19,364.19,0,0,0,61.94-48.2h94.3c15.39,0,33.4-5.9,50.72-16.62s32-25,41.44-40.35C2133.44,1541.77,2136.43,1526.58,2132,1515Z"/></svg>
+    <div class="header-inner">
+      <div class="logo-lockup">
+        <img src="https://www.collectyuhcarnival.com/images/cyc-logo.png" width="52" height="52" alt="CYC" style="display:block;">
+        <div class="logo-text">
+          Collect Yuh Carnival
+          <span>Trinidad &amp; Tobago</span>
+        </div>
       </div>
-      <div class="logo-text">
-        Collect Yuh Carnival
-        <span>Trinidad &amp; Tobago</span>
-      </div>
+      <div class="header-season">Carnival 2027</div>
     </div>
-    <div class="header-season">Carnival 2027</div>
   </div>
 
+  <!-- Hero -->
   <div class="hero">
     <a href="https://www.collectyuhcarnival.com" target="_blank" style="text-decoration:none;">
       <div class="hero-eyebrow">Registration Now Open</div>
     </a>
     <h1>Skip the line.<br>We collect for you.</h1>
     <p class="hero-body">
-      Registration for Carnival 2027 is officially open. Secure your spot and let
-      Collect Yuh Carnival handle the mas camp so you don't have to.
+      Registration for Carnival 2027 is officially open! Secure your spot and let
+      Collect Yuh Carnival handle your costume collection so you don't have to!
     </p>
   </div>
 
+  <!-- Greeting -->
   <div class="greeting">
     <p>Hi <strong>*|FNAME|*</strong>,</p>
     <br>
     <p>
-      We're back and better than ever for Carnival 2027. This season we've made
-      some big improvements to the registration process — faster, simpler, and with
-      more ways to confirm you're covered. Here's what's new:
+      We're ready for Carnival 2027! This season we've made some big improvements
+      to the registration process. It's faster, simpler, and with more ways to
+      confirm you're covered. Here's what's new:
     </p>
   </div>
 
+  <!-- What's New -->
   <div class="section-label">What&rsquo;s New This Season</div>
   <div class="divider"></div>
 
-  <div class="updates-grid">
-    <div class="update-card">
-      <div class="update-icon">👥</div>
-      <h3>Group Registration</h3>
-      <p>Register your whole crew in one go. One collector, up to nine members — all handled together.</p>
-    </div>
-    <div class="update-card">
-      <div class="update-icon">📄</div>
-      <h3>Instant Receipt Verification</h3>
-      <p>Upload your YUMA receipt and our system verifies your section and costume type automatically.</p>
-    </div>
-    <div class="update-card">
-      <div class="update-icon">💬</div>
-      <h3>WhatsApp Confirmation</h3>
-      <p>Get a WhatsApp message the moment your registration goes through, straight to your phone.</p>
-    </div>
-  </div>
+  <table class="updates-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
+    <tr>
+      <td>
+        <div class="update-card">
+          <div class="update-icon">👥</div>
+          <h3>Group Registration</h3>
+          <p>Register your whole crew in one go. One collector, up to nine members all handled together.</p>
+        </div>
+      </td>
+      <td>
+        <div class="update-card">
+          <div class="update-icon">📄</div>
+          <h3>Instant Receipt Verification</h3>
+          <p>Upload your YUMA receipt and our system verifies your section and costume type automatically.</p>
+        </div>
+      </td>
+      <td>
+        <div class="update-card">
+          <div class="update-icon">💳</div>
+          <h3>Seamless Payments</h3>
+          <p>Have your credit card ready. Payments are instant — registration is confirmed upon payment.</p>
+        </div>
+      </td>
+    </tr>
+  </table>
 
+  <!-- Deadline -->
   <div class="section-label">Registration Deadline</div>
   <div class="divider"></div>
 
   <div class="deadline-wrap" style="margin-top:16px;">
     <div class="deadline-block">
-      <div class="deadline-icon">📅</div>
-      <div>
-        <div class="deadline-label">Don&rsquo;t miss the cutoff</div>
-        <div class="deadline-date">[DEADLINE DATE]</div>
-        <div class="deadline-note">
-          Registrations close on this date. Late registrations cannot be guaranteed
-          collection. Secure your spot before spaces fill up.
+      <div class="deadline-inner">
+        <div class="deadline-icon">📅</div>
+        <div>
+          <div class="deadline-label">Don&rsquo;t miss the cutoff</div>
+          <div class="deadline-date">Friday 29th January, 2027</div>
+          <div class="deadline-note">
+            Registrations close on this date. Late registrations cannot guarantee
+            collection. Secure your spot before spaces fill up.
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Photos -->
   <div class="section-label">Our Customers Love It</div>
   <div class="divider"></div>
 
   <div class="photos-wrap" style="margin-top:16px;">
-    <div class="photo-grid">
-      <div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client1.jpg" alt="CYC customer 2026"></div>
-      <div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client5.jpg" alt="CYC customer 2026"></div>
-      <div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client10.jpg" alt="CYC customer 2026"></div>
-      <div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client14.jpg" alt="CYC customer 2026"></div>
-      <div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client19.jpg" alt="CYC customer 2026"></div>
-      <div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client24.jpg" alt="CYC customer 2026"></div>
-    </div>
+    <table class="photo-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
+      <tr>
+        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client1.jpg"  alt="CYC customer 2026"></div></td>
+        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client5.jpg"  alt="CYC customer 2026"></div></td>
+        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client10.jpg" alt="CYC customer 2026"></div></td>
+      </tr>
+      <tr>
+        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client14.jpg" alt="CYC customer 2026"></div></td>
+        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client19.jpg" alt="CYC customer 2026"></div></td>
+        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client24.jpg" alt="CYC customer 2026"></div></td>
+      </tr>
+    </table>
   </div>
 
+  <!-- CTA -->
   <div class="divider"></div>
   <div class="cta-section">
     <br>
@@ -261,20 +311,21 @@ body {
     </p>
   </div>
 
+  <!-- Footer -->
   <div class="email-footer">
     <p class="footer-brand">Collect Yuh Carnival</p>
     <p>
-      Trinidad &amp; Tobago &nbsp;·&nbsp;
+      Trinidad &amp; Tobago &nbsp;&middot;&nbsp;
       <a href="mailto:info@collectyuhcarnival.com">info@collectyuhcarnival.com</a>
     </p>
     <br>
     <p>
       You're receiving this because you registered with or expressed interest in<br>
-      Collect Yuh Carnival. &nbsp;·&nbsp;
+      Collect Yuh Carnival. &nbsp;&middot;&nbsp;
       <a href="*|UNSUB|*">Unsubscribe</a>
     </p>
   </div>
 
-  <div class="gradient-bar"></div>
+  <div class="gradient-bar">&nbsp;</div>
 
 </div>
