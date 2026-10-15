@@ -1,331 +1,218 @@
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Carnival 2027 Registration is Open</title>
 <style type="text/css">
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: #ffffff;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
-  color: #1a1a1f;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-}
-
-.email-wrap {
-  max-width: 600px;
-  margin: 0 auto;
-  background: #ffffff;
-}
-
-/* Gradient bar — solid fallback for Outlook */
-.gradient-bar {
-  height: 3px;
-  background-color: #FE90AF;
-  background-image: linear-gradient(135deg, #7dc832 0%, #FE90AF 100%);
-  line-height: 3px;
-  font-size: 3px;
-}
-
-/* Header */
-.email-header {
-  padding: 32px 40px 28px;
-  border-bottom: 1px solid #e4e4ea;
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.logo-lockup { display: flex; align-items: center; gap: 14px; }
-
-.logo-text { font-size: 15px; font-weight: 700; color: #1a1a1f; line-height: 1.25; }
-.logo-text span {
-  display: block; font-size: 10px; font-weight: 500; color: #6b6b7a;
-  letter-spacing: .08em; text-transform: uppercase; margin-top: 2px;
-}
-
-.header-season {
-  font-size: 11px; font-weight: 600; letter-spacing: .1em;
-  text-transform: uppercase; color: #5a9a1a;
-}
-
-/* Hero */
-.hero {
-  padding: 48px 40px 40px;
-  text-align: center;
-  background-color: #f4f7fb;
-  background-image: linear-gradient(to bottom, #f0f4fa, #ffffff);
-}
-
-.hero-eyebrow {
-  display: inline-block; font-size: 10px; font-weight: 700;
-  letter-spacing: .18em; text-transform: uppercase; color: #d9446e;
-  margin-bottom: 16px; padding: 4px 12px;
-  border: 1px solid rgba(217,68,110,.3); border-radius: 100px;
-  text-decoration: none;
-}
-
-.hero h1 {
-  font-size: 34px; font-weight: 700; line-height: 1.15;
-  margin-bottom: 18px;
-  /* Solid fallback first — Outlook shows this */
-  color: #5a9a1a;
-  /* Gradient for supporting clients */
-  background-image: linear-gradient(135deg, #7dc832 0%, #FE90AF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-body { font-size: 15px; color: #555568; line-height: 1.7; max-width: 430px; margin: 0 auto; }
-
-/* Greeting */
-.greeting { padding: 32px 40px 0; font-size: 15px; color: #444455; line-height: 1.75; }
-.greeting strong { color: #1a1a1f; }
-
-/* Section label */
-.section-label {
-  padding: 32px 40px 16px; font-size: 10px; font-weight: 700;
-  letter-spacing: .16em; text-transform: uppercase; color: #a0a0b0;
-}
-
-.divider { height: 1px; background: #e4e4ea; margin: 0 40px; font-size: 0; line-height: 0; }
-
-/* Update cards — table-based for Outlook */
-.updates-table { width: 100%; border-collapse: separate; border-spacing: 0; padding: 16px 24px 32px; }
-.updates-table td { vertical-align: top; padding: 0 6px; }
-.updates-table td:first-child { padding-left: 0; }
-.updates-table td:last-child  { padding-right: 0; }
-
-.update-card {
-  background: #f6f6f8; border: 1px solid #e4e4ea;
-  border-radius: 10px; padding: 20px 16px 18px;
-}
-
-.update-icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  background-color: #f0f8e8;
-  background-image: linear-gradient(135deg, rgba(198,234,141,.25) 0%, rgba(254,144,175,.2) 100%);
-  border: 1px solid #e4e4ea;
-  text-align: center; line-height: 36px;
-  margin-bottom: 14px; font-size: 18px;
-}
-
-.update-card h3 { font-size: 12px; font-weight: 700; color: #1a1a1f; margin-bottom: 6px; line-height: 1.35; }
-.update-card p  { font-size: 11px; color: #6b6b7a; line-height: 1.55; }
-
-/* Deadline */
-.deadline-wrap { padding: 0 24px 32px; }
-
-.deadline-block {
-  padding: 24px 28px; border-radius: 12px;
-  background-color: #f5fae8;
-  background-image: linear-gradient(135deg, rgba(198,234,141,.25) 0%, rgba(254,144,175,.2) 100%);
-  border: 1px solid rgba(254,144,175,.25);
-}
-
-.deadline-inner { display: flex; align-items: center; gap: 24px; }
-.deadline-icon  { font-size: 36px; flex-shrink: 0; line-height: 1; }
-.deadline-label { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #d9446e; margin-bottom: 4px; }
-.deadline-date  { font-size: 22px; font-weight: 700; color: #1a1a1f; margin-bottom: 4px; }
-.deadline-note  { font-size: 12px; color: #6b6b7a; line-height: 1.5; }
-
-/* Photos — table-based for Outlook */
-.photos-wrap { padding: 0 24px 32px; }
-.photo-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-.photo-table td { vertical-align: top; padding: 0 4px 8px 0; width: 33.33%; }
-.photo-table td:last-child { padding-right: 0; }
-
-.photo-ph { border-radius: 8px; overflow: hidden; background: #f6f6f8; display: block; }
-.photo-ph img { width: 100%; height: 200px; object-fit: cover; display: block; border-radius: 8px; }
-
-/* CTA */
-.cta-section { padding: 8px 40px 48px; text-align: center; }
-
-.cta-btn {
-  display: inline-block; padding: 17px 52px;
-  background-color: #a0d050;
-  background-image: linear-gradient(135deg, #7dc832 0%, #FE90AF 100%);
-  border-radius: 8px;
-  color: #0a0a0b; font-weight: 700; font-size: 15px;
-  text-decoration: none; letter-spacing: .02em;
-}
-
-.cta-sub { margin-top: 14px; font-size: 12px; color: #6b6b7a; }
-.cta-sub a { color: #5a9a1a; text-decoration: none; }
-
-/* Footer */
-.email-footer {
-  padding: 24px 40px; border-top: 1px solid #e4e4ea;
-  text-align: center; color: #a0a0b0; font-size: 11px; line-height: 1.9;
-}
-.email-footer a { color: #a0a0b0; text-decoration: underline; }
-.footer-brand { font-weight: 600; color: #6b6b7a; margin-bottom: 6px; }
-
-/* Mobile */
-@media only screen and (max-width: 560px) {
-  .email-header   { padding: 24px 20px !important; }
-  .hero           { padding: 36px 20px 30px !important; }
-  .hero h1        { font-size: 26px !important; }
-  .greeting       { padding: 24px 20px 0 !important; }
-  .section-label  { padding: 24px 20px 14px !important; }
-  .divider        { margin: 0 20px !important; }
-  .updates-table  { padding: 16px !important; }
-  .updates-table,
-  .updates-table tbody,
-  .updates-table tr,
-  .updates-table td { display: block !important; width: 100% !important; padding: 0 0 12px 0 !important; }
-  .deadline-wrap  { padding: 0 16px 24px !important; }
-  .deadline-inner { flex-direction: column !important; gap: 12px !important; text-align: center !important; }
-  .photos-wrap    { padding: 0 16px 24px !important; }
-  .photo-table,
-  .photo-table tbody,
-  .photo-table tr,
-  .photo-table td { display: inline-block !important; width: 30% !important; padding: 0 2px 4px !important; }
-  .cta-section    { padding: 8px 20px 36px !important; }
-  .email-footer   { padding: 20px !important; }
-}
+  :root { color-scheme: light; supported-color-schemes: light; }
+  @media only screen and (max-width: 600px) {
+    .px { padding-left: 20px !important; padding-right: 20px !important; }
+    .h1 { font-size: 28px !important; }
+    .stack { display: block !important; width: 100% !important; padding: 0 0 12px 0 !important; }
+    .dl-icon { display: none !important; }
+  }
 </style>
+</head>
+<body style="margin:0; padding:0; background-color:#ffffff; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
 
-<div class="email-wrap">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff;">
+<tr>
+<td align="center" valign="top" style="padding:0;">
 
-  <div class="gradient-bar">&nbsp;</div>
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%; max-width:600px; background-color:#ffffff;">
+
+  <!-- Top gradient bar -->
+  <tr>
+    <td height="4" bgcolor="#FE90AF" style="height:4px; line-height:4px; font-size:4px; background-color:#FE90AF; background-image:linear-gradient(90deg,#7dc832,#FE90AF);">&nbsp;</td>
+  </tr>
 
   <!-- Header -->
-  <div class="email-header">
-    <div class="header-inner">
-      <div class="logo-lockup">
-        <img src="https://www.collectyuhcarnival.com/images/cyc-logo.png" width="52" height="52" alt="CYC" style="display:block;">
-        <div class="logo-text">
-          Collect Yuh Carnival
-          <span>Trinidad &amp; Tobago</span>
-        </div>
-      </div>
-      <div class="header-season">Carnival 2027</div>
-    </div>
-  </div>
+  <tr>
+    <td class="px" style="padding:24px 32px; border-bottom:1px solid #e4e4ea;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td width="52" valign="middle" style="width:52px; padding-right:12px;">
+            <img src="https://www.collectyuhcarnival.com/images/cyc-logo.png" width="52" height="52" alt="CYC" style="display:block; width:52px; height:52px; border:0;">
+          </td>
+          <td valign="middle" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
+            <div style="font-size:15px; font-weight:700; line-height:20px; color:#1a1a1f;">Collect Yuh Carnival</div>
+            <div style="font-size:10px; font-weight:600; line-height:14px; letter-spacing:1px; text-transform:uppercase; color:#6b6b7a;">Trinidad &amp; Tobago</div>
+          </td>
+          <td align="right" valign="middle" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#5a9a1a; white-space:nowrap;">
+            Carnival 2027
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 
   <!-- Hero -->
-  <div class="hero">
-    <a href="https://www.collectyuhcarnival.com" target="_blank" style="text-decoration:none;">
-      <div class="hero-eyebrow">Registration Now Open</div>
-    </a>
-    <h1>Skip the line.<br>We collect for you.</h1>
-    <p class="hero-body">
-      Registration for Carnival 2027 is officially open! Secure your spot and let
-      Collect Yuh Carnival handle your costume collection so you don't have to!
-    </p>
-  </div>
+  <tr>
+    <td class="px" align="center" bgcolor="#f4f7fb" style="padding:44px 32px 40px; background-color:#f4f7fb; text-align:center; font-family:'Inter',Arial,Helvetica,sans-serif;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+        <tr>
+          <td style="border:1px solid #f0a8bd; border-radius:100px; padding:5px 14px;">
+            <a href="https://www.collectyuhcarnival.com" target="_blank" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#d9446e; text-decoration:none;">Registration Now Open</a>
+          </td>
+        </tr>
+      </table>
+      <h1 class="h1" style="margin:18px 0 16px; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:34px; font-weight:700; line-height:1.15; color:#5a9a1a;">Skip the line.<br>We collect for you.</h1>
+      <p style="margin:0 auto; max-width:440px; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:15px; line-height:24px; color:#555568;">
+        Registration for Carnival 2027 is officially open! Secure your spot and let Collect Yuh Carnival handle your costume collection so you don't have to!
+      </p>
+    </td>
+  </tr>
 
   <!-- Greeting -->
-  <div class="greeting">
-    <p>Hi <strong>*|FNAME|*</strong>,</p>
-    <br>
-    <p>
-      We're ready for Carnival 2027! This season we've made some big improvements
-      to the registration process. It's faster, simpler, and with more ways to
-      confirm you're covered. Here's what's new:
-    </p>
-  </div>
+  <tr>
+    <td class="px" style="padding:32px 32px 0; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:15px; line-height:25px; color:#444455;">
+      <p style="margin:0 0 14px;">Hi <strong style="color:#1a1a1f;">*|FNAME|*</strong>,</p>
+      <p style="margin:0;">We're ready for Carnival 2027! This season we've made some big improvements to the registration process. It's faster, simpler, and with more ways to confirm you're covered. Here's what's new:</p>
+    </td>
+  </tr>
 
-  <!-- What's New -->
-  <div class="section-label">What&rsquo;s New This Season</div>
-  <div class="divider"></div>
+  <!-- Section label: What's New -->
+  <tr>
+    <td class="px" style="padding:32px 32px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr><td style="padding-bottom:12px; border-bottom:1px solid #e4e4ea; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#a0a0b0;">What&rsquo;s New This Season</td></tr>
+      </table>
+    </td>
+  </tr>
 
-  <table class="updates-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
-    <tr>
-      <td>
-        <div class="update-card">
-          <div class="update-icon">👥</div>
-          <h3>Group Registration</h3>
-          <p>Register your whole crew in one go. One collector, up to nine members all handled together.</p>
-        </div>
-      </td>
-      <td>
-        <div class="update-card">
-          <div class="update-icon">📄</div>
-          <h3>Instant Receipt Verification</h3>
-          <p>Upload your YUMA receipt and our system verifies your section and costume type automatically.</p>
-        </div>
-      </td>
-      <td>
-        <div class="update-card">
-          <div class="update-icon">💳</div>
-          <h3>Seamless Payments</h3>
-          <p>Have your credit card ready. Payments are instant — registration is confirmed upon payment.</p>
-        </div>
-      </td>
-    </tr>
-  </table>
+  <!-- Update cards -->
+  <tr>
+    <td class="px" style="padding:16px 32px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="stack" width="33%" valign="top" style="width:33%; padding-right:6px; vertical-align:top;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f6f6f8" style="background-color:#f6f6f8; border:1px solid #e4e4ea; border-radius:10px;">
+              <tr><td style="padding:18px 14px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td width="36" height="36" align="center" valign="middle" bgcolor="#eef7e0" style="width:36px; height:36px; background-color:#eef7e0; border-radius:8px; font-size:18px; line-height:36px; text-align:center;">👥</td>
+                </tr></table>
+                <div style="padding-top:12px; font-size:13px; font-weight:700; line-height:18px; color:#1a1a1f;">Group Registration</div>
+                <div style="padding-top:6px; font-size:12px; line-height:18px; color:#6b6b7a;">Register your whole crew in one go. One collector, up to nine members all handled together.</div>
+              </td></tr>
+            </table>
+          </td>
+          <td class="stack" width="34%" valign="top" style="width:34%; padding:0 3px; vertical-align:top;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f6f6f8" style="background-color:#f6f6f8; border:1px solid #e4e4ea; border-radius:10px;">
+              <tr><td style="padding:18px 14px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td width="36" height="36" align="center" valign="middle" bgcolor="#eef7e0" style="width:36px; height:36px; background-color:#eef7e0; border-radius:8px; font-size:18px; line-height:36px; text-align:center;">📄</td>
+                </tr></table>
+                <div style="padding-top:12px; font-size:13px; font-weight:700; line-height:18px; color:#1a1a1f;">Instant Receipt Verification</div>
+                <div style="padding-top:6px; font-size:12px; line-height:18px; color:#6b6b7a;">Upload your YUMA receipt and our system verifies your section and costume type automatically.</div>
+              </td></tr>
+            </table>
+          </td>
+          <td class="stack" width="33%" valign="top" style="width:33%; padding-left:6px; vertical-align:top;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f6f6f8" style="background-color:#f6f6f8; border:1px solid #e4e4ea; border-radius:10px;">
+              <tr><td style="padding:18px 14px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td width="36" height="36" align="center" valign="middle" bgcolor="#eef7e0" style="width:36px; height:36px; background-color:#eef7e0; border-radius:8px; font-size:18px; line-height:36px; text-align:center;">💳</td>
+                </tr></table>
+                <div style="padding-top:12px; font-size:13px; font-weight:700; line-height:18px; color:#1a1a1f;">Seamless Payments</div>
+                <div style="padding-top:6px; font-size:12px; line-height:18px; color:#6b6b7a;">Have your credit card ready. Payments are instant &mdash; registration is confirmed upon payment.</div>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 
-  <!-- Deadline -->
-  <div class="section-label">Registration Deadline</div>
-  <div class="divider"></div>
+  <!-- Section label: Deadline -->
+  <tr>
+    <td class="px" style="padding:32px 32px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr><td style="padding-bottom:12px; border-bottom:1px solid #e4e4ea; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#a0a0b0;">Registration Deadline</td></tr>
+      </table>
+    </td>
+  </tr>
 
-  <div class="deadline-wrap" style="margin-top:16px;">
-    <div class="deadline-block">
-      <div class="deadline-inner">
-        <div class="deadline-icon">📅</div>
-        <div>
-          <div class="deadline-label">Don&rsquo;t miss the cutoff</div>
-          <div class="deadline-date">Friday 29th January, 2027</div>
-          <div class="deadline-note">
-            Registrations close on this date. Late registrations cannot guarantee
-            collection. Secure your spot before spaces fill up.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Deadline block -->
+  <tr>
+    <td class="px" style="padding:16px 32px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f5fae8" style="background-color:#f5fae8; border:1px solid #f6c6d4; border-radius:12px;">
+        <tr>
+          <td class="dl-icon" width="44" valign="middle" style="width:44px; padding:22px 0 22px 24px; font-size:34px; line-height:40px;">📅</td>
+          <td valign="middle" style="padding:22px 24px 22px 16px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+            <div style="font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; line-height:14px; color:#d9446e;">Don&rsquo;t miss the cutoff</div>
+            <div style="padding-top:4px; font-size:22px; font-weight:700; line-height:28px; color:#1a1a1f;">Friday 29th January, 2027</div>
+            <div style="padding-top:6px; font-size:13px; line-height:20px; color:#6b6b7a;">Registrations close on this date. Late registrations cannot guarantee collection. Secure your spot before spaces fill up.</div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 
-  <!-- Photos -->
-  <div class="section-label">Our Customers Love It</div>
-  <div class="divider"></div>
+  <!-- Section label: Photos -->
+  <tr>
+    <td class="px" style="padding:32px 32px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr><td style="padding-bottom:12px; border-bottom:1px solid #e4e4ea; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#a0a0b0;">Our Customers Love It</td></tr>
+      </table>
+    </td>
+  </tr>
 
-  <div class="photos-wrap" style="margin-top:16px;">
-    <table class="photo-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
-      <tr>
-        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client1.jpg"  alt="CYC customer 2026"></div></td>
-        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client5.jpg"  alt="CYC customer 2026"></div></td>
-        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client10.jpg" alt="CYC customer 2026"></div></td>
-      </tr>
-      <tr>
-        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client14.jpg" alt="CYC customer 2026"></div></td>
-        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client19.jpg" alt="CYC customer 2026"></div></td>
-        <td><div class="photo-ph"><img src="https://www.collectyuhcarnival.com/images/client24.jpg" alt="CYC customer 2026"></div></td>
-      </tr>
-    </table>
-  </div>
+  <!-- Photo grid (all images pre-cropped to 360x450) -->
+  <tr>
+    <td class="px" style="padding:16px 28px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td width="33%" valign="top" align="center" style="width:33.33%; padding:0 4px 8px;"><img src="https://www.collectyuhcarnival.com/images/email/client1.jpg" width="176" alt="CYC customer" style="display:block; margin:0 auto; width:100%; max-width:176px; height:auto; border:0; border-radius:8px;"></td>
+          <td width="33%" valign="top" align="center" style="width:33.33%; padding:0 4px 8px;"><img src="https://www.collectyuhcarnival.com/images/email/client5.jpg" width="176" alt="CYC customer" style="display:block; margin:0 auto; width:100%; max-width:176px; height:auto; border:0; border-radius:8px;"></td>
+          <td width="33%" valign="top" align="center" style="width:33.33%; padding:0 4px 8px;"><img src="https://www.collectyuhcarnival.com/images/email/client10.jpg" width="176" alt="CYC customer" style="display:block; margin:0 auto; width:100%; max-width:176px; height:auto; border:0; border-radius:8px;"></td>
+        </tr>
+        <tr>
+          <td width="33%" valign="top" align="center" style="width:33.33%; padding:0 4px 8px;"><img src="https://www.collectyuhcarnival.com/images/email/client14.jpg" width="176" alt="CYC customer" style="display:block; margin:0 auto; width:100%; max-width:176px; height:auto; border:0; border-radius:8px;"></td>
+          <td width="33%" valign="top" align="center" style="width:33.33%; padding:0 4px 8px;"><img src="https://www.collectyuhcarnival.com/images/email/client19.jpg" width="176" alt="CYC customer" style="display:block; margin:0 auto; width:100%; max-width:176px; height:auto; border:0; border-radius:8px;"></td>
+          <td width="33%" valign="top" align="center" style="width:33.33%; padding:0 4px 8px;"><img src="https://www.collectyuhcarnival.com/images/email/client2.jpg" width="176" alt="CYC customer" style="display:block; margin:0 auto; width:100%; max-width:176px; height:auto; border:0; border-radius:8px;"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 
   <!-- CTA -->
-  <div class="divider"></div>
-  <div class="cta-section">
-    <br>
-    <a class="cta-btn" href="https://www.collectyuhcarnival.com" target="_blank">Register Now</a>
-    <p class="cta-sub">
-      Visit <a href="https://www.collectyuhcarnival.com">collectyuhcarnival.com</a> to get started
-    </p>
-  </div>
+  <tr>
+    <td class="px" align="center" style="padding:40px 32px 40px; text-align:center;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+        <tr>
+          <td align="center" bgcolor="#8fcc45" style="border-radius:8px; background-color:#8fcc45; background-image:linear-gradient(135deg,#7dc832,#FE90AF);">
+            <a href="https://www.collectyuhcarnival.com" target="_blank" style="display:inline-block; padding:16px 48px; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:16px; font-weight:700; line-height:20px; color:#0a0a0b; text-decoration:none; border-radius:8px;">Register Now</a>
+          </td>
+        </tr>
+      </table>
+      <p style="margin:16px 0 0; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:13px; line-height:20px; color:#6b6b7a;">
+        Visit <a href="https://www.collectyuhcarnival.com" target="_blank" style="color:#5a9a1a; text-decoration:none; font-weight:600;">collectyuhcarnival.com</a> to get started
+      </p>
+    </td>
+  </tr>
 
   <!-- Footer -->
-  <div class="email-footer">
-    <p class="footer-brand">Collect Yuh Carnival</p>
-    <p>
-      Trinidad &amp; Tobago &nbsp;&middot;&nbsp;
-      <a href="mailto:info@collectyuhcarnival.com">info@collectyuhcarnival.com</a>
-    </p>
-    <br>
-    <p>
-      You're receiving this because you registered with or expressed interest in<br>
-      Collect Yuh Carnival. &nbsp;&middot;&nbsp;
-      <a href="*|UNSUB|*">Unsubscribe</a>
-    </p>
-  </div>
+  <tr>
+    <td class="px" align="center" style="padding:24px 32px; border-top:1px solid #e4e4ea; text-align:center; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:11px; line-height:19px; color:#a0a0b0;">
+      <div style="font-size:12px; font-weight:700; color:#6b6b7a; padding-bottom:4px;">Collect Yuh Carnival</div>
+      <div>Trinidad &amp; Tobago &nbsp;&middot;&nbsp; <a href="mailto:info@collectyuhcarnival.com" style="color:#a0a0b0; text-decoration:underline;">info@collectyuhcarnival.com</a></div>
+      <div style="padding-top:12px;">You're receiving this because you registered with or expressed interest in Collect Yuh Carnival. &nbsp;&middot;&nbsp; <a href="*|UNSUB|*" style="color:#a0a0b0; text-decoration:underline;">Unsubscribe</a></div>
+    </td>
+  </tr>
 
-  <div class="gradient-bar">&nbsp;</div>
+  <!-- Bottom gradient bar -->
+  <tr>
+    <td height="4" bgcolor="#FE90AF" style="height:4px; line-height:4px; font-size:4px; background-color:#FE90AF; background-image:linear-gradient(90deg,#7dc832,#FE90AF);">&nbsp;</td>
+  </tr>
 
-</div>
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
