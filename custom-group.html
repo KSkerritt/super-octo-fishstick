@@ -1318,6 +1318,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             eventDateInput.min = formatDate(today);
             eventDateInput.max = "2027-02-06";
 
+            // iOS Safari's date picker ignores min/max, so enforce the range ourselves.
+            eventDateInput.addEventListener('change', () => {
+                eventDateInput.setCustomValidity(arrivalDateError());
+                eventDateInput.reportValidity();
+            });
+
              // Initialize carousel dots
                initializeCarousel('correct');
                initializeCarousel('incorrect');
@@ -1520,6 +1526,14 @@ function goToSlide(type, index) {
             });
         }
 
+        function arrivalDateError() {
+            const input = document.getElementById('event_date');
+            if (input.value && (input.value < input.min || input.value > input.max)) {
+                return 'Please choose an arrival date between today and February 6, 2027.';
+            }
+            return '';
+        }
+
         function val(id) {
             const el = document.getElementById(id);
             return el ? el.value.trim() : '';
@@ -1635,6 +1649,13 @@ function goToSlide(type, index) {
                     }
                     return;
                 }
+            }
+
+            const dateError = arrivalDateError();
+            if (dateError) {
+                setStatus(dateError, 'error');
+                document.getElementById('event_date').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
             }
 
             const bigFile = oversizedFile();
