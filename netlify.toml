@@ -12,3 +12,6 @@
 
 [functions."netlify-to-airtable"]
   timeout = 26
+
+[functions."custom-group-registration"]
+  timeout = 26
